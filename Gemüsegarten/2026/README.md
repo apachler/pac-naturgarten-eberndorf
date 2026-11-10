@@ -4,7 +4,7 @@
 
 Standort, Boden und Fruchtfolge: siehe [Grundlagen](../Grundlagen/Standort-und-Beete.md).
 
-**Status:** Saison abgeschlossen. Als Nächstes [Rueckmeldung.md](Rueckmeldung.md) ausfüllen, als Grundlage für die Planung 2027.
+**Status:** Hauptkulturen abgeerntet, Wintergemüse steht noch. Die [Rückmeldung](Rueckmeldung.md) ist begonnen (Zwischenstand 10.11.) und ist die Grundlage für die Planung 2027.
 
 ## Dateien in diesem Ordner
 

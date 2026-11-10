@@ -2,6 +2,14 @@
 
 Auswertung der Saison als Grundlage für die Planung des Folgejahres. Stichworte genügen.
 
+## Zwischenstand 10.11.2026
+
+- **Noch im Beet:** Winterlauch, Kohlsprossen, Rote Rüben, Chinakohl, Endiviensalat, Knoblauch und Zwiebeln (Ende Oktober gesteckt)
+- **Abgeerntet:** Paprika, Pfefferoni, Gurken, Stangensellerie, Knollensellerie, Karotten, Feuerbohnen, Radieschen
+- **Nicht gepflanzt:** Flower Sprouts
+- **Paprika und Pfefferoni:** Ab etwa Anfang November war es zu kühl, die Pflanzen sind am Eingehen.
+- **Noch offen:** Mengen, Erntequalität sowie Krankheiten und Schädlinge je Kultur; Mangold, Sommerlauch, Kohlrabi, Mairübchen, Wirsing, Pak Choi, Vogerlsalat, Wintersteckzwiebeln und Beikräuter
+
 ## Allgemein
 
 - **Aktives Beet:** West
@@ -20,8 +28,8 @@ Geplant laut Plan des Jahres. Tatsächlich = gesetzt bzw. gesät. Ernte: ++ / + 
 | Kohlsprossen | | 4 (Wunsch 6) | | | | |
 | Knollensellerie | | 10 | | | | |
 | Gurke | | 3 (vertikal) | | | | |
-| Paprika | | 3 | | | | |
-| Pfefferoni | | 3 | | | | |
+| Paprika |  | 3 |  |  | Anfang Nov. zu kühl, Pflanzen gehen ein |  |
+| Pfefferoni |  | 3 |  |  | Anfang Nov. zu kühl, Pflanzen gehen ein |  |
 | Mangold | | 3 | | | | |
 | Stangensellerie | | 4 | | | | |
 | Sommerlauch | | 20 | | | | |
@@ -31,7 +39,7 @@ Geplant laut Plan des Jahres. Tatsächlich = gesetzt bzw. gesät. Ernte: ++ / + 
 | Radieschen (V) | | 30 | | | | |
 | Mairübchen (V) | | 10 | | | | |
 | Kohlrabi früh (V) | | 6 | | | | |
-| Flower Sprouts (N) | | 8 | | | | |
+| Flower Sprouts (N) |  | 8 | 0 |  | nicht gepflanzt |  |
 | Chinakohl (N) | | 8 | | | | |
 | Endiviensalat (N) | | 8 | | | | |
 | Winterlauch (N) | | 20 | | | | |
