@@ -18,7 +18,7 @@ Jahresübergreifende Rahmenbedingungen des Gemüsegartens. Bei Änderungen (neue
 
 | Parameter | Angabe |
 |-----------|--------|
-| Anzahl | 2 baugleiche Beete |
+| Anzahl | 2 baugleiche Beete: **West** und **Ost** |
 | Größe | je 3 × 5 m (15 m², davon ca. 12 m² Netto-Pflanzfläche bei zwei 30-cm-Pflegepfaden) |
 | Ausrichtung | Nord–Süd (hohe Kulturen nach Norden) |
 | Lage | Vollsonnig, früh bis spät |
@@ -35,10 +35,9 @@ Jahresübergreifende Rahmenbedingungen des Gemüsegartens. Bei Änderungen (neue
 
 | Jahr | Aktives Beet | Ruhebeet | Bemerkung |
 |------|--------------|----------|-----------|
-| 2026 | Beet 1 | Beet 2 | Bezeichnung der Beete noch festzulegen |
-| 2027 | Beet 2 | Beet 1 | |
+| 2026 | West | Ost | |
+| 2027 | Ost | West | |
 
 ## Offene Fragen
 
-- Wie heißen bzw. wo liegen die beiden Beete genau (z. B. „West“/„Ost“)? Bitte in der Tabelle oben ergänzen.
 - Im Herbst 2026 ist Knoblauch in den Heubeeten geplant, und im Herbst 2025 wurden Flower Sprouts gepflanzt. In welchem Beet stehen sie, und blockieren sie im Folgejahr Fläche oder das Ruhejahr?

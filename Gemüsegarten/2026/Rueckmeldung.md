@@ -4,7 +4,7 @@ Auswertung der Saison als Grundlage für die Planung des Folgejahres. Stichworte
 
 ## Allgemein
 
-- **Aktives Beet:** Beet 1
+- **Aktives Beet:** West
 - **Wetter der Saison** (Spätfrost, Hitze, Trockenheit, Starkregen, Hagel …):
 - **Bewässerung** (reichte das Wasser, Gießaufwand):
 - **Boden und Mulch** (Zustand des Heubeets, Schnecken unter dem Mulch …):

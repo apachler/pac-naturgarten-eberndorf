@@ -13,8 +13,8 @@ Jahresplanung für die zwei Heubeete (je 3 × 5 m), von denen jedes Jahr eines b
 
 | Jahr | Aktives Beet | Status | Ordner |
 |------|--------------|--------|--------|
-| 2026 | Beet 1 | Saison abgeschlossen, Rückmeldung ausständig | [2026/](2026/) |
-| 2027 | Beet 2 | Planung startet nach der Rückmeldung 2026 | – |
+| 2026 | West | Saison abgeschlossen, Rückmeldung ausständig | [2026/](2026/) |
+| 2027 | Ost | Planung startet nach der Rückmeldung 2026 | – |
 
 ## Neues Jahr anlegen
 

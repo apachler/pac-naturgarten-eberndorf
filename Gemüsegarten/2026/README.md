@@ -1,6 +1,6 @@
 # Gemüsegarten 2026 – Mischkultur-Beetplanung
 
-**Aktives Beet:** Beet 1 · **Ruhebeet:** Beet 2
+**Aktives Beet:** West · **Ruhebeet:** Ost
 
 Standort, Boden und Fruchtfolge: siehe [Grundlagen](../Grundlagen/Standort-und-Beete.md).
 
