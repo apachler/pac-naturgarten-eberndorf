@@ -1,0 +1,426 @@
+# Beetplan 2026 – Datenquelle für den Beetplaner
+#
+# Übernommen aus der Planung 2026 (Mischkultur-Beetplanung.md, Positionsplan Kap. 6)
+# und ergänzt um den Ist-Stand aus Rueckmeldung.md.
+# Die Positionen entsprechen bewusst dem damaligen Plan, auch wo er Fehler hatte –
+# das Prüf-Script zeigt diese als Warnungen an.
+#
+# Koordinaten in cm, Ursprung = Südwest-Ecke der Fläche (x nach Osten, y nach Norden).
+# Zeiten: von = Saat/Pflanzung, bis = Ende der Ernte.
+#
+# Ort einer Pflanzung (eine der drei Formen):
+#   punkte:  [[x, y], ...]           einzelne Pflanzen (mit "je: n" = n Pflanzen pro Punkt)
+#   reihen:  [{y, x1, x2, anzahl}]   Pflanzen gleichmäßig auf einer Reihe verteilt
+#            (oder {x, y1, y2, anzahl} für Nord–Süd-Reihen)
+#   bereich: {x, y, b, t}            Fläche für Streusaat / ohne genaue Position
+#            mischsaat: true = absichtlich zwischen anderen Kulturen (z. B. Markiersaat)
+#
+# Typ: V = Vorkultur, H = Hauptkultur, N = Nachkultur, B = Beikraut
+# Ist-Status: geplant | gepflanzt | im_beet | geerntet | nicht_gepflanzt | unbekannt
+# Ernte: "++" sehr gut, "+" gut, "o" mittel, "-" schlecht, "--" sehr schlecht
+
+jahr: 2026
+
+flaechen:
+  west:
+    rolle: aktiv
+    wege:
+      - { name: Pflegepfad 1, y: 370, t: 30 }
+      - { name: Pflegepfad 2, y: 260, t: 30 }
+    zonen:
+      - { id: A, name: "Zone A – Feuerbohnen", y: 400, t: 100 }
+      - { id: B, name: "Zone B – Kohlsprossen, Gurken, Sellerie", y: 290, t: 80 }
+      - { id: C, name: "Zone C – Paprika, Pfefferoni, Mangold, Stangensellerie", y: 160, t: 100 }
+      - { id: D, name: "Zone D – Karotten + Lauch + Dill", y: 80, t: 80 }
+      - { id: E, name: "Zone E – Rote Rüben, Kohlrabi, Ringelblumen", y: 0, t: 80 }
+  ost:
+    rolle: ruhe
+    notiz: Ruhejahr – Pflege mit Heu, Terra Preta und EM.
+  tomatenhaus:
+    rolle: aktiv
+
+pflanzungen:
+
+  # ---------------- Zone A ----------------
+  - id: feuerbohne
+    kultur: feuerbohne
+    flaeche: west
+    typ: H
+    wunsch: 20
+    von: 2026-05-15
+    bis: 2026-10-31
+    punkte: [[30, 450], [90, 450], [150, 450], [210, 450], [270, 450]]
+    je: 4
+    notiz: 5 Stangen mit je 4 Bohnen
+    ist:
+      status: geerntet
+      ernte: "+"
+      notiz: >-
+        Im Sommer viele Blüten, aber kaum Schoten (vermutlich Hitze). Hauptansatz erst im
+        Spätsommer/Frühherbst, Ernte Anfang November, viele Schoten grün zum Nachtrocknen.
+
+  - id: bohnenkraut
+    kultur: bohnenkraut
+    flaeche: west
+    typ: B
+    wunsch: 4
+    von: 2026-05-15
+    bis: 2026-09-30
+    punkte: [[60, 420], [120, 420], [180, 420], [240, 420]]
+    ist: { status: im_beet, ernte: "o", notiz: Geht einigermaßen. }
+
+  # ---------------- Zone B ----------------
+  - id: kohlsprossen
+    kultur: kohlsprossen
+    flaeche: west
+    typ: H
+    wunsch: 6
+    begruendung: Auf 4 reduziert – Platz und Schädlingsdruck durch viele Kohlgewächse.
+    von: 2026-05-15
+    bis: 2027-01-31
+    punkte: [[30, 330], [30, 290], [90, 330], [90, 290]]
+    ist:
+      status: im_beet
+      ernte: "o"
+      notiz: >-
+        Zu viel. Teilweise gut entwickelt, braucht viel Licht. Röschen anfangs locker,
+        werden mit der Kälte fester. Köpfe abgeschlagen.
+
+  - id: gurke
+    kultur: gurke
+    flaeche: west
+    typ: H
+    wunsch: 3
+    von: 2026-05-31
+    bis: 2026-09-30
+    punkte: [[150, 350], [150, 320], [150, 290]]
+    notiz: vertikal an Schnüren
+    ist:
+      status: geerntet
+      anzahl: 2
+      ernte: "++"
+      notiz: 2 Pflanzen vertikal am Gitter (Nord–Süd). Gutes Wachstum, gute Ernte – passt so.
+
+  - id: knollensellerie
+    kultur: knollensellerie
+    flaeche: west
+    typ: H
+    wunsch: 10
+    von: 2026-05-15
+    bis: 2026-11-15
+    punkte: [[210, 360], [245, 360], [280, 360], [210, 325], [245, 325], [280, 325], [210, 290], [245, 290], [280, 290]]
+    notiz: Im Positionsplan 2026 fehlte die 10. Position.
+    ist:
+      status: geerntet
+      ernte: "o"
+      notiz: Zu viel. Gut gewachsen, ein paar Ausfälle, einige Knollen von Wühlmäusen ausgehöhlt.
+
+  # ---------------- Zone C ----------------
+  - id: paprika
+    kultur: paprika
+    flaeche: west
+    typ: H
+    wunsch: 3
+    von: 2026-05-15
+    bis: 2026-10-31
+    punkte: [[30, 240], [30, 190], [80, 215]]
+    ist:
+      status: geerntet
+      ernte: "+"
+      notiz: >-
+        Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Früchte oft angefressen
+        (vermutlich Raupen), schwächste Ernte der drei. Anfang November eingegangen.
+
+  - id: pfefferoni
+    kultur: pfefferoni
+    flaeche: west
+    typ: H
+    wunsch: 3
+    von: 2026-05-15
+    bis: 2026-10-31
+    punkte: [[80, 250], [80, 180], [30, 165]]
+    ist:
+      status: geerntet
+      ernte: "++"
+      notiz: Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Anfang November eingegangen.
+
+  - id: mangold
+    kultur: mangold
+    flaeche: west
+    typ: H
+    wunsch: 3
+    von: 2026-04-30
+    bis: 2026-10-31
+    punkte: [[150, 240], [150, 200], [150, 160]]
+    ist: { status: im_beet, ernte: "++", notiz: Zu viel – sehr gut gewachsen. }
+
+  - id: stangensellerie
+    kultur: stangensellerie
+    flaeche: west
+    typ: H
+    wunsch: 4
+    von: 2026-05-15
+    bis: 2026-10-31
+    punkte: [[220, 240], [260, 240], [220, 190], [260, 190]]
+    ist: { status: geerntet, ernte: "o", notiz: Zu viel – gut gewachsen. }
+
+  # ---------------- Zone D ----------------
+  - id: karotte
+    kultur: karotte
+    flaeche: west
+    typ: H
+    wunsch: 30
+    von: 2026-03-15
+    bis: 2026-09-30
+    reihen:
+      - { y: 155, x1: 15, x2: 285, anzahl: 10 }
+      - { y: 115, x1: 15, x2: 285, anzahl: 10 }
+      - { y: 85, x1: 15, x2: 285, anzahl: 10 }
+    ist:
+      status: geerntet
+      ernte: "++"
+      notiz: Nach Gefühl gesät – viel Ernte, aber zu eng. Künftig nur mit Saatband.
+
+  - id: sommerlauch
+    kultur: sommerlauch
+    flaeche: west
+    typ: H
+    wunsch: 20
+    von: 2026-04-15
+    bis: 2026-10-31
+    reihen:
+      - { y: 135, x1: 20, x2: 280, anzahl: 7 }
+      - { y: 95, x1: 20, x2: 280, anzahl: 7 }
+    notiz: Im Positionsplan 2026 nur 14 statt 20 Pflanzen.
+    ist: { status: geerntet, ernte: "++", notiz: Einfach – ins Pflanzloch setzen und einschwemmen. }
+
+  - id: dill
+    kultur: dill
+    flaeche: west
+    typ: B
+    wunsch: 4
+    von: 2026-04-15
+    bis: 2026-08-31
+    punkte: [[10, 135], [10, 95], [290, 135], [290, 95]]
+    ist: { status: geerntet, ernte: "-", notiz: Sehr schnell in die Blüte – nur kleine Ernte. }
+
+  # ---------------- Zone E ----------------
+  - id: rote_ruebe
+    kultur: rote_ruebe
+    flaeche: west
+    typ: H
+    wunsch: 10
+    von: 2026-04-15
+    bis: 2026-10-31
+    reihen:
+      - { y: 70, x1: 20, x2: 140, anzahl: 5 }
+      - { y: 40, x1: 20, x2: 140, anzahl: 5 }
+    ist:
+      status: im_beet
+      ernte: "++"
+      notiz: Einfach, gute Ernte. Jungpflanzen wirkten geschwächt, entwickelten sich aber gut.
+
+  - id: kohlrabi
+    kultur: kohlrabi
+    flaeche: west
+    typ: H
+    wunsch: 6
+    von: 2026-04-30
+    bis: 2026-08-31
+    reihen:
+      - { y: 70, x1: 170, x2: 270, anzahl: 3 }
+      - { y: 40, x1: 170, x2: 270, anzahl: 3 }
+    ist: { status: geerntet }
+
+  - id: ringelblume
+    kultur: ringelblume
+    flaeche: west
+    typ: B
+    wunsch: 4
+    von: 2026-04-15
+    bis: 2026-10-31
+    punkte: [[80, 15], [220, 15], [10, 10], [290, 10]]
+    notiz: '"Südrand und Ecken" – genaue Ecken-Positionen angenommen.'
+    ist: { status: gepflanzt, notiz: Ausgesät – wuchert stark, Selbstaussaat beobachtet. }
+
+  - id: beinwell
+    kultur: beinwell
+    flaeche: west
+    typ: B
+    wunsch: 4
+    von: 2026-03-15
+    bis: 2030-12-31
+    punkte: [[40, 530], [110, 530], [190, 530], [260, 530]]
+    ausserhalb: true
+    notiz: Außen am Nordrand, außerhalb der Pflanzfläche.
+    ist: { status: nicht_gepflanzt }
+
+  # ---------------- Vorkulturen ----------------
+  - id: radieschen
+    kultur: radieschen
+    flaeche: west
+    typ: V
+    wunsch: 30
+    von: 2026-03-01
+    bis: 2026-05-31
+    bereich: { x: 0, y: 80, b: 300, t: 80 }
+    mischsaat: true
+    notiz: Als Markiersaat in den Karottenreihen (Zone D).
+    ist: { status: geerntet, ernte: "+", notiz: Immer wieder angesät – hat recht gut funktioniert. }
+
+  - id: mairuebchen
+    kultur: mairuebchen
+    flaeche: west
+    typ: V
+    wunsch: 10
+    von: 2026-03-15
+    bis: 2026-06-30
+    bereich: { x: 195, y: 290, b: 105, t: 80 }
+    notiz: Vor dem Knollensellerie (Zone B Ost).
+    ist: { status: nicht_gepflanzt }
+
+  - id: kohlrabi_frueh
+    kultur: kohlrabi
+    flaeche: west
+    typ: V
+    wunsch: 6
+    von: 2026-03-15
+    bis: 2026-06-30
+    bereich: { x: 0, y: 160, b: 110, t: 100 }
+    notiz: Vor Paprika und Pfefferoni (Zone C West).
+    ist: { status: unbekannt }
+
+  # ---------------- Nachkulturen ----------------
+  - id: flower_sprouts
+    kultur: flower_sprouts
+    flaeche: west
+    typ: N
+    wunsch: 8
+    von: 2026-07-15
+    bis: 2026-12-31
+    bereich: { x: 0, y: 0, b: 300, t: 80 }
+    notiz: Nach Kohlrabi und Roten Rüben (Zone E).
+    ist: { status: nicht_gepflanzt }
+
+  - id: chinakohl
+    kultur: chinakohl
+    flaeche: west
+    typ: N
+    wunsch: 8
+    von: 2026-07-31
+    bis: 2026-11-30
+    bereich: { x: 0, y: 80, b: 300, t: 80 }
+    notiz: Nach Karotten und Lauch (Zone D).
+    ist: { status: im_beet }
+
+  - id: endivie
+    kultur: endivie
+    flaeche: west
+    typ: N
+    wunsch: 8
+    von: 2026-07-15
+    bis: 2026-11-30
+    bereich: { x: 200, y: 160, b: 100, t: 100 }
+    notiz: Nach dem Stangensellerie (Zone C Ost).
+    ist: { status: im_beet }
+
+  - id: winterlauch
+    kultur: winterlauch
+    flaeche: west
+    typ: N
+    wunsch: 20
+    von: 2026-07-15
+    bis: 2027-03-31
+    bereich: { x: 0, y: 400, b: 300, t: 100 }
+    notiz: Nach den Bohnen (Zone A).
+    ist: { status: im_beet, ernte: "++", notiz: Einfach – ins Pflanzloch setzen und einschwemmen. }
+
+  - id: wirsing
+    kultur: wirsing
+    flaeche: west
+    typ: N
+    wunsch: 6
+    von: 2026-07-15
+    bis: 2027-01-31
+    bereich: { x: 120, y: 290, b: 60, t: 80 }
+    notiz: Nach den Gurken (Zone B Mitte).
+    ist: { status: nicht_gepflanzt }
+
+  - id: pak_choi
+    kultur: pak_choi
+    flaeche: west
+    typ: N
+    wunsch: 6
+    von: 2026-08-15
+    bis: 2026-10-31
+    bereich: { x: 120, y: 160, b: 60, t: 100 }
+    notiz: Nach dem Mangold (Zone C Mitte).
+    ist: { status: nicht_gepflanzt }
+
+  - id: vogerlsalat
+    kultur: vogerlsalat
+    flaeche: west
+    typ: N
+    wunsch: 50
+    von: 2026-08-15
+    bis: 2027-03-31
+    bereich: { x: 0, y: 0, b: 300, t: 500 }
+    notiz: Streusaat überall, wo Platz frei wird.
+    ist: { status: unbekannt, ernte: "-", notiz: Mehrfach gesät – hat nicht gut funktioniert. }
+
+  - id: wintersteckzwiebeln
+    kultur: zwiebel
+    flaeche: west
+    typ: N
+    wunsch: 10
+    sorte: "'Shakespeare' (Reinsaat, Zw58), 500 g"
+    von: 2026-10-25
+    bis: 2027-07-15
+    bereich: { x: 0, y: 0, b: 300, t: 500 }
+    notiz: Geplant "verteilt", Grün ernten. Genaue Lage noch nicht erfasst.
+    ist: { status: im_beet, notiz: Ende Oktober 2026 gesteckt. }
+
+  - id: knoblauch
+    kultur: knoblauch
+    flaeche: west
+    typ: N
+    sorte: "'Therador' (Reinsaat, Kn6), 250 g"
+    von: 2026-10-25
+    bis: 2027-07-15
+    bereich: { x: 0, y: 0, b: 300, t: 500 }
+    notiz: Nicht im ursprünglichen Plan. Genaue Lage noch nicht erfasst.
+    ist: { status: im_beet, notiz: Ende Oktober 2026 gesteckt. }
+
+  # ---------------- Tomatenhaus ----------------
+  - id: tomate
+    kultur: tomate
+    flaeche: tomatenhaus
+    typ: H
+    wunsch: 8
+    von: 2026-05-15
+    bis: 2026-10-15
+    bereich: { x: 0, y: 0, b: 300, t: 200 }
+    notiz: Positionen noch nicht erfasst.
+    ist:
+      status: geerntet
+      anzahl: 8
+      ernte: "++"
+      notiz: Vor den Eisheiligen gesetzt und geschädigt – komplett neu gepflanzt. Danach sehr gute Ernte.
+
+  - id: basilikum
+    kultur: basilikum
+    flaeche: tomatenhaus
+    typ: B
+    von: 2026-05-15
+    bis: 2026-10-15
+    bereich: { x: 0, y: 0, b: 300, t: 200 }
+    ist: { status: geerntet, ernte: "++" }
+
+  - id: petersilie
+    kultur: petersilie
+    flaeche: tomatenhaus
+    typ: B
+    von: 2026-05-15
+    bis: 2026-10-31
+    bereich: { x: 0, y: 0, b: 300, t: 200 }
+    ist: { status: geerntet, ernte: "-", notiz: Die meisten von Wühlmäusen geholt. }

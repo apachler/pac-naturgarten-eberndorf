@@ -1,0 +1,25 @@
+# Anbauflächen – dauerhafte Maße
+#
+# Koordinaten in cm, Ursprung (0,0) = Südwest-Ecke der Fläche.
+# x = von West nach Ost (Breite), y = von Süd nach Nord (Länge).
+
+west:
+  name: Beet West
+  art: Heubeet
+  breite: 300
+  laenge: 500
+  notiz: Permakultur-Heubeet, Nord–Süd ausgerichtet, vollsonnig. Aktiv in geraden Jahren (2026, 2028 …).
+
+ost:
+  name: Beet Ost
+  art: Heubeet
+  breite: 300
+  laenge: 500
+  notiz: Permakultur-Heubeet, Nord–Süd ausgerichtet, vollsonnig. Aktiv in ungeraden Jahren (2025, 2027 …).
+
+tomatenhaus:
+  name: Tomatenhaus
+  art: Tomatenhaus
+  breite: 300
+  laenge: 200
+  notiz: Gebaut 2026, ca. 3 × 2 m, Platz für 8 Tomaten und Basilikum. Ausrichtung und Pflanzpositionen noch nicht erfasst.

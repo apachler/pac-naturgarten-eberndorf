@@ -1,0 +1,7 @@
+# Verzeichnis der Jahrespläne für den Beetplaner.
+# Neues Jahr: Zeile ergänzen und <Jahr>/plan.yaml anlegen.
+jahre:
+  - jahr: 2025
+    plan: 2025/plan.yaml
+  - jahr: 2026
+    plan: 2026/plan.yaml

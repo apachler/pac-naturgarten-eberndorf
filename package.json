@@ -1,0 +1,11 @@
+{
+  "name": "pac-naturgarten-eberndorf",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "pruefen": "node beetplaner/pruefen.mjs"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

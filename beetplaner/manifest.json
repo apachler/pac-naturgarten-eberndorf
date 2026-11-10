@@ -1,0 +1,10 @@
+{
+  "name": "Beetplaner – PAC Naturgarten Eberndorf",
+  "short_name": "Beetplaner",
+  "start_url": "../index.html",
+  "scope": "../",
+  "display": "standalone",
+  "background_color": "#f6f2e8",
+  "theme_color": "#2f4a2b",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

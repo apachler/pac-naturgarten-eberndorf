@@ -14,10 +14,13 @@ Dieses Repo ist das Langzeitgedächtnis für die Gemüsegarten-Planung von Andre
 ## Arbeitsweise
 
 - Auf Deutsch antworten (Du-Form), österreichische Gemüsenamen verwenden.
-- Alle Dokumente als Markdown anlegen, keine Office-Formate. Interaktive Beetpläne als eigenständige HTML-Datei (React + Babel + Tailwind über CDN), die per Doppelklick im Browser läuft.
+- Alle Dokumente als Markdown anlegen, keine Office-Formate.
+- **Beetpläne sind Daten:** Der Plan eines Jahres steht in `Gemüsegarten/<Jahr>/plan.yaml` (Positionen, Zeiträume, Ist-Stand). Kulturwerte stehen in `Grundlagen/kulturen.yaml`, Flächenmaße in `Grundlagen/flaechen.yaml`. Die Anzeige übernimmt der Beetplaner (`index.html` + `beetplaner/`, GitHub Pages: https://apachler.github.io/pac-naturgarten-eberndorf/). Keine eigenen HTML- oder JSX-Beetpläne pro Jahr mehr bauen. Format: `beetplaner/README.md`.
+- Nach jeder Änderung an Plan- oder Kulturdaten `npm install && npm run pruefen` ausführen und Warnungen beheben oder begründen (`begruendung:` in der Pflanzung). Neue Kulturen zuerst in `kulturen.yaml` anlegen.
+- Rückmeldungen auch in `plan.yaml` unter `ist:` nachtragen (Status, Anzahl, Ernte, Notiz).
 - Beim Planen aktiv auf Probleme hinweisen (Platz, Nachbarschaften, Fruchtfolge) und bei Konflikten begründet priorisieren, statt still wegzulassen.
-- Pflanzpläne müssen 1:1 umsetzbar sein: jede Pflanze mit Position (X/Y in cm, Ursprung Südwest-Ecke) und alle gewünschten Stückzahlen vollständig – vor dem Abschluss nachzählen.
-- Neue Jahre aus `Gemüsegarten/Vorlagen/` anlegen.
+- Pflanzpläne müssen 1:1 umsetzbar sein: jede Pflanze mit Position (X/Y in cm, Ursprung Südwest-Ecke) und alle gewünschten Stückzahlen vollständig. Auch Vor- und Nachkulturen möglichst als Punkte oder Reihen statt als Bereich. Die Prüfung kontrolliert Stückzahl, Abstand, Nachbarn, Platz, Frost und Fruchtfolge.
+- Neue Jahre aus `Gemüsegarten/Vorlagen/` anlegen (inkl. `plan.yaml`) und in `Gemüsegarten/jahre.yaml` eintragen.
 - **Regel für Rückmeldungen:** Zu jeder Jahres-Rückmeldung das Wetter des Jahres für Eberndorf/Kärnten recherchieren (GeoSphere Austria, BMLUK-Monatsberichte „Wasserhaushalt Österreich“ mit Grundwasser-Messstelle Eberndorf, Klimarückblick Kärnten) und als `<Jahr>/Wetter.md` nach `Vorlagen/Wetter.md` ablegen, mit Quellen.
 - Erkenntnisse, die über ein Jahr hinaus gelten, nach `Grundlagen/Erfahrungen.md` bzw. `Kulturwissen.md` übernehmen und das Jahr als Quelle angeben. Jahresordner bleiben als Archiv unverändert, außer für Korrekturen.
 - Die Jahresliste in `Gemüsegarten/README.md` aktuell halten.

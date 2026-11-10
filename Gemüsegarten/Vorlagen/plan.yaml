@@ -1,0 +1,29 @@
+# Beetplan <JAHR> – Datenquelle für den Beetplaner
+# Format und Beispiele: siehe ../2026/plan.yaml und beetplaner/README.md
+# Nach dem Anlegen in ../jahre.yaml eintragen.
+
+jahr: <JAHR>
+
+flaechen:
+  ost:                       # aktives Heubeet laut Fruchtfolge
+    rolle: aktiv
+    wege:
+      - { name: Pflegepfad 1, y: 370, t: 30 }
+    zonen:
+      - { id: A, name: "Zone A – …", y: 400, t: 100 }
+  west:
+    rolle: ruhe
+  tomatenhaus:
+    rolle: aktiv
+
+pflanzungen:
+  - id: beispiel
+    kultur: feuerbohne       # ID aus Grundlagen/kulturen.yaml
+    flaeche: ost
+    typ: H                   # V / H / N / B
+    wunsch: 20               # gewünschte Stückzahl aus dem Planungsauftrag
+    von: <JAHR>-05-20
+    bis: <JAHR>-10-15
+    punkte: [[30, 450], [90, 450]]
+    je: 4
+    # ist: { status: im_beet, anzahl: 18, ernte: "+", notiz: "…" }

@@ -27,8 +27,8 @@ Eingaben:
 - Planungsauftrag des neuen Jahres
 
 Ergebnisse im Jahresordner:
-- `Beetplanung.md` mit Problemanalyse, Pflanzenliste, Zonen, Pflanzkalender, exaktem Positionsplan und Pflegetipps
-- `Beetplan.html` als interaktiver Beetplan für den Browser
+- `plan.yaml` mit allen Pflanzungen, Positionen und Zeiträumen. Daraus erzeugt der Beetplaner Draufsicht, Kalender und Prüfung. Die Prüfung (`npm run pruefen`) muss ohne Warnungen durchlaufen oder jede Abweichung begründen.
+- `Beetplanung.md` mit Problemanalyse, Entscheidungen und Pflegetipps. Positionstabellen braucht es dort nicht mehr, die liefert der Beetplaner.
 - `README.md` mit Zusammenfassung und Entscheidungen
 
 Fruchtfolge beachten: Das aktive Beet wechselt. Auf das Beet, das im Vorjahr geruht hat, kommen die Kulturen. Starkzehrer, Kohlgewächse und Familien aus dem letzten Anbau auf diesem Beet (zwei Jahre zuvor) berücksichtigen.
@@ -36,5 +36,6 @@ Fruchtfolge beachten: Das aktive Beet wechselt. Auf das Beet, das im Vorjahr ger
 ## 5. Saison (März bis November)
 
 - Die Punkte der `Grundlagen/Merkliste.md` für die Saison im Blick behalten.
+- Den Ist-Stand (gesetzt, ausgefallen, geerntet) möglichst laufend in `plan.yaml` unter `ist:` nachtragen.
 - Abweichungen vom Plan und Beobachtungen laufend in `<Jahr>/Notizen.md` festhalten (optional, erleichtert die Rückmeldung).
 - Danach beginnt der Zyklus mit Schritt 1 von vorn.

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Beetplaner – PAC Naturgarten Eberndorf</title>
+  <meta name="theme-color" content="#2f4a2b">
+  <link rel="manifest" href="beetplaner/manifest.json">
+  <link rel="icon" href="beetplaner/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="beetplaner/icon.svg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="beetplaner/style.css">
+</head>
+<body>
+  <header class="kopf">
+    <div class="kopf-zeile">
+      <div class="titel">
+        <span class="titel-klein">PAC Naturgarten Eberndorf</span>
+        <span class="titel-gross">Beetplaner</span>
+      </div>
+      <select id="jahr" aria-label="Jahr"></select>
+    </div>
+    <div class="segmente" id="flaechen" role="tablist" aria-label="Fläche"></div>
+    <nav class="tabs" role="tablist">
+      <button data-tab="plan" class="aktiv">Plan</button>
+      <button data-tab="kalender">Kalender</button>
+      <button data-tab="liste">Liste</button>
+      <button data-tab="pruefung">Prüfung <span id="pruef-zahl" class="zahl"></span></button>
+    </nav>
+  </header>
+
+
+  <main>
+    <section id="tab-plan" class="tab aktiv">
+      <div class="flaechen-info" id="flaechen-info"></div>
+      <div class="optionen">
+        <label class="chip"><input type="checkbox" id="opt-ist"> Ist-Stand</label>
+        <label class="chip"><input type="checkbox" id="opt-alle"> Alle Kulturen</label>
+        <label class="chip"><input type="checkbox" id="opt-vorjahr"> Vorjahr</label>
+      </div>
+      <div class="zeitregler">
+        <div class="zeit-kopf">
+          <strong id="datum-text"></strong>
+          <button id="heute" class="knopf-klein">Heute</button>
+        </div>
+        <input type="range" id="datum" min="0" max="0" step="1" aria-label="Datum">
+        <div class="monate" id="monate"></div>
+      </div>
+      <div class="verteilt" id="verteilt"></div>
+      <div class="beet-rahmen">
+        <svg id="beet" role="img" aria-label="Beetplan"></svg>
+      </div>
+      <h3 class="abschnitt">Gerade im Beet</h3>
+      <ul class="legende" id="legende"></ul>
+    </section>
+
+    <section id="tab-kalender" class="tab">
+      <div class="gantt" id="gantt"></div>
+    </section>
+
+    <section id="tab-liste" class="tab">
+      <div id="liste"></div>
+    </section>
+
+    <section id="tab-pruefung" class="tab">
+      <p class="erklaerung">Automatische Prüfung des Plans: Stückzahlen, Abstände, Nachbarn, Wege, Platz für Vor- und Nachkulturen, Frost und Fruchtfolge. Antippen zeigt die betroffenen Pflanzen im Plan.</p>
+      <div id="pruefung"></div>
+    </section>
+  </main>
+
+  <div class="blatt-huelle" id="blatt-huelle" hidden>
+    <div class="blatt" id="blatt" role="dialog" aria-modal="true">
+      <button class="blatt-zu" id="blatt-zu" aria-label="Schließen">✕</button>
+      <div id="blatt-inhalt"></div>
+    </div>
+  </div>
+
+  <footer class="fuss">
+    Daten: <a href="https://github.com/apachler/pac-naturgarten-eberndorf/tree/main/Gem%C3%BCsegarten">Gemüsegarten/</a> im Repo · Norden ist oben · Maße in cm
+  </footer>
+
+  <script type="module" src="beetplaner/app.js"></script>
+</body>
+</html>

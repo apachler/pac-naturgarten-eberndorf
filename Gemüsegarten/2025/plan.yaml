@@ -1,0 +1,22 @@
+# Beetplan 2025 – nur nachträglich erfasste Eckdaten für die Fruchtfolge.
+# Für 2025 gibt es keinen vollständigen Plan; ergänzen, wenn mehr bekannt ist.
+
+jahr: 2025
+
+flaechen:
+  ost:
+    rolle: aktiv
+    notiz: Nur die Flower Sprouts sind nachträglich erfasst.
+  west:
+    rolle: ruhe
+
+pflanzungen:
+  - id: flower_sprouts
+    kultur: flower_sprouts
+    flaeche: ost
+    typ: N
+    von: 2025-07-15
+    bis: 2025-12-31
+    bereich: { x: 0, y: 0, b: 300, t: 125 }
+    notiz: Südliches Viertel von Beet Ost.
+    ist: { status: geerntet, ernte: "--", notiz: Geschossen und geblüht statt Röschen zu bilden. }

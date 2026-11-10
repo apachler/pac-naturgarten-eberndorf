@@ -10,6 +10,7 @@ Standort, Boden und Fruchtfolge: siehe [Grundlagen](../Grundlagen/Standort-und-B
 
 | Datei | Inhalt |
 |-------|--------|
+| [plan.yaml](plan.yaml) | Plan 2026 mit Ist-Stand als Daten – ansehen im [Beetplaner](https://apachler.github.io/pac-naturgarten-eberndorf/#2026/west) |
 | [Rueckmeldung.md](Rueckmeldung.md) | Auswertung der Saison 2026 |
 | [Wetter.md](Wetter.md) | Wetterrückblick 2026 für Eberndorf und Kärnten (recherchiert) |
 | [Planungsauftrag.md](Planungsauftrag.md) | Ausgangs-Prompt mit Standort, Beet-Rahmenbedingungen, Pflichtaufgaben und der vollständigen Pflanzenliste |
@@ -77,3 +78,4 @@ Beim Ablegen fiel auf, dass einige Anforderungen aus dem Planungsauftrag noch ni
 - 2026-11-10: Rückmeldung zu Karotten, Beikräutern und Sorten (Knoblauch 'Therador', Wintersteckzwiebel 'Shakespeare') ergänzt. Wetterrückblick 2026 recherchiert. Regel eingeführt: Zu jeder Rückmeldung gehört ein `Wetter.md`.
 - 2026-11-10: Gesamteindruck 2026 eingetragen: zu früh gepflanzt, Mengen bei Sellerie, Mangold, Paprika, Pfefferoni und Kohlsprossen zu groß, Erfahrungen zu Gurken, Lauch, Roten Rüben und Feuerbohnen. Erkenntnisse in die Grundlagen übernommen.
 - 2026-11-10: Tomatenhaus und Wasserverbrauch (ca. 3000 L) erfasst. Merkliste für 2027 angelegt (u. a. Fotos von den Paprika-Fraßschäden, Wühlmausschutz).
+- 2026-11-10: Beetplaner gebaut (GitHub Pages) und Plan 2026 als `plan.yaml` erfasst. Die Prüfung deckt die Planungsfehler 2026 auf: Vor- und Nachkulturen hatten zeitlich keinen Platz, außerdem fehlten Pflanzen und Abstände waren zu klein.

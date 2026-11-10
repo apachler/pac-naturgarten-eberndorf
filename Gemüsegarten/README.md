@@ -2,6 +2,8 @@
 
 Jahresplanung für die zwei Heubeete (je 3 × 5 m), von denen jedes Jahr eines bepflanzt wird und das andere ruht.
 
+**Beetplaner (Handy/PC):** https://apachler.github.io/pac-naturgarten-eberndorf/
+
 ## Zuerst lesen
 
 - [Standort und Beete](Grundlagen/Standort-und-Beete.md) – Rahmenbedingungen und Fruchtfolge
@@ -22,6 +24,7 @@ Jahresplanung für die zwei Heubeete (je 3 × 5 m), von denen jedes Jahr eines b
 1. Ordner `<Jahr>/` erstellen
 2. `Vorlagen/Jahres-README.md` → `<Jahr>/README.md`
 3. `Vorlagen/Planungsauftrag.md` → `<Jahr>/Planungsauftrag.md`
+3a. `Vorlagen/plan.yaml` → `<Jahr>/plan.yaml` und in `jahre.yaml` eintragen. Danach erscheint das Jahr im [Beetplaner](https://apachler.github.io/pac-naturgarten-eberndorf/)
 4. `Vorlagen/Rueckmeldung.md` → `<Jahr>/Rueckmeldung.md` (wird erst nach der Saison ausgefüllt)
 5. Bei der Rückmeldung: `Vorlagen/Wetter.md` → `<Jahr>/Wetter.md`, Wetter des Jahres recherchieren
 6. Tabelle oben ergänzen
