@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permakultur-Beetplan - Mischkultur 3×5m</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
+
+        const plantData = {
+            feuerbohne: { name: 'Feuerbohne', color: '#8BC34A', icon: '🫘', type: 'H', info: '20 Stk. auf 5 Stangen, Stickstoff-Fixierer' },
+            bohnenkraut: { name: 'Bohnenkraut', color: '#AED581', icon: '🌿', type: 'B', info: 'Bohnenbegleiter, hält Blattläuse fern' },
+            kohlsprossen: { name: 'Kohlsprossen', color: '#66BB6A', icon: '🥬', type: 'H', info: '4 Stk., Ernte Okt–Jan, Starkzehrer' },
+            gurke: { name: 'Gurke', color: '#81C784', icon: '🥒', type: 'H', info: '3 Stk. vertikal an Schnüren' },
+            knollensellerie: { name: 'Knollensellerie', color: '#C5E1A5', icon: '🥬', type: 'H', info: '10 Stk., 35cm Abstand, Starkzehrer' },
+            paprika: { name: 'Paprika', color: '#EF5350', icon: '🫑', type: 'H', info: '3 Stk., nach Eisheiligen pflanzen' },
+            pfefferoni: { name: 'Pfefferoni', color: '#FF7043', icon: '🌶️', type: 'H', info: '3 Stk., wärmeliebend' },
+            mangold: { name: 'Mangold', color: '#26A69A', icon: '🥬', type: 'H', info: '3 Stk., mehrfache Ernte möglich' },
+            stangensellerie: { name: 'Stangensellerie', color: '#4DB6AC', icon: '🥬', type: 'H', info: '4 Stk., hoher Wasserbedarf' },
+            karotte: { name: 'Karotte', color: '#FF9800', icon: '🥕', type: 'H', info: '30 Stk., Mischkultur mit Lauch' },
+            lauch: { name: 'Sommerlauch', color: '#7CB342', icon: '🧅', type: 'H', info: '20 Stk., schützt Karotten vor Möhrenfliege' },
+            dill: { name: 'Dill', color: '#9CCC65', icon: '🌿', type: 'B', info: '4 Stk., lockt Nützlinge an' },
+            roteruebe: { name: 'Rote Rübe', color: '#AD1457', icon: '🥬', type: 'H', info: '10 Stk., gleichmäßig feucht halten' },
+            kohlrabi: { name: 'Kohlrabi', color: '#9575CD', icon: '🥬', type: 'H', info: '6 Stk., schnelle Kultur' },
+            ringelblume: { name: 'Ringelblume', color: '#FFC107', icon: '🌼', type: 'B', info: '4 Stk., heilt Bodenmüdigkeit' },
+            beinwell: { name: 'Beinwell', color: '#5C6BC0', icon: '🌿', type: 'B', info: '4 Stk. am Nordrand, Mulchlieferant' }
+        };
+
+        function Plant({ x, y, type, size = 20, isStange, onClick }) {
+            const plant = plantData[type];
+            if (!plant) return null;
+            
+            return (
+                <g 
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => onClick(plant)}
+                    transform={`translate(${x}, ${y})`}
+                >
+                    <circle 
+                        cx={0} 
+                        cy={0} 
+                        r={size} 
+                        fill={plant.color}
+                        stroke="#fff"
+                        strokeWidth={2}
+                    />
+                    <text 
+                        x={0} 
+                        y={4} 
+                        textAnchor="middle" 
+                        fontSize={size * 0.9}
+                        style={{ pointerEvents: 'none' }}
+                    >
+                        {plant.icon}
+                    </text>
+                    {isStange && (
+                        <circle 
+                            cx={0} 
+                            cy={0} 
+                            r={size + 8} 
+                            fill="none"
+                            stroke="#795548"
+                            strokeWidth={3}
+                            strokeDasharray="8,4"
+                        />
+                    )}
+                </g>
+            );
+        }
+
+        function Zone({ y, height, label, color, children }) {
+            return (
+                <g>
+                    <rect
+                        x={10}
+                        y={y}
+                        width={280}
+                        height={height}
+                        fill={color}
+                        rx={4}
+                    />
+                    <text
+                        x={150}
+                        y={y + 14}
+                        textAnchor="middle"
+                        fontSize={11}
+                        fontWeight="bold"
+                        fill="#37474F"
+                    >
+                        {label}
+                    </text>
+                    {children}
+                </g>
+            );
+        }
+
+        function Weg({ y }) {
+            return (
+                <g>
+                    <rect
+                        x={10}
+                        y={y}
+                        width={280}
+                        height={22}
+                        fill="#D7CCC8"
+                        rx={2}
+                    />
+                    <line x1={30} y1={y + 11} x2={270} y2={y + 11} stroke="#BCAAA4" strokeWidth={2} strokeDasharray="6,4" />
+                    <text x={150} y={y + 15} textAnchor="middle" fontSize={9} fill="#795548">Pflegepfad</text>
+                </g>
+            );
+        }
+
+        function BeetPlan() {
+            const [selectedPlant, setSelectedPlant] = useState(null);
+
+            const handlePlantClick = (plant) => {
+                setSelectedPlant(plant);
+            };
+
+            return (
+                <div style={{ 
+                    minHeight: '100vh', 
+                    background: 'linear-gradient(to bottom, #fffbeb, #ecfdf5, #d1fae5)',
+                    padding: '1rem'
+                }}>
+                    <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+                        {/* Header */}
+                        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+                            <h1 style={{ 
+                                fontSize: '1.75rem', 
+                                fontWeight: 'bold', 
+                                color: '#065f46',
+                                marginBottom: '0.25rem'
+                            }}>
+                                🌱 Permakultur-Beetplan
+                            </h1>
+                            <p style={{ color: '#059669', fontSize: '0.9rem' }}>
+                                3 × 5 Meter Mischkultur-Gemüsebeet
+                            </p>
+                            <p style={{ color: '#6b7280', fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                                Eberndorf, Kärnten • Heubeet mit Terra Preta & Schafwolle
+                            </p>
+                        </div>
+
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
+                            {/* SVG Beetplan */}
+                            <div style={{ 
+                                flex: '1 1 400px',
+                                maxWidth: '450px',
+                                background: 'white', 
+                                borderRadius: '1rem', 
+                                boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                                padding: '1rem',
+                                border: '1px solid #d1fae5'
+                            }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                                    <span style={{ fontSize: '0.875rem', fontWeight: '500', color: '#6b7280' }}>↑ NORD</span>
+                                    <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>300 × 500 cm</span>
+                                </div>
+                                
+                                <svg viewBox="0 0 300 520" style={{ width: '100%', height: 'auto' }}>
+                                    <defs>
+                                        <pattern id="soil" patternUnits="userSpaceOnUse" width="20" height="20">
+                                            <rect width="20" height="20" fill="#8D6E63" opacity="0.1"/>
+                                            <circle cx="5" cy="5" r="1" fill="#795548" opacity="0.3"/>
+                                            <circle cx="15" cy="15" r="1" fill="#795548" opacity="0.3"/>
+                                        </pattern>
+                                    </defs>
+                                    
+                                    {/* Hintergrund */}
+                                    <rect x={5} y={5} width={290} height={510} fill="url(#soil)" rx={8} stroke="#A1887F" strokeWidth={2}/>
+                                    
+                                    {/* Beinwell am Nordrand */}
+                                    <g>
+                                        <text x={150} y={22} textAnchor="middle" fontSize={9} fill="#5C6BC0" fontWeight="bold">
+                                            Beinwell (außen)
+                                        </text>
+                                        {[40, 110, 190, 260].map((x, i) => (
+                                            <g key={i} style={{ cursor: 'pointer' }} onClick={() => handlePlantClick(plantData.beinwell)}>
+                                                <circle cx={x} cy={38} r={12} fill="#C5CAE9" stroke="#5C6BC0" strokeWidth={2}/>
+                                                <text x={x} y={42} textAnchor="middle" fontSize={10}>🌿</text>
+                                            </g>
+                                        ))}
+                                    </g>
+                                    
+                                    {/* Zone A: Feuerbohnen */}
+                                    <Zone y={50} height={85} label="Zone A: Feuerbohnen + Bohnenkraut" color="#DCEDC8">
+                                        {[35, 95, 150, 205, 265].map((x, i) => (
+                                            <Plant key={i} x={x} y={100} type="feuerbohne" size={22} isStange onClick={handlePlantClick} />
+                                        ))}
+                                        {[65, 125, 180, 235].map((x, i) => (
+                                            <Plant key={`bk-${i}`} x={x} y={118} type="bohnenkraut" size={11} onClick={handlePlantClick} />
+                                        ))}
+                                    </Zone>
+                                    
+                                    {/* Weg 1 */}
+                                    <Weg y={138} />
+                                    
+                                    {/* Zone B */}
+                                    <Zone y={163} height={75} label="Zone B: Kohlsprossen • Gurken • Sellerie" color="#C8E6C9">
+                                        <Plant x={35} y={195} type="kohlsprossen" size={18} onClick={handlePlantClick} />
+                                        <Plant x={35} y={222} type="kohlsprossen" size={18} onClick={handlePlantClick} />
+                                        <Plant x={75} y={195} type="kohlsprossen" size={18} onClick={handlePlantClick} />
+                                        <Plant x={75} y={222} type="kohlsprossen" size={18} onClick={handlePlantClick} />
+                                        
+                                        <Plant x={150} y={188} type="gurke" size={16} onClick={handlePlantClick} />
+                                        <Plant x={150} y={210} type="gurke" size={16} onClick={handlePlantClick} />
+                                        <Plant x={150} y={232} type="gurke" size={16} onClick={handlePlantClick} />
+                                        <line x1={150} y1={178} x2={150} y2={163} stroke="#795548" strokeWidth={3}/>
+                                        <text x={150} y={172} textAnchor="middle" fontSize={7} fill="#795548">↑Rankhilfe</text>
+                                        
+                                        {[200, 230, 260].map((x, i) => (
+                                            <React.Fragment key={i}>
+                                                <Plant x={x} y={188} type="knollensellerie" size={13} onClick={handlePlantClick} />
+                                                <Plant x={x} y={212} type="knollensellerie" size={13} onClick={handlePlantClick} />
+                                            </React.Fragment>
+                                        ))}
+                                        <Plant x={200} y={232} type="knollensellerie" size={13} onClick={handlePlantClick} />
+                                    </Zone>
+                                    
+                                    {/* Weg 2 */}
+                                    <Weg y={241} />
+                                    
+                                    {/* Zone C */}
+                                    <Zone y={266} height={85} label="Zone C: Paprika • Mangold • Stangensellerie" color="#B2DFDB">
+                                        <Plant x={35} y={302} type="paprika" size={18} onClick={handlePlantClick} />
+                                        <Plant x={35} y={335} type="paprika" size={18} onClick={handlePlantClick} />
+                                        <Plant x={72} y={318} type="paprika" size={18} onClick={handlePlantClick} />
+                                        
+                                        <Plant x={72} y={293} type="pfefferoni" size={14} onClick={handlePlantClick} />
+                                        <Plant x={72} y={343} type="pfefferoni" size={14} onClick={handlePlantClick} />
+                                        <Plant x={35} y={285} type="pfefferoni" size={14} onClick={handlePlantClick} />
+                                        
+                                        <Plant x={150} y={295} type="mangold" size={17} onClick={handlePlantClick} />
+                                        <Plant x={150} y={320} type="mangold" size={17} onClick={handlePlantClick} />
+                                        <Plant x={150} y={345} type="mangold" size={17} onClick={handlePlantClick} />
+                                        
+                                        <Plant x={215} y={300} type="stangensellerie" size={15} onClick={handlePlantClick} />
+                                        <Plant x={255} y={300} type="stangensellerie" size={15} onClick={handlePlantClick} />
+                                        <Plant x={215} y={335} type="stangensellerie" size={15} onClick={handlePlantClick} />
+                                        <Plant x={255} y={335} type="stangensellerie" size={15} onClick={handlePlantClick} />
+                                    </Zone>
+                                    
+                                    {/* Zone D: Mischkultur */}
+                                    <Zone y={354} height={75} label="Zone D: Karotten + Lauch (Mischkultur)" color="#FFF3E0">
+                                        {[0, 1, 2].map(row => (
+                                            <React.Fragment key={`k-row-${row}`}>
+                                                {[...Array(10)].map((_, i) => (
+                                                    <Plant 
+                                                        key={`k-${row}-${i}`} 
+                                                        x={20 + i * 27} 
+                                                        y={375 + row * 22} 
+                                                        type="karotte" 
+                                                        size={8}
+                                                        onClick={handlePlantClick}
+                                                    />
+                                                ))}
+                                            </React.Fragment>
+                                        ))}
+                                        {[0, 1].map(row => (
+                                            <React.Fragment key={`l-row-${row}`}>
+                                                {[...Array(7)].map((_, i) => (
+                                                    <Plant 
+                                                        key={`l-${row}-${i}`} 
+                                                        x={30 + i * 38} 
+                                                        y={386 + row * 22} 
+                                                        type="lauch" 
+                                                        size={9}
+                                                        onClick={handlePlantClick}
+                                                    />
+                                                ))}
+                                            </React.Fragment>
+                                        ))}
+                                        <Plant x={15} y={370} type="dill" size={10} onClick={handlePlantClick} />
+                                        <Plant x={285} y={370} type="dill" size={10} onClick={handlePlantClick} />
+                                        <Plant x={15} y={420} type="dill" size={10} onClick={handlePlantClick} />
+                                        <Plant x={285} y={420} type="dill" size={10} onClick={handlePlantClick} />
+                                    </Zone>
+                                    
+                                    {/* Zone E */}
+                                    <Zone y={432} height={75} label="Zone E: Rote Rüben • Kohlrabi" color="#FCE4EC">
+                                        {[...Array(5)].map((_, i) => (
+                                            <React.Fragment key={`rr-${i}`}>
+                                                <Plant x={25 + i * 28} y={458} type="roteruebe" size={13} onClick={handlePlantClick} />
+                                                <Plant x={25 + i * 28} y={488} type="roteruebe" size={13} onClick={handlePlantClick} />
+                                            </React.Fragment>
+                                        ))}
+                                        
+                                        {[...Array(3)].map((_, i) => (
+                                            <React.Fragment key={`kr-${i}`}>
+                                                <Plant x={185 + i * 35} y={458} type="kohlrabi" size={14} onClick={handlePlantClick} />
+                                                <Plant x={185 + i * 35} y={488} type="kohlrabi" size={14} onClick={handlePlantClick} />
+                                            </React.Fragment>
+                                        ))}
+                                        
+                                        <Plant x={80} y={500} type="ringelblume" size={11} onClick={handlePlantClick} />
+                                        <Plant x={165} y={500} type="ringelblume" size={11} onClick={handlePlantClick} />
+                                        <Plant x={155} y={455} type="ringelblume" size={11} onClick={handlePlantClick} />
+                                        <Plant x={155} y={485} type="ringelblume" size={11} onClick={handlePlantClick} />
+                                    </Zone>
+                                    
+                                    {/* Kompass */}
+                                    <g transform="translate(275, 25)">
+                                        <circle cx={0} cy={0} r={12} fill="white" stroke="#546E7A" strokeWidth={1}/>
+                                        <text x={0} y={4} textAnchor="middle" fontSize={10} fontWeight="bold" fill="#37474F">N</text>
+                                    </g>
+                                </svg>
+                                
+                                <div style={{ textAlign: 'center', marginTop: '0.5rem' }}>
+                                    <span style={{ fontSize: '0.875rem', fontWeight: '500', color: '#6b7280' }}>↓ SÜD</span>
+                                </div>
+                            </div>
+                            
+                            {/* Seitenleiste */}
+                            <div style={{ flex: '1 1 280px', maxWidth: '320px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                
+                                {/* Ausgewählte Pflanze */}
+                                {selectedPlant && (
+                                    <div style={{ 
+                                        background: 'white', 
+                                        borderRadius: '0.75rem', 
+                                        boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                                        padding: '1rem',
+                                        borderLeft: `4px solid ${selectedPlant.color}`
+                                    }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                                            <span style={{ fontSize: '2.5rem' }}>{selectedPlant.icon}</span>
+                                            <div>
+                                                <h3 style={{ fontWeight: 'bold', color: '#1f2937', margin: 0 }}>{selectedPlant.name}</h3>
+                                                <span style={{ 
+                                                    fontSize: '0.75rem',
+                                                    padding: '0.125rem 0.5rem',
+                                                    borderRadius: '9999px',
+                                                    backgroundColor: selectedPlant.type === 'H' ? '#dcfce7' : '#fef3c7',
+                                                    color: selectedPlant.type === 'H' ? '#166534' : '#b45309'
+                                                }}>
+                                                    {selectedPlant.type === 'H' ? 'Hauptkultur' : 'Beikraut'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <p style={{ fontSize: '0.875rem', color: '#4b5563', margin: '0.5rem 0 0 0' }}>
+                                            {selectedPlant.info}
+                                        </p>
+                                        <button 
+                                            onClick={() => setSelectedPlant(null)}
+                                            style={{ 
+                                                marginTop: '0.5rem',
+                                                fontSize: '0.75rem', 
+                                                color: '#9ca3af',
+                                                background: 'none',
+                                                border: 'none',
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            ✕ schließen
+                                        </button>
+                                    </div>
+                                )}
+                                
+                                {/* Legende */}
+                                <div style={{ 
+                                    background: 'white', 
+                                    borderRadius: '0.75rem', 
+                                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                                    padding: '1rem'
+                                }}>
+                                    <h3 style={{ fontWeight: 'bold', color: '#374151', marginBottom: '0.75rem', fontSize: '0.9rem' }}>
+                                        📋 Legende (klickbar)
+                                    </h3>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.25rem' }}>
+                                        {Object.entries(plantData).map(([key, plant]) => (
+                                            <div 
+                                                key={key} 
+                                                onClick={() => setSelectedPlant(plant)}
+                                                style={{ 
+                                                    display: 'flex', 
+                                                    alignItems: 'center', 
+                                                    gap: '0.375rem',
+                                                    padding: '0.25rem',
+                                                    borderRadius: '0.25rem',
+                                                    cursor: 'pointer',
+                                                    transition: 'background 0.2s'
+                                                }}
+                                                onMouseOver={(e) => e.currentTarget.style.background = '#f3f4f6'}
+                                                onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+                                            >
+                                                <span style={{ 
+                                                    width: '1.5rem', 
+                                                    height: '1.5rem', 
+                                                    borderRadius: '50%',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    fontSize: '0.75rem',
+                                                    backgroundColor: plant.color
+                                                }}>
+                                                    {plant.icon}
+                                                </span>
+                                                <span style={{ fontSize: '0.7rem', color: '#4b5563' }}>{plant.name}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                
+                                {/* Zonen */}
+                                <div style={{ 
+                                    background: 'white', 
+                                    borderRadius: '0.75rem', 
+                                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                                    padding: '1rem'
+                                }}>
+                                    <h3 style={{ fontWeight: 'bold', color: '#374151', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+                                        📏 Zonen (Nord → Süd)
+                                    </h3>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                                        {[
+                                            { color: '#DCEDC8', label: 'Zone A: Feuerbohnen (100 cm)' },
+                                            { color: '#C8E6C9', label: 'Zone B: Kohl, Gurken, Sellerie (80 cm)' },
+                                            { color: '#B2DFDB', label: 'Zone C: Paprika, Mangold (100 cm)' },
+                                            { color: '#FFF3E0', label: 'Zone D: Karotten + Lauch (80 cm)' },
+                                            { color: '#FCE4EC', label: 'Zone E: Rüben, Kohlrabi (80 cm)' },
+                                            { color: '#D7CCC8', label: 'Pflegepfade: je 30 cm' }
+                                        ].map((zone, i) => (
+                                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                <div style={{ 
+                                                    width: '1rem', 
+                                                    height: '1rem', 
+                                                    borderRadius: '0.25rem',
+                                                    backgroundColor: zone.color,
+                                                    border: '1px solid #e5e7eb'
+                                                }}></div>
+                                                <span style={{ fontSize: '0.75rem', color: '#4b5563' }}>{zone.label}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                
+                                {/* Tipp */}
+                                <div style={{ 
+                                    background: 'linear-gradient(to bottom right, #ecfdf5, #d1fae5)',
+                                    borderRadius: '0.75rem',
+                                    padding: '1rem',
+                                    border: '1px solid #a7f3d0'
+                                }}>
+                                    <h3 style={{ fontWeight: 'bold', color: '#065f46', marginBottom: '0.25rem', fontSize: '0.9rem' }}>
+                                        💡 Permakultur-Tipp
+                                    </h3>
+                                    <p style={{ fontSize: '0.8rem', color: '#047857', margin: 0 }}>
+                                        Die Mischkultur Karotte + Lauch schützt sich gegenseitig vor Möhrenfliege und Lauchmotte. 
+                                        Der Dill an den Reihenenden lockt Schwebfliegen an, die Blattläuse fressen.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {/* Footer */}
+                        <div style={{ marginTop: '1.5rem', textAlign: 'center', color: '#6b7280', fontSize: '0.8rem' }}>
+                            <p style={{ margin: '0 0 0.25rem 0' }}>🌿 Heubeet-System mit Terra Preta, Effektiven Mikroorganismen & Schafwolle</p>
+                            <p style={{ margin: 0, fontSize: '0.7rem' }}>Regenerative Fruchtfolge: 1 Jahr aktiv, 1 Jahr Ruhe • Klicke auf Pflanzen für Details</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<BeetPlan />);
+    </script>
+</body>
+</html>
