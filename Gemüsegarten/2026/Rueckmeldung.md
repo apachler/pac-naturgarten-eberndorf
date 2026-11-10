@@ -4,17 +4,19 @@ Auswertung der Saison als Grundlage für die Planung des Folgejahres. Stichworte
 
 ## Zwischenstand 10.11.2026
 
-- **Noch im Beet:** Winterlauch, Kohlsprossen, Rote Rüben, Chinakohl, Endiviensalat, Mangold, Knoblauch und Zwiebeln (Ende Oktober gesteckt)
+- **Noch im Beet:** Winterlauch, Kohlsprossen, Rote Rüben, Chinakohl, Endiviensalat, Mangold, Bohnenkraut, Knoblauch 'Therador' und Wintersteckzwiebeln 'Shakespeare' (beide Ende Oktober gesteckt, Saatgut von Reinsaat)
 - **Abgeerntet:** Paprika, Pfefferoni, Gurken, Stangensellerie, Knollensellerie, Karotten, Feuerbohnen, Sommerlauch, Kohlrabi, Radieschen
-- **Nicht gepflanzt:** Flower Sprouts, Mairübchen, Wirsing, Pak Choi
+- **Nicht gepflanzt:** Flower Sprouts, Mairübchen, Wirsing, Pak Choi, Beinwell
 - **Radieschen und Vogerlsalat:** immer wieder angesät, nur die Radieschen haben recht gut funktioniert.
 - **Paprika und Pfefferoni:** Ab etwa Anfang November war es zu kühl, die Pflanzen sind am Eingehen.
-- **Noch offen:** Mengen, Erntequalität sowie Krankheiten und Schädlinge je Kultur; Wintersteckzwiebeln (sind das die Ende Oktober gesteckten Zwiebeln?) und Beikräuter
+- **Karotten:** nach Gefühl gesät, viel Ernte, aber zu eng. Künftig nur noch mit Saatband.
+- **Beikräuter:** Bohnenkraut geht einigermaßen; Ringelblume wuchert und sät sich selbst aus; Dill ist schnell in die Blüte gegangen, nur kleine Ernte.
+- **Noch offen:** Erntequalität sowie Krankheiten und Schädlinge der übrigen Kulturen
 
 ## Allgemein
 
 - **Aktives Beet:** West
-- **Wetter der Saison** (Spätfrost, Hitze, Trockenheit, Starkregen, Hagel …):
+- **Wetter der Saison, eigene Beobachtung:** Juni bis August sehr trocken, ab Juli zusätzlich sehr heiß. Recherchierte Daten: [Wetter.md](Wetter.md)
 - **Bewässerung** (reichte das Wasser, Gießaufwand):
 - **Boden und Mulch** (Zustand des Heubeets, Schnecken unter dem Mulch …):
 - **Gesamteindruck:**
@@ -34,7 +36,7 @@ Geplant laut Plan des Jahres. Tatsächlich = gesetzt bzw. gesät. Ernte: ++ / + 
 | Mangold | | 3 | | | | |
 | Stangensellerie | | 4 | | | | |
 | Sommerlauch | | 20 | | | | |
-| Karotte | | 30 | | | | |
+| Karotte |  | 30 | nach Gefühl gesät | ++ | viel Ernte, aber zu eng gesät | nur noch mit Saatband |
 | Rote Rübe | | 10 | | | | |
 | Kohlrabi (Haupt) | | 6 | | | | |
 | Radieschen (V) |  | 30 | mehrfach gesät | + | hat recht gut funktioniert |  |
@@ -45,13 +47,14 @@ Geplant laut Plan des Jahres. Tatsächlich = gesetzt bzw. gesät. Ernte: ++ / + 
 | Endiviensalat (N) | | 8 | | | | |
 | Winterlauch (N) | | 20 | | | | |
 | Wirsing (N) |  | 6 | 0 |  | nicht gepflanzt |  |
-| Wintersteckzwiebeln (N) | | 10 | | | | |
+| Wintersteckzwiebeln (N) | 'Shakespeare' (Reinsaat, Zw58), 500 g | 10 | Ende Oktober 2026 gesteckt |  |  |  |
 | Vogerlsalat (N) |  | 50 | mehrfach gesät |  | hat im Gegensatz zu den Radieschen nicht gut funktioniert |  |
 | Pak Choi (N) |  | 6 | 0 |  | nicht gepflanzt |  |
-| Ringelblume (B) | | 4 | | | | |
-| Bohnenkraut (B) | | 4 | | | | |
-| Beinwell (B) | | 4 | | | | |
-| Dill (B) | | 4 | | | | |
+| Ringelblume (B) |  | 4 | ausgesät |  | wuchert stark, Selbstaussaat beobachtet |  |
+| Bohnenkraut (B) |  | 4 | gesetzt | o | geht einigermaßen, steht noch im Beet |  |
+| Beinwell (B) |  | 4 | 0 |  | nicht gepflanzt |  |
+| Knoblauch (zusätzlich) | 'Therador' (Reinsaat, Kn6), 250 g | – | Ende Oktober 2026 gesteckt | | Ernte 2027 | |
+| Dill (B) |  | 4 | gepflanzt | – | sehr schnell in Blüte, nur kleine Ernte |  |
 
 ## Platz und Anordnung
 

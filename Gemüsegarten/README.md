@@ -22,4 +22,5 @@ Jahresplanung für die zwei Heubeete (je 3 × 5 m), von denen jedes Jahr eines b
 2. `Vorlagen/Jahres-README.md` → `<Jahr>/README.md`
 3. `Vorlagen/Planungsauftrag.md` → `<Jahr>/Planungsauftrag.md`
 4. `Vorlagen/Rueckmeldung.md` → `<Jahr>/Rueckmeldung.md` (wird erst nach der Saison ausgefüllt)
-5. Tabelle oben ergänzen
+5. Bei der Rückmeldung: `Vorlagen/Wetter.md` → `<Jahr>/Wetter.md`, Wetter des Jahres recherchieren
+6. Tabelle oben ergänzen

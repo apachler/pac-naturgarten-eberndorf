@@ -14,6 +14,10 @@ Bestätigte, jahresübergreifende Erkenntnisse. Jeder Eintrag mit Quelle (Jahr o
 - Flower Sprouts im Beet Ost (südliches Viertel) sind 2025 geschossen und haben geblüht, statt Röschen zu bilden. Die Ursache ist noch offen. Zu prüfen sind Pflanztermin, Sorte, Hitze- bzw. Trockenstress und der Stickstoff im frischen Heubeet. *(2025)*
 - Ausgetriebene Speisezwiebeln bilden keine neuen Lagerzwiebeln mehr. *(Gartenpraxis)*
 
+## Wetter
+
+- 2026 war der heißeste Sommer der Messgeschichte und folgte auf einen extrem trockenen Frühling. Hitzewellen sind schon ab Mitte Juni möglich, Trockenheit kann von Frühling bis Herbst anhalten. Details in den `Wetter.md` der einzelnen Jahre. *(2026)*
+
 ## Planung
 
 - Die Wunschliste 2026 war für die 12 m² Netto-Pflanzfläche um ca. 1,3 m² zu groß. Platzbedarf deshalb immer vorab rechnen und Gurken vertikal ziehen. *(Planung 2026 – in der Praxis zu bestätigen)*
@@ -22,4 +26,9 @@ Bestätigte, jahresübergreifende Erkenntnisse. Jeder Eintrag mit Quelle (Jahr o
 
 ## Aus der Rückmeldung 2026
 
-*Wird nach der Rückmeldung im Winter 2026/27 ergänzt.*
+- **Karotten nur noch mit Saatband säen.** Nach Gefühl gesät gab es viel Ernte, aber die Pflanzen standen zu eng. *(2026)*
+- **Ringelblume** wuchert stark und sät sich selbst aus. Einmal säen reicht, danach eher auslichten als nachsäen. *(2026)*
+- **Dill** ging im heißen, trockenen Sommer sehr schnell in die Blüte, die Ernte war klein. Folgesaaten in kleinen Mengen oder ein Halbschattenplatz sind zu prüfen. *(2026, Hitzesommer)*
+- **Vogerlsalat** ist trotz mehrfacher Saat nicht gut gekommen, Radieschen dagegen schon. *(2026 – Ursache offen)*
+- **Vor- und Nachkulturen:** 5 von 15 geplanten Vor-, Nach- und Beikulturen wurden nicht gepflanzt. Die Liste lieber kleiner halten. *(2026)*
+- **Paprika und Pfefferoni** gehen bei uns ab Anfang November wegen der Kälte ein. *(2026)*

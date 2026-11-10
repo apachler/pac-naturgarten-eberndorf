@@ -48,7 +48,7 @@ Für die Fruchtfolge innerhalb eines Beetes: Was stand wo?
 
 ### Beet West
 - **2026:** Mischkultur laut [Planung 2026](../2026/Mischkultur-Beetplanung.md).
-- **Herbst 2026 bis Sommer 2027:** Knoblauch und Zwiebeln, gesteckt Ende Oktober 2026.
+- **Herbst 2026 bis Sommer 2027:** Knoblauch 'Therador' (250 g) und Wintersteckzwiebel 'Shakespeare' (500 g), beide von Reinsaat, gesteckt Ende Oktober 2026.
 
 ## Offene Fragen
 

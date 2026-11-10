@@ -11,6 +11,7 @@
 | [Beetplan.html](Beetplan.html) | Interaktiver Beetplan (im Browser öffnen) |
 | [Notizen.md](Notizen.md) | Beobachtungen während der Saison (optional) |
 | [Rueckmeldung.md](Rueckmeldung.md) | Auswertung nach der Saison |
+| [Wetter.md](Wetter.md) | Recherchierter Wetterrückblick des Jahres |
 
 ## Wichtigste Entscheidungen
 

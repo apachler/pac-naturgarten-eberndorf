@@ -10,7 +10,8 @@ Standort, Boden und Fruchtfolge: siehe [Grundlagen](../Grundlagen/Standort-und-B
 
 | Datei | Inhalt |
 |-------|--------|
-| [Rueckmeldung.md](Rueckmeldung.md) | Auswertung der Saison 2026, geplante Mengen sind schon eingetragen |
+| [Rueckmeldung.md](Rueckmeldung.md) | Auswertung der Saison 2026 |
+| [Wetter.md](Wetter.md) | Wetterrückblick 2026 für Eberndorf und Kärnten (recherchiert) |
 | [Planungsauftrag.md](Planungsauftrag.md) | Ausgangs-Prompt mit Standort, Beet-Rahmenbedingungen, Pflichtaufgaben und der vollständigen Pflanzenliste |
 | [Mischkultur-Beetplanung.md](Mischkultur-Beetplanung.md) | Das Planungsdokument als Markdown (aus der Word-Datei konvertiert) |
 | [Mischkultur-Beetplanung.docx](Mischkultur-Beetplanung.docx) | Originales Planungsdokument (Word, ca. 12 Seiten) |
@@ -73,3 +74,4 @@ Beim Ablegen fiel auf, dass einige Anforderungen aus dem Planungsauftrag noch ni
 
 - 2026-11-10: Planungsunterlagen ins Repo übernommen. Allgemeine Informationen nach `Grundlagen/` verschoben, Vorlagen für die Folgejahre angelegt, Rückmeldung 2026 vorbereitet.
 - 2026-11-10: Beete benannt (West = Anbau 2026, Ost = Ruhe 2026). Knoblauch und Zwiebeln Ende Oktober im Beet West gesteckt. Erfahrung mit den Flower Sprouts 2025 im Beet Ost festgehalten.
+- 2026-11-10: Rückmeldung zu Karotten, Beikräutern und Sorten (Knoblauch 'Therador', Wintersteckzwiebel 'Shakespeare') ergänzt. Wetterrückblick 2026 recherchiert. Regel eingeführt: Zu jeder Rückmeldung gehört ein `Wetter.md`.

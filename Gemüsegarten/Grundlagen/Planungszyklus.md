@@ -7,6 +7,7 @@ So läuft ein Gartenjahr im Repo ab, hier am Beispiel 2026 → 2027.
 - `Vorlagen/Rueckmeldung.md` liegt bereits als `2026/Rueckmeldung.md` im Jahresordner und wird ausgefüllt.
 - Inhalte: tatsächlich gepflanzte Mengen, Ernte gut/schlecht, Platzprobleme, Krankheiten und Schädlinge, Wetter, Arbeitsaufwand, was gefehlt hat oder zu viel war.
 - Stichworte reichen – Claude strukturiert sie in die Vorlage.
+- **Regel:** Zu jeder Rückmeldung recherchiert Claude das Wetter des Jahres für Eberndorf bzw. Kärnten und legt eine Zusammenfassung als `<Jahr>/Wetter.md` ab (Vorlage `Vorlagen/Wetter.md`). Darin werden die Daten mit unseren Beobachtungen abgeglichen und Folgerungen für die Planung des nächsten Jahres gezogen.
 
 ## 2. Erkenntnisse sichern
 
