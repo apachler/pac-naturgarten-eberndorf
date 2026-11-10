@@ -17,7 +17,7 @@ Regeln je Bereich (`.claude/rules/`, werden beim Arbeiten an passenden Dateien g
 `gemuesegarten-daten.md` (alles unter `Gemüsegarten/`) und `beetplaner.md` (Viewer, Tests, Design).
 
 Hooks (`.claude/settings.json`):
-- **SessionStart** setzt die Git-Identität (`tools/set-git-identity.sh`).
+- **SessionStart** (`tools/session-start.sh`) setzt die Git-Identität und führt `npm ci` aus, falls `node_modules` fehlt.
 - **PostToolUse** nach jeder Änderung an einer YAML-Datei unter `Gemüsegarten/`: erzeugt `Kulturwissen.md` neu (bei
   `kulturen`/`familien`/`standort.yaml`) und führt die Prüfung aus; Fehler kommen sofort zurück
   (`.claude/hooks/nach-datenaenderung.mjs`). Voraussetzung: `npm ci` wurde einmal ausgeführt.

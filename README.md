@@ -24,16 +24,35 @@ Gemüsegarten/
 ├── Vorlagen/              Kopiervorlagen für jedes neue Jahr
 │   ├── Rueckmeldung.md
 │   ├── Planungsauftrag.md
+│   ├── Wetter.md
+│   ├── plan.yaml
 │   └── Jahres-README.md
 └── <Jahr>/                Ein Ordner pro Gartenjahr (z. B. 2026), mit plan.yaml
 beetplaner/                Webansicht (GitHub Pages) und Prüf-Script
 index.html                 Startseite des Beetplaners
+tests/                     Unit- und Browser-Tests (npm test, npm run test:e2e)
+AGENTS.md, CLAUDE.md       Arbeitsweise für KI-Assistenten
+.claude/                   Skills, Regeln und Hooks für Claude Code
 ```
 
 ## Beetplaner
 
 Die Beetpläne lassen sich am Handy und am PC ansehen: **https://apachler.github.io/pac-naturgarten-eberndorf/**
 Der Beetplaner bietet Draufsicht mit Zeitregler, Kalender, Stückzahlen, Ist-Stand und eine automatische Prüfung. Details stehen in [beetplaner/README.md](beetplaner/README.md).
+
+## Mit Claude Code weiterarbeiten
+
+Einfach eine Session in diesem Repo starten – die Regeln stehen in [AGENTS.md](AGENTS.md), beim Start werden die
+Git-Identität gesetzt und die Abhängigkeiten installiert. Für die wiederkehrenden Abläufe gibt es Befehle:
+
+| Befehl | Wann |
+|---|---|
+| `/rueckmeldung` | Herbst/Winter: wie war das Gartenjahr? (inkl. Wetterrückblick) |
+| `/jahresplanung` | Winter: das nächste Jahr planen |
+| `/saison-notiz` | zwischendurch: „heute Kohlrabi geerntet“, „Raupen am Kohl“ |
+| `/kultur-neu` | eine neue Gemüseart oder Sorte aufnehmen |
+
+Nach jeder Datenänderung prüft ein Hook automatisch den Plan und erzeugt das Kulturwissen neu.
 
 ## Der Jahreszyklus in Kürze
 
