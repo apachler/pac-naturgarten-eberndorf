@@ -150,7 +150,7 @@ test('Ist-Lage: tatsächliche Positionen 2026 und Fruchtfolge danach', () => {
   const bohne = finde('feuerbohne');
   assert.ok(hatIstLage(bohne));
   assert.deepEqual(positionen(ort(bohne, true)).map((q) => q.y), [490, 490, 490, 490, 490]);
-  assert.equal(positionen(ort(bohne, true))[0].n, 4, 'je übernommen');
+  assert.equal(positionen(ort(bohne, true))[0].n, 5, 'je aus dem Ist-Stand');
   assert.deepEqual(positionen(ort(bohne, false)).map((q) => q.y), [450, 450, 450, 450, 450], 'Plan bleibt');
   assert.deepEqual(ort(finde('winterlauch'), true).bereich, { x: 0, y: 0, b: 150, t: 80 });
   assert.deepEqual(ort(finde('kohlrabi_frueh'), true).bereich, { x: 200, y: 0, b: 100, t: 80 });
@@ -217,7 +217,8 @@ test('Tatsächliche Einteilung 2026: Zone A schmaler, B und C breiter, Ist-Lage 
   const teile = [...zonen, ...wege].sort((a, b) => a.y - b.y);
   teile.forEach((t, i) => assert.equal(t.y, i ? teile[i - 1].y + teile[i - 1].t : 0, `Lücke vor ${t.name || t.id}`));
   assert.equal(teile.at(-1).y + teile.at(-1).t, flaechen.west.laenge);
-  // Jede Pflanze aus B und C steht in ihrer Zone, nicht auf einem Weg, mit genug Abstand zu allen anderen
+  // Jede Pflanze aus B und C steht in ihrer Zone, nicht auf einem Weg, mit genug Abstand zu den anderen Kulturen
+  // (innerhalb einer Kultur darf es so eng sein, wie es tatsächlich war – das meldet die Prüfung als Hinweis)
   const ids = { B: ['kohlsprossen', 'gurke', 'knollensellerie'], C: ['paprika', 'pfefferoni', 'mangold', 'stangensellerie'] };
   const alle = [];
   for (const [z, liste] of Object.entries(ids)) {
@@ -231,9 +232,18 @@ test('Tatsächliche Einteilung 2026: Zone A schmaler, B und C breiter, Ist-Lage 
   }
   for (let i = 0; i < alle.length; i++) for (let j = i + 1; j < alle.length; j++) {
     const a = alle[i], b = alle[j];
+    if (a.id === b.id) continue;
     const d = Math.hypot(a.x - b.x, a.y - b.y);
     assert.ok(d >= (a.a + b.a) / 2 - 0.5, `${a.id} (${a.x}|${a.y}) – ${b.id} (${b.x}|${b.y}): ${d.toFixed(0)} cm`);
   }
   const m = pruefen({ plan: plan2026, kulturen, flaechen, familien, vorjahre: plaene });
   assert.ok(!m.some((x) => /tatsächlich auf dem/.test(x.text)), 'keine Ist-Pflanze auf einem Weg');
+  assert.ok(m.some((x) => x.thema === 'Abstand' && x.ids.includes('kohlsprossen') && /tatsächlich enger/.test(x.text)), '8 Kohlsprossen standen zu eng');
+  // Anzahlen aus der Rückmeldung
+  const anzahl = Object.fromEntries(plan2026.pflanzungen.map((p) => [p.id, p.ist?.anzahl]));
+  assert.equal(anzahl.feuerbohne, 25);
+  assert.equal(positionen(ort(finde('feuerbohne'), true)).reduce((s, q) => s + q.n, 0), 25, '5 Stangen à 5');
+  for (const id of ['kohlsprossen', 'gurke', 'knollensellerie', 'paprika', 'pfefferoni', 'mangold', 'stangensellerie']) {
+    assert.equal(positionen(ort(finde(id), true)).length, anzahl[id], `${id}: Ist-Positionen = Anzahl`);
+  }
 });

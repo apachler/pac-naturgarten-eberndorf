@@ -69,8 +69,9 @@ pflanzungen:
     ist:
       status: geerntet
       ernte: "+"
+      anzahl: 25
       punkte: [[30, 490], [90, 490], [150, 490], [210, 490], [270, 490]]
-      je: 4
+      je: 5
       notiz: >-
         5 Stangen ganz am Nordrand des Beetes (Y 490 angenommen) – 5 Stangen nehmen viel Platz, 2027 eventuell 4.
         Im Sommer viele Blüten, aber kaum Schoten (vermutlich Hitze). Hauptansatz erst im
@@ -84,7 +85,7 @@ pflanzungen:
     von: 2026-05-15
     bis: 2026-09-30
     punkte: [[60, 420], [120, 420], [180, 420], [240, 420]]
-    ist: { status: im_beet, ernte: "o", notiz: Geht einigermaßen. }
+    ist: { status: im_beet, anzahl: 4, ernte: "o", notiz: Geht einigermaßen. }
 
   # ---------------- Zone B ----------------
   - id: kohlsprossen
@@ -98,8 +99,9 @@ pflanzungen:
     punkte: [[30, 330], [30, 290], [90, 330], [90, 290]]
     ist:
       status: im_beet
+      anzahl: 8
       ernte: "o"
-      punkte: [[30, 400], [90, 400], [30, 340], [90, 340]]
+      punkte: [[15, 400], [53, 400], [92, 400], [130, 400], [15, 345], [53, 345], [92, 345], [130, 345]]
       notiz: >-
         Lage in der breiteren Zone B (Y 310–420) neu verteilt – Annahme, genaue Positionen nicht notiert.
         Zu viel. Teilweise gut entwickelt, braucht viel Licht. Röschen anfangs locker,
@@ -118,7 +120,7 @@ pflanzungen:
       status: geerntet
       anzahl: 2
       ernte: "++"
-      punkte: [[150, 395], [150, 335]]
+      punkte: [[175, 400], [175, 345]]
       notiz: Lage in der breiteren Zone B (Y 310–420) neu verteilt – Annahme, genaue Positionen nicht notiert. 2 Pflanzen vertikal am Gitter (Nord–Süd). Gutes Wachstum, gute Ernte – passt so.
 
   - id: knollensellerie
@@ -132,8 +134,9 @@ pflanzungen:
     notiz: Im Positionsplan 2026 fehlte die 10. Position.
     ist:
       status: geerntet
+      anzahl: 6
       ernte: "o"
-      punkte: [[210, 405], [245, 405], [280, 405], [210, 370], [245, 370], [280, 370], [210, 335], [245, 335], [280, 335]]
+      punkte: [[215, 395], [250, 395], [285, 395], [215, 350], [250, 350], [285, 350]]
       notiz: Lage in der breiteren Zone B (Y 310–420) neu verteilt – Annahme, genaue Positionen nicht notiert. Zu viel. Gut gewachsen, ein paar Ausfälle, einige Knollen von Wühlmäusen ausgehöhlt.
 
   # ---------------- Zone C ----------------
@@ -147,8 +150,9 @@ pflanzungen:
     punkte: [[30, 240], [30, 190], [80, 215]]
     ist:
       status: geerntet
+      anzahl: 3
       ernte: "+"
-      punkte: [[25, 250], [75, 207], [25, 165]]
+      punkte: [[20, 262], [110, 262], [65, 220]]
       notiz: >-
         Lage in der breiteren Zone C (Y 160–280) neu verteilt – Annahme, genaue Positionen nicht notiert. Im Wechsel mit den Pfefferoni.
         Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Früchte oft angefressen
@@ -164,8 +168,9 @@ pflanzungen:
     punkte: [[80, 250], [80, 180], [30, 165]]
     ist:
       status: geerntet
+      anzahl: 4
       ernte: "++"
-      punkte: [[75, 250], [25, 207], [75, 165]]
+      punkte: [[65, 262], [20, 220], [110, 220], [65, 178]]
       notiz: Lage in der breiteren Zone C (Y 160–280) neu verteilt – Annahme, genaue Positionen nicht notiert. Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Anfang November eingegangen.
 
   - id: mangold
@@ -178,8 +183,9 @@ pflanzungen:
     punkte: [[150, 240], [150, 200], [150, 160]]
     ist:
       status: im_beet
+      anzahl: 4
       ernte: "++"
-      punkte: [[150, 255], [150, 212], [150, 170]]
+      punkte: [[160, 245], [200, 245], [160, 190], [200, 190]]
       notiz: Lage in der breiteren Zone C (Y 160–280) neu verteilt – Annahme, genaue Positionen nicht notiert. Zu viel – sehr gut gewachsen.
 
   - id: stangensellerie
@@ -192,8 +198,9 @@ pflanzungen:
     punkte: [[220, 240], [260, 240], [220, 190], [260, 190]]
     ist:
       status: geerntet
+      anzahl: 6
       ernte: "o"
-      punkte: [[220, 255], [260, 255], [220, 205], [260, 205]]
+      punkte: [[240, 265], [280, 265], [240, 220], [280, 220], [240, 175], [280, 175]]
       notiz: Lage in der breiteren Zone C (Y 160–280) neu verteilt – Annahme, genaue Positionen nicht notiert. Zu viel – gut gewachsen.
 
   # ---------------- Zone D ----------------
@@ -224,7 +231,7 @@ pflanzungen:
       - { y: 135, x1: 20, x2: 280, anzahl: 7 }
       - { y: 95, x1: 20, x2: 280, anzahl: 7 }
     notiz: Im Positionsplan 2026 nur 14 statt 20 Pflanzen.
-    ist: { status: geerntet, ernte: "++", notiz: Einfach – ins Pflanzloch setzen und einschwemmen. }
+    ist: { status: geerntet, anzahl: 20, ernte: "++", notiz: Einfach – ins Pflanzloch setzen und einschwemmen. }
 
   - id: dill
     kultur: dill
@@ -235,7 +242,7 @@ pflanzungen:
     bis: 2026-08-31
     punkte: [[10, 135], [10, 95], [290, 135], [290, 95]]
     notiz: 'Laut Positionsplan „X = 10 und 290, je 2 Pflanzen an Reihenenden“ – Y an den Lauchreihen angenommen.'
-    ist: { status: geerntet, ernte: "-", notiz: Sehr schnell in die Blüte – nur kleine Ernte. }
+    ist: { status: geerntet, anzahl: 4, ernte: "-", notiz: Sehr schnell in die Blüte – nur kleine Ernte. }
 
   # ---------------- Zone E ----------------
   - id: rote_ruebe
@@ -250,8 +257,9 @@ pflanzungen:
       - { y: 40, x1: 20, x2: 140, anzahl: 5 }
     ist:
       status: im_beet
+      anzahl: 12
       ernte: "++"
-      notiz: Einfach, gute Ernte. Jungpflanzen wirkten geschwächt, entwickelten sich aber gut.
+      notiz: Zweimal Jungpflanzen gesetzt, je etwa 6. Einfach, gute Ernte. Jungpflanzen wirkten geschwächt, entwickelten sich aber gut.
 
   - id: kohlrabi
     kultur: kohlrabi
@@ -263,7 +271,7 @@ pflanzungen:
     reihen:
       - { y: 70, x1: 170, x2: 270, anzahl: 3 }
       - { y: 40, x1: 170, x2: 270, anzahl: 3 }
-    ist: { status: geerntet }
+    ist: { status: geerntet, anzahl: 6 }
 
   - id: ringelblume
     kultur: ringelblume
@@ -323,6 +331,7 @@ pflanzungen:
     notiz: Vor Paprika und Pfefferoni (Zone C West).
     ist:
       status: geerntet
+      anzahl: 6
       bereich: { x: 200, y: 0, b: 100, t: 80 }
       notiz: Tatsächlich in Zone E, X 200–300 – dort, wo auch die Kohlrabi-Hauptkultur stand.
 
@@ -349,6 +358,7 @@ pflanzungen:
     notiz: Nach Karotten und Lauch (Zone D).
     ist:
       status: im_beet
+      anzahl: 6
       bereich: { x: 150, y: 0, b: 150, t: 80 }
       notiz: Tatsächlich in Zone E, X 150–300, gemeinsam mit dem Endiviensalat.
 
@@ -363,6 +373,7 @@ pflanzungen:
     notiz: Nach dem Stangensellerie (Zone C Ost).
     ist:
       status: im_beet
+      anzahl: 6
       bereich: { x: 150, y: 0, b: 150, t: 80 }
       notiz: Tatsächlich in Zone E, X 150–300, gemeinsam mit dem Chinakohl.
 
@@ -377,6 +388,7 @@ pflanzungen:
     notiz: Nach den Bohnen (Zone A).
     ist:
       status: im_beet
+      anzahl: 20
       ernte: "++"
       bereich: { x: 0, y: 0, b: 150, t: 80 }
       notiz: Tatsächlich in Zone E, X 0–150. Einfach – ins Pflanzloch setzen und einschwemmen.
@@ -426,6 +438,7 @@ pflanzungen:
     notiz: Geplant "verteilt", Grün ernten. Genaue Lage noch nicht erfasst.
     ist:
       status: im_beet
+      anzahl: 40
       bereich: { x: 150, y: 210, b: 150, t: 160 }
       notiz: Ende Oktober 2026 gesteckt, Zone B–C, X 150–300 (Grenze zum Knoblauch in Zone C bei Y 210 angenommen).
 
@@ -440,6 +453,7 @@ pflanzungen:
     notiz: Nicht im ursprünglichen Plan.
     ist:
       status: im_beet
+      anzahl: 20
       bereich: { x: 150, y: 80, b: 150, t: 130 }
       notiz: Ende Oktober 2026 gesteckt, Zone C–D, X 150–300 (Grenze zu den Zwiebeln bei Y 210 angenommen).
 

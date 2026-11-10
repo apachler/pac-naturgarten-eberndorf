@@ -243,6 +243,10 @@ export function pruefen({ plan, kulturen, flaechen, familien = null, vorjahre = 
       const n = istPos.filter((q) => q.y > w.y && q.y < w.y + w.t).length;
       if (n) melde('hinweis', 'Wege', `${name(p)}: ${n} Pflanze(n) standen tatsächlich auf dem ${w.name}.`, [p.id]);
     }
+    const soll = kulturen[p.kultur].abstand || 0;
+    let eng = Infinity;
+    for (let i = 0; i < istPos.length; i++) for (let j = i + 1; j < istPos.length; j++) eng = Math.min(eng, Math.hypot(istPos[i].x - istPos[j].x, istPos[i].y - istPos[j].y));
+    if (soll && eng < soll * 0.9) melde('hinweis', 'Abstand', `${name(p)}: standen tatsächlich enger als empfohlen (ca. ${Math.round(eng)} statt ${soll} cm).`, [p.id]);
   }
 
   // 4. Abstände und Nachbarn (Einzelpositionen, gleiche Fläche, Zeit überlappend)
