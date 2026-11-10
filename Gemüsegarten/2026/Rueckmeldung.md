@@ -4,11 +4,12 @@ Auswertung der Saison als Grundlage für die Planung des Folgejahres. Stichworte
 
 ## Zwischenstand 10.11.2026
 
-- **Noch im Beet:** Winterlauch, Kohlsprossen, Rote Rüben, Chinakohl, Endiviensalat, Knoblauch und Zwiebeln (Ende Oktober gesteckt)
-- **Abgeerntet:** Paprika, Pfefferoni, Gurken, Stangensellerie, Knollensellerie, Karotten, Feuerbohnen, Radieschen
-- **Nicht gepflanzt:** Flower Sprouts
+- **Noch im Beet:** Winterlauch, Kohlsprossen, Rote Rüben, Chinakohl, Endiviensalat, Mangold, Knoblauch und Zwiebeln (Ende Oktober gesteckt)
+- **Abgeerntet:** Paprika, Pfefferoni, Gurken, Stangensellerie, Knollensellerie, Karotten, Feuerbohnen, Sommerlauch, Kohlrabi, Radieschen
+- **Nicht gepflanzt:** Flower Sprouts, Mairübchen, Wirsing, Pak Choi
+- **Radieschen und Vogerlsalat:** immer wieder angesät, nur die Radieschen haben recht gut funktioniert.
 - **Paprika und Pfefferoni:** Ab etwa Anfang November war es zu kühl, die Pflanzen sind am Eingehen.
-- **Noch offen:** Mengen, Erntequalität sowie Krankheiten und Schädlinge je Kultur; Mangold, Sommerlauch, Kohlrabi, Mairübchen, Wirsing, Pak Choi, Vogerlsalat, Wintersteckzwiebeln und Beikräuter
+- **Noch offen:** Mengen, Erntequalität sowie Krankheiten und Schädlinge je Kultur; Wintersteckzwiebeln (sind das die Ende Oktober gesteckten Zwiebeln?) und Beikräuter
 
 ## Allgemein
 
@@ -36,17 +37,17 @@ Geplant laut Plan des Jahres. Tatsächlich = gesetzt bzw. gesät. Ernte: ++ / + 
 | Karotte | | 30 | | | | |
 | Rote Rübe | | 10 | | | | |
 | Kohlrabi (Haupt) | | 6 | | | | |
-| Radieschen (V) | | 30 | | | | |
-| Mairübchen (V) | | 10 | | | | |
+| Radieschen (V) |  | 30 | mehrfach gesät | + | hat recht gut funktioniert |  |
+| Mairübchen (V) |  | 10 | 0 |  | nicht gepflanzt |  |
 | Kohlrabi früh (V) | | 6 | | | | |
 | Flower Sprouts (N) |  | 8 | 0 |  | nicht gepflanzt |  |
 | Chinakohl (N) | | 8 | | | | |
 | Endiviensalat (N) | | 8 | | | | |
 | Winterlauch (N) | | 20 | | | | |
-| Wirsing (N) | | 6 | | | | |
+| Wirsing (N) |  | 6 | 0 |  | nicht gepflanzt |  |
 | Wintersteckzwiebeln (N) | | 10 | | | | |
-| Vogerlsalat (N) | | 50 | | | | |
-| Pak Choi (N) | | 6 | | | | |
+| Vogerlsalat (N) |  | 50 | mehrfach gesät |  | hat im Gegensatz zu den Radieschen nicht gut funktioniert |  |
+| Pak Choi (N) |  | 6 | 0 |  | nicht gepflanzt |  |
 | Ringelblume (B) | | 4 | | | | |
 | Bohnenkraut (B) | | 4 | | | | |
 | Beinwell (B) | | 4 | | | | |
