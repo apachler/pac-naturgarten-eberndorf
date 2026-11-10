@@ -7,6 +7,8 @@ Direkt auf ein Jahr und eine Fläche springen: `…/#2026/west`, `…/#2027/ost`
 
 Am Handy über „Zum Home-Bildschirm hinzufügen“ wie eine App nutzen.
 
+Veröffentlicht wird bei jedem Push auf `main` vom Workflow `.github/workflows/pages.yml` (Pages-Quelle: „GitHub Actions“). Er stellt `index.html`, `beetplaner/` und `Gemüsegarten/` zusammen.
+
 ## Funktionen
 
 - **Plan:** Draufsicht mit Norden oben, Raster alle 50 cm. Mit dem **Zeitregler** siehst du, was an einem Tag im Beet steht. Pflanze antippen zeigt Details, Ist-Stand, Prüfmeldungen und Kulturwissen.
