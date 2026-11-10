@@ -91,3 +91,4 @@ Beim Ablegen fiel auf, dass einige Anforderungen aus dem Planungsauftrag noch ni
 - 2026-11-10: Lage in Zone B und C nach Andreas' Angaben korrigiert (Paprika/Pfefferoni C 0–100, Stangensellerie C 200–300, Knollensellerie B 200–300, Gurke B 150, Kohlsprossen nur in B). Mangold dazwischen in C angenommen.
 - 2026-11-11: Prüfung des Ist-Stands ergänzt (Beetplaner: Prüfung umschaltbar Plan/Ist, `npm run pruefen` zeigt beides). Tatsächliche Termine können als `ist.von`/`ist.bis` erfasst werden.
 - 2026-11-11: Zone E und Erntetermine erfasst (Rote Rüben zwischen dem Winterlauch, Kohlrabi nacheinander, Ringelblumen am Südrand; Knollensellerie und Kohlrabi bis Ende September). Der Beetplaner zeigt im Ist-Stand die tatsächlichen Termine.
+- 2026-11-11: Kohlrabi-Hauptkultur Ende August fertig, Chinakohl und Endivie ab Mitte September, Dill an den Lauchreihen bestätigt. Prüfung des Ist-Stands: nur noch Kohlsprossen und Dill zu eng.

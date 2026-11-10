@@ -249,7 +249,7 @@ pflanzungen:
     von: 2026-04-15
     bis: 2026-08-31
     punkte: [[10, 135], [10, 95], [290, 135], [290, 95]]
-    notiz: 'Laut Positionsplan „X = 10 und 290, je 2 Pflanzen an Reihenenden“ – Y an den Lauchreihen angenommen.'
+    notiz: 'An den Enden der Lauchreihen (Andreas bestätigt), X 10 und 290.'
     ist: { status: geerntet, anzahl: 4, ernte: "-", notiz: Sehr schnell in die Blüte – nur kleine Ernte. }
 
   # ---------------- Zone E ----------------
@@ -284,13 +284,13 @@ pflanzungen:
       status: geerntet
       anzahl: 6
       von: 2026-06-30
-      bis: 2026-09-30
+      bis: 2026-08-31
       reihen:
         - { y: 60, x1: 215, x2: 285, anzahl: 3 }
         - { y: 25, x1: 215, x2: 285, anzahl: 3 }
       notiz: >-
-        Nach den frühen Kohlrabi auf derselben Stelle, Zone E, X 200–300 (Andreas). Ernte verteilt ab Anfang/Mitte August,
-        Ende September alles abgeerntet. Pflanztermin aus dem Ende der Vorkultur angenommen, Reihen innerhalb des Bereichs angenommen.
+        Nach den frühen Kohlrabi auf derselben Stelle, Zone E, X 200–300 (Andreas). Ernte ab Anfang/Mitte August,
+        Ende August fertig. Pflanztermin aus dem Ende der Vorkultur angenommen, Reihen innerhalb des Bereichs angenommen.
 
   - id: ringelblume
     kultur: ringelblume
@@ -380,6 +380,7 @@ pflanzungen:
     notiz: Nach Karotten und Lauch (Zone D).
     ist:
       status: im_beet
+      von: 2026-09-15
       anzahl: 6
       bereich: { x: 150, y: 0, b: 150, t: 80 }
       notiz: Tatsächlich in Zone E, X 150–300, gemeinsam mit dem Endiviensalat.
@@ -395,6 +396,7 @@ pflanzungen:
     notiz: Nach dem Stangensellerie (Zone C Ost).
     ist:
       status: im_beet
+      von: 2026-09-15
       anzahl: 6
       bereich: { x: 150, y: 0, b: 150, t: 80 }
       notiz: Tatsächlich in Zone E, X 150–300, gemeinsam mit dem Chinakohl.

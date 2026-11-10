@@ -79,7 +79,8 @@ Geplant laut Plan des Jahres. Tatsächlich = gesetzt bzw. gesät. Ernte: ++ / + 
 - **Pflegepfade:** tatsächlich zwischen B und C sowie zwischen C und D – der zwischen C und D schmal, nur der Freiraum, der sich aus der Bepflanzung ergab. Zwischen A und B gab es keinen Pfad.
 - **Tatsächliche Lage:** Kohlsprossen längs Nord–Süd in Zone B (X 0–100), Gurke B bei X 150, Knollensellerie B 200–300; Paprika und Pfefferoni C 0–100, Mangold dazwischen, Stangensellerie C 200–300.
 - **Zone E:** Rote Rüben zwischen dem Winterlauch (E 0–150); Kohlrabi früh und danach die Hauptkultur nacheinander auf E 200–300; Chinakohl und Endivie auf E 150–300; Ringelblumen am Südrand ausgesät, haben sich über die Zeit in ganz E verteilt.
-- **Ernte Knollensellerie und Kohlrabi:** verteilt ab Anfang/Mitte August, Ende September alles abgeerntet.
+- **Ernte:** Knollensellerie verteilt ab Anfang/Mitte August, Ende September abgeerntet; Kohlrabi (Hauptkultur) Ende August fertig. Chinakohl und Endivie folgten Mitte September.
+- **Dill** stand an den Enden der Lauchreihen.
 - **Zu eng:** Karotten (nach Gefühl gesät); 8 Kohlsprossen standen dort, wo 4 geplant waren (empfohlen 60 cm Abstand).
 - Welche Nachbarschaften haben sich bewährt bzw. nicht bewährt?
 
