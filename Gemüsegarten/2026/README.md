@@ -1,11 +1,16 @@
 # Gemüsegarten 2026 – Mischkultur-Beetplanung
 
-Planung des aktiven Heubeets (3 × 5 m, Nord–Süd, vollsonnig) im Naturgarten Eberndorf für die Saison 2026. Das zweite, baugleiche Beet hat 2026 sein Ruhejahr und wird mit Heu, Terra Preta und EM gepflegt.
+**Aktives Beet:** Beet 1 · **Ruhebeet:** Beet 2
+
+Standort, Boden und Fruchtfolge: siehe [Grundlagen](../Grundlagen/Standort-und-Beete.md).
+
+**Status:** Saison abgeschlossen. Als Nächstes [Rueckmeldung.md](Rueckmeldung.md) ausfüllen, als Grundlage für die Planung 2027.
 
 ## Dateien in diesem Ordner
 
 | Datei | Inhalt |
 |-------|--------|
+| [Rueckmeldung.md](Rueckmeldung.md) | Auswertung der Saison 2026, geplante Mengen sind schon eingetragen |
 | [Planungsauftrag.md](Planungsauftrag.md) | Ausgangs-Prompt mit Standort, Beet-Rahmenbedingungen, Pflichtaufgaben und der vollständigen Pflanzenliste |
 | [Mischkultur-Beetplanung.md](Mischkultur-Beetplanung.md) | Das Planungsdokument als Markdown (aus der Word-Datei konvertiert) |
 | [Mischkultur-Beetplanung.docx](Mischkultur-Beetplanung.docx) | Originales Planungsdokument (Word, ca. 12 Seiten) |
@@ -17,11 +22,8 @@ Planung des aktiven Heubeets (3 × 5 m, Nord–Süd, vollsonnig) im Naturgarten 
 
 ### Ausgangslage
 
-- **Standort:** Eberndorf, Kärnten – mild, pannonisch beeinflusst
-- **Beet:** 3 × 5 m Permakultur-Heubeet auf ehemaliger Wiese, mittelschwerer Lehmboden, verbessert mit Terra Preta, Effektiven Mikroorganismen und Schafwolle
-- **Bewässerung:** Brunnenwasser über 1000-L-Container, Gießkanne/Schlauch
-- **Keine eigene Anzucht:** nur Direktsaat oder gekaufte Jungpflanzen
 - **Wunschliste:** 12 Hauptkulturen, 11 Vor-/Nachkulturen, 4 Beikräuter (Details im Planungsauftrag)
+- Rahmenbedingungen siehe [Grundlagen](../Grundlagen/Standort-und-Beete.md)
 
 ### Ergebnis der Platzanalyse
 
@@ -66,3 +68,7 @@ Beim Ablegen fiel auf, dass einige Anforderungen aus dem Planungsauftrag noch ni
 - **Knollensellerie:** Im Positionsplan Zone B sind nur 9 der 10 Positionen angegeben.
 - **Permakulturelle Symbol-Skizze** (Punkt 7 des Auftrags) wurde nicht erstellt.
 - **Vor-/Nachkulturen** sind Zonen zugeordnet, haben aber noch keine exakten Einzelpositionen.
+
+## Sessions
+
+- 2026-11-10: Planungsunterlagen ins Repo übernommen. Allgemeine Informationen nach `Grundlagen/` verschoben, Vorlagen für die Folgejahre angelegt, Rückmeldung 2026 vorbereitet.
