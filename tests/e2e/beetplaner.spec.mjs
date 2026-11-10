@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
-import { positionen, pruefen } from '../../beetplaner/modell.js';
+import { positionen, pruefen, ort } from '../../beetplaner/modell.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'Gemüsegarten');
 const lade = (p) => yaml.load(readFileSync(join(root, p), 'utf8'));
@@ -22,11 +22,14 @@ async function oeffne(page, hash = '#2026/west') {
   return fehler;
 }
 
+/** Zeitregler auf die Woche stellen, in der `iso` liegt (der Regler läuft in Wochen ab Montag). */
 async function setzeDatum(page, iso) {
   await page.evaluate((iso) => {
     const r = document.querySelector('#datum');
     const jahr = Number(document.querySelector('#jahr').value);
-    r.value = String(Math.round((Date.parse(`${iso}T00:00:00Z`) - Date.UTC(jahr, 0, 1)) / 864e5));
+    const jan1 = new Date(Date.UTC(jahr, 0, 1));
+    const start = Date.UTC(jahr, 0, 1 - ((jan1.getUTCDay() + 6) % 7));
+    r.value = String(Math.floor((Date.parse(`${iso}T00:00:00Z`) - start) / 864e5 / 7));
     r.dispatchEvent(new Event('input'));
   }, iso);
 }
@@ -107,8 +110,10 @@ test('Norden ist oben, Westen links', async ({ page }) => {
 
 test('Zeitregler zeigt nur, was zum Datum im Beet steht, und die Naturjahreszeit', async ({ page }) => {
   await oeffne(page);
-  await setzeDatum(page, '2026-06-15');
-  await expect(page.locator('#datum-text')).toHaveText('15. Juni 2026');
+  expect(await page.locator('#datum').getAttribute('step')).toBe('1');
+  expect(Number(await page.locator('#datum').getAttribute('max'))).toBeLessThan(70); // Wochen, nicht Tage
+  await setzeDatum(page, '2026-06-17');
+  await expect(page.locator('#datum-text')).toHaveText('15.–21. Juni 2026 · KW 25');
   await expect(page.locator('#saison')).toContainText('Hochsommer');
   await expect(page.locator('#beet g.pflanzung[data-id="paprika"]')).toHaveCount(1);
   await expect(page.locator('#beet g.pflanzung[data-id="radieschen"], #beet g.bereich[data-id="radieschen"]')).toHaveCount(0);
@@ -118,8 +123,11 @@ test('Zeitregler zeigt nur, was zum Datum im Beet steht, und die Naturjahreszeit
   await expect(page.locator('#saison')).toContainText('Vorfrühling');
   await expect(page.locator('#beet g.pflanzung[data-id="paprika"]')).toHaveCount(0);
   await expect(page.locator('#beet g.bereich[data-id="radieschen"]')).toHaveCount(1);
+  await expect(page.locator('#datum-text')).toHaveText('2.–8. März 2026 · KW 10');
+  await setzeDatum(page, '2026-06-30');
+  await expect(page.locator('#datum-text')).toHaveText('29. Juni – 5. Juli 2026 · KW 27');
   await page.locator('#heute').click();
-  await expect(page.locator('#datum-text')).not.toHaveText('5. März 2026');
+  await expect(page.locator('#datum-text')).not.toHaveText('29. Juni – 5. Juli 2026 · KW 27');
 });
 
 test('Detailblatt öffnet sich und schließt per Knopf, Escape und Hintergrund', async ({ page }) => {
@@ -183,6 +191,45 @@ test('Ist-Stand, Vorjahr und Flächenwahl', async ({ page }) => {
   await expect(page.locator('#beet .vorjahr')).toContainText('2025: Flower Sprouts');
   await page.getByRole('tab', { name: 'Tomatenhaus' }).click();
   await expect(page.locator('h1')).toHaveText('Tomatenhaus');
+});
+
+test('Ist-Stand zeigt die tatsächliche Lage 2026', async ({ page }) => {
+  await oeffne(page);
+  const plan = plaene.find((p) => p.jahr === 2026);
+  await page.locator('#opt-alle').check();
+  await expect(page.locator('#verteilt .hinweis-ist')).toBeVisible();
+  await page.locator('#verteilt .link-knopf').click();
+  await expect(page.locator('#opt-ist')).toBeChecked();
+  const g = await geometrie(page);
+  for (const p of plan.pflanzungen.filter((q) => q.flaeche === 'west' && q.ist && (q.ist.punkte || q.ist.bereich))) {
+    const o = ort(p, true);
+    if (o.bereich) {
+      const r = g.bereiche.find((b) => b.id === p.id);
+      expect(r, `${p.id}: Ist-Bereich`).toBeTruthy();
+      expect([Math.round(r.x - 2), Math.round(r.y - 2), Math.round(r.b + 4), Math.round(r.t + 4)], p.id).toEqual([o.bereich.x, o.bereich.y, o.bereich.b, o.bereich.t]);
+    } else {
+      const key = (a) => `${Math.round(a.x)}|${Math.round(a.y)}`;
+      expect(g.kreise.filter((k) => k.id === p.id).map(key).sort(), p.id).toEqual(positionen(o).map(key).sort());
+    }
+  }
+  // Feuerbohnen standen am Nordrand (Y 490), geplant waren Y 450
+  expect(g.kreise.filter((k) => k.id === 'feuerbohne').every((k) => Math.round(k.y) === 490)).toBe(true);
+  await page.locator('#beet text.bereich-text[data-id="winterlauch"]').click();
+  await expect(page.locator('#blatt-inhalt')).toContainText('X 0–150 · Y 0–80 cm');
+});
+
+test('Ist-Stand: nicht Gepflanztes ausgeblendet, „steht im Beet“ bleibt sichtbar', async ({ page }) => {
+  await oeffne(page);
+  await page.locator('#opt-ist').check();
+  await setzeDatum(page, '2026-11-10');
+  await expect(page.locator('#beet g.pflanzung[data-id="beinwell"]')).toHaveCount(0);
+  await expect(page.locator('#beet g.bereich[data-id="wirsing"]')).toHaveCount(0);
+  await expect(page.locator('#beet g.pflanzung[data-id="rote_ruebe"]')).toHaveCount(1); // Plan bis Ende Oktober, laut Rückmeldung noch im Beet
+  await expect(page.locator('#beet g.pflanzung[data-id="mangold"]')).toHaveCount(1);
+  await expect(page.locator('#beet g.pflanzung[data-id="paprika"]')).toHaveCount(0); // abgeerntet
+  // Chinakohl und Endivie teilen sich die Fläche – Beschriftungen dürfen sich nicht überdecken
+  const y = async (id) => Number(await page.locator(`#beet text.bereich-text[data-id="${id}"]`).getAttribute('y'));
+  expect(Math.abs((await y('chinakohl')) - (await y('endivie')))).toBeGreaterThanOrEqual(12);
 });
 
 test('Jahr wechseln und Direktlink', async ({ page }) => {

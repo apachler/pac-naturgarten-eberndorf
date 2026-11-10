@@ -33,6 +33,43 @@ export function formatDatum(d) {
   return `${d.getUTCDate()}. ${monate[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
 }
 
+/**
+ * Lage einer Pflanzung. Mit `ist = true` gilt die tatsächliche Lage aus `ist:` (punkte, reihen
+ * oder bereich), sofern erfasst – sonst die geplante.
+ */
+export function ort(p, ist = false) {
+  const i = p.ist;
+  if (ist && i && (i.punkte || i.reihen || i.bereich)) {
+    return { ...p, punkte: i.punkte, reihen: i.reihen, bereich: i.bereich, je: i.je ?? (i.punkte ? p.je : undefined), istLage: true };
+  }
+  return p;
+}
+
+/** Ist-Lage erfasst und verschieden von der Planung? */
+export const hatIstLage = (p) => Boolean(p.ist && (p.ist.punkte || p.ist.reihen || p.ist.bereich));
+
+/** Pflanzung in der Woche ab `montag` (7 Tage) im Beet? */
+export function aktivInWoche(p, montag) {
+  const { von, bis } = zeitraum(p);
+  const sonntag = new Date(montag.getTime() + 6 * 86400000);
+  return (!von || von <= sonntag) && (!bis || bis >= montag);
+}
+
+/** Montag der Woche, in der `d` liegt (UTC). */
+export function montagVon(d) {
+  const m = new Date(d.getTime());
+  m.setUTCDate(m.getUTCDate() - ((m.getUTCDay() + 6) % 7));
+  return m;
+}
+
+/** ISO-Kalenderwoche. */
+export function kalenderwoche(d) {
+  const t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+  t.setUTCDate(t.getUTCDate() + 3 - ((t.getUTCDay() + 6) % 7));
+  const w1 = new Date(Date.UTC(t.getUTCFullYear(), 0, 4));
+  return 1 + Math.round(((t - w1) / 86400000 - 3 + ((w1.getUTCDay() + 6) % 7)) / 7);
+}
+
 /** Alle Einzelpositionen einer Pflanzung: [{x, y, n}] (n = Pflanzen pro Punkt). Bereiche liefern []. */
 export function positionen(p) {
   const out = [];
@@ -224,10 +261,11 @@ export function pruefen({ plan, kulturen, flaechen, vorjahre = [] }) {
     for (const p of gueltig.filter((q) => q.flaeche === fid)) {
       const kp = kulturen[p.kultur];
       const hp = huelle(p, kp);
-      for (const q of vorher.pflanzungen.filter((x) => x.flaeche === fid)) {
+      // Beim Vorjahr zählt die tatsächliche Lage, sofern erfasst
+      for (const q of vorher.pflanzungen.filter((x) => x.flaeche === fid && x.ist?.status !== 'nicht_gepflanzt')) {
         const kq = kulturen[q.kultur];
         if (!kq || kq.familie !== kp.familie) continue;
-        const hq = huelle(q, kq);
+        const hq = huelle(ort(q, true), kq);
         if (hp && hq && rechteckeUeberlappen(hp, hq)) {
           melde('warnung', 'Fruchtfolge', `${name(p)}: ${kp.familie} standen ${vorher.jahr} an derselben Stelle (${kq.name}).`, [p.id]);
         }

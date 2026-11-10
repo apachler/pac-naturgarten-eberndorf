@@ -61,9 +61,12 @@ Für die Fruchtfolge innerhalb eines Beetes: Was stand wo?
 - **2025:** Flower Sprouts (Kohlgewächs) im südlichen Viertel. Bei der Planung 2027 im südlichen Viertel keine Kohlgewächse vorsehen.
 
 ### Beet West
-- **2026:** Mischkultur laut [Planung 2026](../2026/Mischkultur-Beetplanung.md).
-- **Herbst 2026 bis Sommer 2027:** Knoblauch 'Therador' (250 g) und Wintersteckzwiebel 'Shakespeare' (500 g), beide von Reinsaat, gesteckt Ende Oktober 2026.
+- **2026:** Mischkultur laut [Planung 2026](../2026/Mischkultur-Beetplanung.md). Tatsächliche Lage abweichend vom Plan, siehe `2026/plan.yaml` unter `ist:` (Beetplaner → Ist-Stand):
+  - Feuerbohnen auf 5 Stangen ganz am Nordrand
+  - Kohlrabi (Vor- und Hauptkultur) in Zone E, X 200–300
+  - Winterlauch in Zone E, X 0–150; Endiviensalat und Chinakohl in Zone E, X 150–300
+- **Herbst 2026 bis Sommer 2027:** Knoblauch 'Therador' (250 g) in Zone C–D und Wintersteckzwiebel 'Shakespeare' (500 g) in Zone B–C, jeweils X 150–300, beide von Reinsaat, gesteckt Ende Oktober 2026. Die Osthälfte des Beetes West ist damit bis zur Ernte im Sommer 2027 belegt, die Westhälfte (X 0–150) kann schon ab Frühjahr 2027 ruhen.
 
 ## Offene Fragen
 
-- Wo genau und auf wie viel Fläche stehen Knoblauch und Zwiebeln im Beet West? Danach richtet sich, wann und wo das Ruhejahr 2027 dort beginnen kann.
+- Die Grenze zwischen Zwiebeln und Knoblauch in Zone C ist mit Y 210 angenommen. Bei Gelegenheit nachmessen.

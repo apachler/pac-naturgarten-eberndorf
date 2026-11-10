@@ -130,6 +130,9 @@ main { max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 .monate span.folgejahr { color: var(--notice-legal-fg); }
 
 .verteilt { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; font-size: 0.875rem; margin-bottom: 0.6rem; }
+/* Hinweis auf erfasste Ist-Lage */
+.hinweis-ist { width: 100%; margin: 0 0 0.3rem; font-size: 0.85rem; color: var(--fg-80); }
+.link-knopf { border: 0; background: none; padding: 0; color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
 .chip-gestrichelt { border: 1px dashed var(--primary-40); background: var(--background); border-radius: 999px; padding: 0.2rem 0.7rem; font-size: 0.875rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; }
 .chip-gestrichelt:hover { background: var(--secondary-10); }
 .chip-gestrichelt.inaktiv { opacity: 0.55; }

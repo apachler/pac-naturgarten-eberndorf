@@ -1,6 +1,6 @@
 import yaml from './vendor/js-yaml.mjs'; // js-yaml (MIT), lokal statt CDN
 import { naturjahr, saisonAm, GARTENJAHR, GEMUESE_JE_SAISON, KALENDER_ABOS, QUELLE } from './naturjahr.js';
-import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivAm, huelle, pruefen } from './modell.js';
+import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivAm, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, pruefen } from './modell.js';
 
 const BASIS = 'Gemüsegarten/';
 const TAG = 86400000;
@@ -69,7 +69,7 @@ async function start() {
   for (const id of ['ist', 'alle', 'vorjahr']) {
     $(`#opt-${id}`).addEventListener('change', (e) => { zustand[id] = e.target.checked; zeichnePlan(); });
   }
-  $('#datum').addEventListener('input', (e) => { zustand.datum = new Date(startDatum().getTime() + Number(e.target.value) * TAG); zeichneZeitabhaengig(); });
+  $('#datum').addEventListener('input', (e) => { zustand.datum = new Date(startDatum().getTime() + Number(e.target.value) * 7 * TAG); zeichneZeitabhaengig(); });
   $('#heute').addEventListener('click', () => { setzeDatum(heuteOderSommer()); });
   $('#blatt-zu').addEventListener('click', schliesseBlatt);
   $('#blatt-huelle').addEventListener('click', (e) => { if (e.target.id === 'blatt-huelle') schliesseBlatt(); });
@@ -85,12 +85,32 @@ async function start() {
 
 const plan = () => zustand.plaene.find((p) => p.jahr === zustand.jahr);
 const kultur = (p) => zustand.kulturen[p.kultur] || { name: p.kultur, symbol: '❔', farbe: '#999', abstand: 20 };
-const startDatum = () => new Date(Date.UTC(zustand.jahr, 0, 1));
+/** Der Zeitregler läuft in Wochen: Montag der Woche mit dem 1. Jänner bis Ende März des Folgejahres. */
+const startDatum = () => montagVon(new Date(Date.UTC(zustand.jahr, 0, 1)));
 const endDatum = () => new Date(Date.UTC(zustand.jahr + 1, 2, 31));
+const kalStart = () => new Date(Date.UTC(zustand.jahr, 0, 1));
+/**
+ * Steht die Pflanzung in der gewählten Woche im Beet? Im Ist-Stand zählen nicht gepflanzte
+ * Kulturen nicht, und was laut Rückmeldung noch im Beet steht, bleibt bis heute sichtbar.
+ */
+const imPlan = (p) => {
+  if (!zustand.ist) return aktivInWoche(p, zustand.datum);
+  const st = p.ist?.status;
+  if (st === 'nicht_gepflanzt') return false;
+  if (st === 'im_beet') {
+    const h = new Date(); const heute = Date.UTC(h.getFullYear(), h.getMonth(), h.getDate());
+    const { von } = zeitraum(p);
+    const sonntag = zustand.datum.getTime() + 6 * TAG;
+    if (von <= sonntag && zustand.datum.getTime() <= Math.max(heute, zeitraum(p).bis.getTime())) return true;
+  }
+  return aktivInWoche(p, zustand.datum);
+};
+const lage = (p) => ort(p, zustand.ist);
 const pflanzungenHier = () => (plan().pflanzungen || []).filter((p) => p.flaeche === zustand.flaeche);
 const istGanzesBeet = (p) => {
   const f = zustand.flaechen[p.flaeche];
-  return p.bereich && p.bereich.b * p.bereich.t >= 0.9 * f.breite * f.laenge;
+  const b = lage(p).bereich;
+  return Boolean(b) && b.b * b.t >= 0.9 * f.breite * f.laenge;
 };
 
 function heuteOderSommer() {
@@ -100,7 +120,8 @@ function heuteOderSommer() {
 
 function setzeDatum(d) {
   zustand.datum = d;
-  $('#datum').value = Math.round((d - startDatum()) / TAG);
+  zustand.datum = montagVon(d);
+  $('#datum').value = Math.round((zustand.datum - startDatum()) / TAG / 7);
   zeichneZeitabhaengig();
 }
 
@@ -120,11 +141,11 @@ function waehleJahr(jahr, flaecheWunsch) {
   zustand.meldungen = pruefen({ plan: plan(), kulturen: zustand.kulturen, flaechen: zustand.flaechen, vorjahre: zustand.plaene });
 
   const tage = Math.round((endDatum() - startDatum()) / TAG);
-  $('#datum').max = tage;
+  $('#datum').max = Math.floor(tage / 7);
   $('#monate').innerHTML = '';
   for (let m = 0; m < 15; m++) {
     const d = new Date(Date.UTC(zustand.jahr, m, 1));
-    const links = ((d - startDatum()) / TAG / tage) * 100;
+    const links = ((d - startDatum()) / TAG / (Math.floor(tage / 7) * 7)) * 100;
     $('#monate').append(el('span', { class: m >= 12 ? 'folgejahr' : null, style: `left:${links}%`, text: 'JFMAMJJASONDJFM'[m] }));
   }
   zeichneFlaechenWahl();
@@ -168,7 +189,7 @@ function zeichneAlles() {
 }
 
 function zeichneZeitabhaengig() {
-  $('#datum-text').textContent = formatDatum(zustand.datum);
+  $('#datum-text').textContent = wochenText(zustand.datum);
   zeichneSaison();
   zeichneAlles();
 }
@@ -237,7 +258,8 @@ function zeichnePlan() {
     if (vorher) {
       for (const q of vorher.pflanzungen.filter((x) => x.flaeche === zustand.flaeche)) {
         const k = zustand.kulturen[q.kultur] || {};
-        const h = huelle(q, k);
+        if (q.ist?.status === 'nicht_gepflanzt') continue;
+        const h = huelle(ort(q, true), k);
         if (!h) continue;
         svg.append(el('g', { class: 'vorjahr' },
           el('rect', { x: sx(h.x), y: sy(h.y + h.t), width: h.b, height: h.t }),
@@ -249,25 +271,30 @@ function zeichnePlan() {
   }
 
   const alle = pflanzungenHier();
-  const sichtbar = (p) => aktivAm(p, zustand.datum);
+  const sichtbar = imPlan;
 
   // Bereiche (Beschriftungen kommen zuletzt, damit Pflanzen sie nicht verdecken)
   const beschriftungen = [];
-  for (const p of alle.filter((q) => q.bereich && !istGanzesBeet(q))) {
+  const labelStapel = new Map();
+  for (const p of alle.filter((q) => lage(q).bereich && !istGanzesBeet(q))) {
     const aktiv = sichtbar(p);
     if (!aktiv && !zustand.alle) continue;
-    const k = kultur(p), b = p.bereich;
+    const k = kultur(p), b = lage(p).bereich;
     const nicht = zustand.ist && p.ist?.status === 'nicht_gepflanzt';
     const g = el('g', { 'data-id': p.id, class: `bereich ${aktiv ? '' : 'inaktiv'} ${nicht ? 'nicht' : ''} ${zustand.markiert.has(p.id) ? 'markiert' : ''}`, onclick: () => zeigeDetails(p) },
       el('rect', { class: 'flaeche', x: sx(b.x) + 2, y: sy(b.y + b.t) + 2, width: b.b - 4, height: b.t - 4, fill: k.farbe, stroke: k.farbe }),
       el('rect', { x: sx(b.x) + 2, y: sy(b.y + b.t) + 2, width: b.b - 4, height: b.t - 4, fill: 'url(#schraffur)', stroke: 'none' }),
     );
-    beschriftungen.push(el('text', { x: sx(b.x + b.b / 2), y: sy(b.y + b.t) + 16, class: `bereich-text ${aktiv ? '' : 'inaktiv'}`, 'data-id': p.id, text: `${k.name}${p.wunsch ? ` ×${p.wunsch}` : ''}`, onclick: () => zeigeDetails(p) }));
+    const zahl = zustand.ist ? p.ist?.anzahl : p.wunsch;
+    const schluessel = `${b.x}|${b.y}|${b.b}|${b.t}`;
+    const stapel = (labelStapel.get(schluessel) || 0);
+    labelStapel.set(schluessel, stapel + 1);
+    beschriftungen.push(el('text', { x: sx(b.x + b.b / 2), y: sy(b.y + b.t) + 16 + stapel * 13, class: `bereich-text ${aktiv ? '' : 'inaktiv'}`, 'data-id': p.id, text: `${k.name}${zahl ? ` ×${zahl}` : ''}`, onclick: () => zeigeDetails(p) }));
     svg.append(g);
   }
 
   // Einzelpflanzen
-  for (const p of alle.filter((q) => q.punkte || q.reihen)) {
+  for (const p of alle.filter((q) => { const o = lage(q); return o.punkte || o.reihen; })) {
     const aktiv = sichtbar(p);
     if (!aktiv && !zustand.alle) continue;
     const k = kultur(p);
@@ -275,7 +302,7 @@ function zeichnePlan() {
     const status = p.ist?.status;
     const nicht = zustand.ist && status === 'nicht_gepflanzt';
     const g = el('g', { 'data-id': p.id, class: `pflanzung ${aktiv ? '' : 'inaktiv'} ${nicht ? 'nicht' : ''} ${zustand.markiert.has(p.id) ? 'markiert' : ''}`, onclick: () => zeigeDetails(p) });
-    for (const q of positionen(p)) {
+    for (const q of positionen(lage(p))) {
       const cx = sx(q.x), cy = sy(q.y);
       g.append(el('circle', { cx, cy, r: r + 7, class: 'treffer' }));
       if (zustand.markiert.has(p.id)) g.append(el('circle', { cx, cy, r: r + 4, class: 'markier-ring' }));
@@ -296,22 +323,34 @@ function zeichnePlan() {
   zeichneLegende(alle);
 }
 
+/** „X 150–300 · Y 0–80 cm“ oder „5 Positionen“ */
+function lageText(o) {
+  if (o.bereich) return `X ${o.bereich.x}–${o.bereich.x + o.bereich.b} · Y ${o.bereich.y}–${o.bereich.y + o.bereich.t} cm`;
+  const pos = positionen(o);
+  const xs = pos.map((q) => q.x), ys = pos.map((q) => q.y);
+  return `${pos.length} Positionen, X ${Math.min(...xs)}–${Math.max(...xs)} · Y ${Math.min(...ys)}–${Math.max(...ys)} cm`;
+}
+
 function zeichneVerteilt(alle) {
   const box = $('#verteilt');
   box.innerHTML = '';
-  const v = alle.filter((p) => istGanzesBeet(p) && (aktivAm(p, zustand.datum) || zustand.alle));
+  const mitIst = alle.filter(hatIstLage).length;
+  if (mitIst && !zustand.ist) {
+    box.append(el('p', { class: 'hinweis-ist' }, `Für ${mitIst} ${mitIst === 1 ? 'Kultur' : 'Kulturen'} ist die tatsächliche Lage erfasst – `, el('button', { type: 'button', class: 'link-knopf', onclick: () => { $('#opt-ist').checked = true; zustand.ist = true; zeichnePlan(); } }, 'Ist-Stand zeigen ↓')));
+  }
+  const v = alle.filter((p) => istGanzesBeet(p) && (imPlan(p) || zustand.alle));
   if (!v.length) return;
   box.append(el('span', { class: 'leise', text: 'Im ganzen Beet verteilt: ' }));
   for (const p of v) {
     const k = kultur(p);
-    box.append(el('button', { type: 'button', class: `chip-gestrichelt ${aktivAm(p, zustand.datum) ? '' : 'inaktiv'}`, onclick: () => zeigeDetails(p) }, el('span', { class: 'punkt klein', style: `background:${k.farbe}` }), k.name));
+    box.append(el('button', { type: 'button', class: `chip-gestrichelt ${imPlan(p) ? '' : 'inaktiv'}`, onclick: () => zeigeDetails(p) }, el('span', { class: 'punkt klein', style: `background:${k.farbe}` }), k.name));
   }
 }
 
 function zeichneLegende(alle) {
   const ul = $('#legende');
   ul.innerHTML = '';
-  const aktiv = alle.filter((p) => aktivAm(p, zustand.datum)).sort((a, b) => 'VHNB'.indexOf(a.typ) - 'VHNB'.indexOf(b.typ));
+  const aktiv = alle.filter(imPlan).sort((a, b) => 'VHNB'.indexOf(a.typ) - 'VHNB'.indexOf(b.typ));
   if (!aktiv.length) {
     ul.append(el('li', { class: 'leer', text: plan().flaechen?.[zustand.flaeche]?.rolle === 'ruhe' ? 'Ruhejahr – nichts gepflanzt.' : 'Zu diesem Datum steht laut Plan nichts im Beet.' }));
     return;
@@ -328,10 +367,19 @@ function zeichneLegende(alle) {
   }
 }
 
+const MONATE = ['Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+/** „15.–21. Juni 2026 · KW 25“ bzw. „29. Juni – 5. Juli 2026 · KW 27“ */
+function wochenText(mo) {
+  const so = new Date(mo.getTime() + 6 * TAG);
+  const m1 = MONATE[mo.getUTCMonth()], m2 = MONATE[so.getUTCMonth()];
+  const von = mo.getUTCMonth() === so.getUTCMonth() ? `${mo.getUTCDate()}.` : `${mo.getUTCDate()}. ${m1}${mo.getUTCFullYear() !== so.getUTCFullYear() ? ` ${mo.getUTCFullYear()}` : ''} `;
+  return `${von}–${mo.getUTCMonth() === so.getUTCMonth() ? '' : ' '}${so.getUTCDate()}. ${m2} ${so.getUTCFullYear()} · KW ${kalenderwoche(mo)}`;
+}
+
 // ---------------------------------------------------------------- Naturjahreszeit
 
 function zeichneSaison() {
-  const s = saisonAm(zustand.datum, zustand.standort);
+  const s = saisonAm(new Date(zustand.datum.getTime() + 3 * TAG), zustand.standort);
   $('#saison').innerHTML = `<span class="saison-punkt" style="background:${s.farbe}"></span><strong>${esc(s.name)}</strong> <span class="leise">· ab ${formatDatum(s.beginn).replace(/ \d{4}$/, '')} · Zeiger: ${esc(s.zeiger)}</span>`;
   const box = $('#gartenjahr');
   box.innerHTML = '';
@@ -348,7 +396,7 @@ function zeichneSaison() {
 function zeichneKalender() {
   const box = $('#gantt');
   box.innerHTML = '';
-  const s = startDatum(), e = endDatum(), span = e - s;
+  const s = kalStart(), e = endDatum(), span = e - s;
   const pct = (d) => Math.max(0, Math.min(100, ((d - s) / span) * 100));
   const kopf = el('div', { class: 'g-zeile g-kopf' }, el('div', { class: 'g-name' }, 'Kultur'));
   const skala = el('div', { class: 'g-bahn' });
@@ -450,7 +498,7 @@ function springeZu(meldung) {
     const starts = meldung.ids.map((id) => plan().pflanzungen.find((p) => p.id === id)).filter(Boolean).map((p) => datum(p.von));
     const d = new Date(Math.max(...starts));
     zeigeTab('plan');
-    setzeDatum(d < startDatum() ? startDatum() : d);
+    setzeDatum(d < kalStart() ? kalStart() : d);
   }
 }
 
@@ -473,6 +521,7 @@ function zeigeDetails(p) {
   const ist = p.ist ? [
     ['Status', STATUS[p.ist.status] || p.ist.status],
     p.ist.anzahl != null ? ['Anzahl', p.ist.anzahl] : null,
+    hatIstLage(p) ? ['Tatsächliche Lage', lageText(ort(p, true))] : null,
     p.ist.ernte ? ['Ernte', `${p.ist.ernte} (${ERNTE_TEXT[p.ist.ernte] || ''})`] : null,
     p.ist.notiz ? ['Notiz', p.ist.notiz] : null,
   ].filter(Boolean) : [];

@@ -81,3 +81,4 @@ Beim Ablegen fiel auf, dass einige Anforderungen aus dem Planungsauftrag noch ni
 - 2026-11-10: Beetplaner gebaut (GitHub Pages) und Plan 2026 als `plan.yaml` erfasst. Die Prüfung deckt die Planungsfehler 2026 auf: Vor- und Nachkulturen hatten zeitlich keinen Platz, außerdem fehlten Pflanzen und Abstände waren zu klein.
 - 2026-11-10: naturgarten.bio eingebunden: Naturjahreszeiten für Eberndorf, Gartenjahr, Mondgarten, Jahreskreis als Takt des Planungszyklus. Der Beetplaner zeigt die Naturjahreszeit und die Aufgaben dazu.
 - 2026-11-10: Beetplaner im Design von naturgarten.bio. Positionen mit dem Positionsplan 2026 abgeglichen (Ringelblumen auf Y 20 korrigiert). Unit- und Browser-Tests eingerichtet, Pages veröffentlicht nur bei grünen Tests.
+- 2026-11-10: Zeitregler in Wochenschritten. Tatsächliche Lage 2026 (Feuerbohnen, Kohlrabi, Winterlauch, Endivie, Chinakohl, Zwiebeln, Knoblauch) als Ist-Positionen erfasst. Idee für 2027: 4 Bohnenstangen.

@@ -13,6 +13,8 @@
 #   reihen:  [{y, x1, x2, anzahl}]   Pflanzen gleichmäßig auf einer Reihe verteilt
 #            (oder {x, y1, y2, anzahl} für Nord–Süd-Reihen)
 #   bereich: {x, y, b, t}            Fläche für Streusaat / ohne genaue Position
+# Tatsächliche Lage: dieselben Felder unter ist: (punkte/reihen/bereich). Der Beetplaner zeigt sie
+# in der Ansicht „Ist-Stand“, die Fruchtfolge-Prüfung späterer Jahre rechnet damit.
 #            mischsaat: true = absichtlich zwischen anderen Kulturen (z. B. Markiersaat)
 #
 # Typ: V = Vorkultur, H = Hauptkultur, N = Nachkultur, B = Beikraut
@@ -55,7 +57,10 @@ pflanzungen:
     ist:
       status: geerntet
       ernte: "+"
+      punkte: [[30, 490], [90, 490], [150, 490], [210, 490], [270, 490]]
+      je: 4
       notiz: >-
+        5 Stangen ganz am Nordrand des Beetes (Y 490 angenommen) – 5 Stangen nehmen viel Platz, 2027 eventuell 4.
         Im Sommer viele Blüten, aber kaum Schoten (vermutlich Hitze). Hauptansatz erst im
         Spätsommer/Frühherbst, Ernte Anfang November, viele Schoten grün zum Nachtrocknen.
 
@@ -289,7 +294,10 @@ pflanzungen:
     bis: 2026-06-30
     bereich: { x: 0, y: 160, b: 110, t: 100 }
     notiz: Vor Paprika und Pfefferoni (Zone C West).
-    ist: { status: unbekannt }
+    ist:
+      status: geerntet
+      bereich: { x: 200, y: 0, b: 100, t: 80 }
+      notiz: Tatsächlich in Zone E, X 200–300 – dort, wo auch die Kohlrabi-Hauptkultur stand.
 
   # ---------------- Nachkulturen ----------------
   - id: flower_sprouts
@@ -312,7 +320,10 @@ pflanzungen:
     bis: 2026-11-30
     bereich: { x: 0, y: 80, b: 300, t: 80 }
     notiz: Nach Karotten und Lauch (Zone D).
-    ist: { status: im_beet }
+    ist:
+      status: im_beet
+      bereich: { x: 150, y: 0, b: 150, t: 80 }
+      notiz: Tatsächlich in Zone E, X 150–300, gemeinsam mit dem Endiviensalat.
 
   - id: endivie
     kultur: endivie
@@ -323,7 +334,10 @@ pflanzungen:
     bis: 2026-11-30
     bereich: { x: 200, y: 160, b: 100, t: 100 }
     notiz: Nach dem Stangensellerie (Zone C Ost).
-    ist: { status: im_beet }
+    ist:
+      status: im_beet
+      bereich: { x: 150, y: 0, b: 150, t: 80 }
+      notiz: Tatsächlich in Zone E, X 150–300, gemeinsam mit dem Chinakohl.
 
   - id: winterlauch
     kultur: winterlauch
@@ -334,7 +348,11 @@ pflanzungen:
     bis: 2027-03-31
     bereich: { x: 0, y: 400, b: 300, t: 100 }
     notiz: Nach den Bohnen (Zone A).
-    ist: { status: im_beet, ernte: "++", notiz: Einfach – ins Pflanzloch setzen und einschwemmen. }
+    ist:
+      status: im_beet
+      ernte: "++"
+      bereich: { x: 0, y: 0, b: 150, t: 80 }
+      notiz: Tatsächlich in Zone E, X 0–150. Einfach – ins Pflanzloch setzen und einschwemmen.
 
   - id: wirsing
     kultur: wirsing
@@ -379,7 +397,10 @@ pflanzungen:
     bis: 2027-07-15
     bereich: { x: 0, y: 0, b: 300, t: 500 }
     notiz: Geplant "verteilt", Grün ernten. Genaue Lage noch nicht erfasst.
-    ist: { status: im_beet, notiz: Ende Oktober 2026 gesteckt. }
+    ist:
+      status: im_beet
+      bereich: { x: 150, y: 210, b: 150, t: 160 }
+      notiz: Ende Oktober 2026 gesteckt, Zone B–C, X 150–300 (Grenze zum Knoblauch in Zone C bei Y 210 angenommen).
 
   - id: knoblauch
     kultur: knoblauch
@@ -389,8 +410,11 @@ pflanzungen:
     von: 2026-10-25
     bis: 2027-07-15
     bereich: { x: 0, y: 0, b: 300, t: 500 }
-    notiz: Nicht im ursprünglichen Plan. Genaue Lage noch nicht erfasst.
-    ist: { status: im_beet, notiz: Ende Oktober 2026 gesteckt. }
+    notiz: Nicht im ursprünglichen Plan.
+    ist:
+      status: im_beet
+      bereich: { x: 150, y: 80, b: 150, t: 130 }
+      notiz: Ende Oktober 2026 gesteckt, Zone C–D, X 150–300 (Grenze zu den Zwiebeln bei Y 210 angenommen).
 
   # ---------------- Tomatenhaus ----------------
   - id: tomate

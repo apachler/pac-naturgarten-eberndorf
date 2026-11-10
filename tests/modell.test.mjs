@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
-import { positionen, anzahlGeplant, aktivAm, datum, pruefen, huelle } from '../beetplaner/modell.js';
+import { positionen, anzahlGeplant, aktivAm, aktivInWoche, montagVon, kalenderwoche, ort, hatIstLage, datum, pruefen, huelle } from '../beetplaner/modell.js';
 import { naturjahr, saisonAm, hopkins, GARTENJAHR, NATURJAHRESZEITEN } from '../beetplaner/naturjahr.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'Gemüsegarten');
@@ -130,4 +130,36 @@ test('Naturjahreszeiten Eberndorf (Hopkins-Regel wie naturgarten.bio)', () => {
   assert.equal(saisonAm(datum('2027-01-10'), standort).id, 'winter');
   assert.equal(saisonAm(datum('2027-06-15'), standort).id, 'highSummer');
   for (const s of NATURJAHRESZEITEN) assert.ok(GARTENJAHR[s.id]?.length, `Gartenjahr ${s.id}`);
+});
+
+test('Wochen: Montag, Kalenderwoche und Aktivität in der Woche', () => {
+  assert.equal(montagVon(datum('2026-06-17')).toISOString().slice(0, 10), '2026-06-15');
+  assert.equal(montagVon(datum('2026-01-01')).toISOString().slice(0, 10), '2025-12-29');
+  assert.equal(kalenderwoche(datum('2026-06-15')), 25);
+  assert.equal(kalenderwoche(datum('2025-12-29')), 1);
+  assert.equal(kalenderwoche(datum('2027-01-01')), 53);
+  const p = { von: '2026-05-15', bis: '2026-10-31' };
+  assert.equal(aktivInWoche(p, datum('2026-05-11')), true, 'Pflanzung am Freitag der Woche');
+  assert.equal(aktivInWoche(p, datum('2026-05-04')), false);
+  assert.equal(aktivInWoche(p, datum('2026-10-26')), true);
+  assert.equal(aktivInWoche(p, datum('2026-11-02')), false);
+});
+
+test('Ist-Lage: tatsächliche Positionen 2026 und Fruchtfolge danach', () => {
+  const bohne = finde('feuerbohne');
+  assert.ok(hatIstLage(bohne));
+  assert.deepEqual(positionen(ort(bohne, true)).map((q) => q.y), [490, 490, 490, 490, 490]);
+  assert.equal(positionen(ort(bohne, true))[0].n, 4, 'je übernommen');
+  assert.deepEqual(positionen(ort(bohne, false)).map((q) => q.y), [450, 450, 450, 450, 450], 'Plan bleibt');
+  assert.deepEqual(ort(finde('winterlauch'), true).bereich, { x: 0, y: 0, b: 150, t: 80 });
+  assert.deepEqual(ort(finde('kohlrabi_frueh'), true).bereich, { x: 200, y: 0, b: 100, t: 80 });
+  assert.equal(ort(finde('paprika'), true), finde('paprika'), 'ohne Ist-Lage gilt der Plan');
+  // Ein Plan 2028 auf Beet West: Lauch dort, wo 2026 tatsächlich Winterlauch stand → Fruchtfolge-Warnung
+  const p2028 = { jahr: 2028, flaechen: { west: { rolle: 'aktiv' } }, pflanzungen: [
+    { id: 'l', kultur: 'sommerlauch', flaeche: 'west', typ: 'H', von: '2028-05-20', bis: '2028-09-01', punkte: [[60, 40]] },
+    { id: 'k', kultur: 'karotte', flaeche: 'west', typ: 'H', von: '2028-04-01', bis: '2028-09-01', punkte: [[60, 470]] },
+  ] };
+  const m = pruefen({ plan: p2028, kulturen, flaechen, vorjahre: plaene });
+  assert.ok(m.some((x) => x.thema === 'Fruchtfolge' && x.ids.includes('l')), 'Lauch auf Winterlauch-Fläche');
+  assert.ok(!m.some((x) => x.thema === 'Fruchtfolge' && x.ids.includes('k')), 'Karotte am Nordrand ok');
 });
