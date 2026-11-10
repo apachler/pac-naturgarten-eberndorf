@@ -31,7 +31,7 @@ Gemüsegarten/
 beetplaner/                Webansicht (GitHub Pages) und Prüf-Script
 index.html                 Startseite des Beetplaners
 tests/                     Unit- und Browser-Tests (npm test, npm run test:e2e)
-AGENTS.md, CLAUDE.md       Arbeitsweise für KI-Assistenten
+CLAUDE.md                  Arbeitsweise für Claude Code
 .claude/                   Skills, Regeln und Hooks für Claude Code
 ```
 
@@ -42,7 +42,7 @@ Der Beetplaner bietet Draufsicht mit Zeitregler, Kalender, Stückzahlen, Ist-Sta
 
 ## Mit Claude Code weiterarbeiten
 
-Einfach eine Session in diesem Repo starten – die Regeln stehen in [AGENTS.md](AGENTS.md), beim Start werden die
+Einfach eine Session in diesem Repo starten – die Regeln stehen in [CLAUDE.md](CLAUDE.md), beim Start werden die
 Git-Identität gesetzt und die Abhängigkeiten installiert. Für die wiederkehrenden Abläufe gibt es Befehle:
 
 | Befehl | Wann |

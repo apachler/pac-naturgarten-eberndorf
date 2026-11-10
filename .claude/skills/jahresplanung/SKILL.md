@@ -5,7 +5,7 @@ description: Neues Gartenjahr anlegen und den Mischkultur-Beetplan erstellen –
 
 # Jahresplanung
 
-1. **Lesen:** die ganze `AGENTS.md`-Leseliste, besonders Vorjahr (`plan.yaml`, `Rueckmeldung.md`, `Wetter.md`), die
+1. **Lesen:** die ganze Leseliste aus `CLAUDE.md`, besonders Vorjahr (`plan.yaml`, `Rueckmeldung.md`, `Wetter.md`), die
    `Merkliste.md` (Punkte für dieses Jahr ansprechen) und `flaechen.yaml` (welches Beet ist dran, welches ruht).
 2. **Jahr anlegen** (falls neu): `Gemüsegarten/<Jahr>/` aus `Gemüsegarten/Vorlagen/` (`Jahres-README.md` → `README.md`,
    `Planungsauftrag.md`, `plan.yaml`); in `Gemüsegarten/jahre.yaml` und in die Tabelle von `Gemüsegarten/README.md` eintragen.

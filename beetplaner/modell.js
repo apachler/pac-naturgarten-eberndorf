@@ -84,6 +84,12 @@ export function ort(p, ist = false) {
   return p;
 }
 
+/** Einteilung einer Fläche (Zonen, Wege) – geplant oder, falls erfasst, die tatsächliche. */
+export function einteilung(fp, ist = false) {
+  const i = ist && fp?.ist;
+  return { zonen: (i && i.zonen) || fp?.zonen || [], wege: (i && i.wege) || fp?.wege || [], istLage: Boolean(i && (i.zonen || i.wege)) };
+}
+
 /** Ist-Lage erfasst und verschieden von der Planung? */
 export const hatIstLage = (p) => Boolean(p.ist && (p.ist.punkte || p.ist.reihen || p.ist.bereich));
 
@@ -224,6 +230,18 @@ export function pruefen({ plan, kulturen, flaechen, familien = null, vorjahre = 
     if (p.bereich && !p.ausserhalb) {
       const b = p.bereich;
       if (b.x < 0 || b.y < 0 || b.x + b.b > f.breite || b.y + b.t > f.laenge) melde('warnung', 'Grenzen', `${name(p)}: Bereich ragt über ${f.name} hinaus.`, [p.id]);
+    }
+  }
+
+  // 3b. Tatsächliche Lage gegen die tatsächliche Einteilung (nur Hinweise – das Jahr ist vorbei)
+  for (const p of gueltig.filter(hatIstLage)) {
+    const f = flaechen[p.flaeche];
+    const { wege } = einteilung(plan.flaechen?.[p.flaeche], true);
+    const istPos = positionen(ort(p, true));
+    if (istPos.some((q) => q.x < 0 || q.x > f.breite || q.y < 0 || q.y > f.laenge)) melde('warnung', 'Grenzen', `${name(p)}: tatsächliche Lage liegt teilweise außerhalb von ${f.name}.`, [p.id]);
+    for (const w of wege) {
+      const n = istPos.filter((q) => q.y > w.y && q.y < w.y + w.t).length;
+      if (n) melde('hinweis', 'Wege', `${name(p)}: ${n} Pflanze(n) standen tatsächlich auf dem ${w.name}.`, [p.id]);
     }
   }
 

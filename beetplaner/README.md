@@ -12,7 +12,7 @@ Veröffentlicht wird bei jedem Push auf `main` vom Workflow `.github/workflows/p
 ## Funktionen
 
 - **Plan:** Draufsicht mit Norden oben, Raster alle 50 cm. Mit dem **Zeitregler** (in Wochenschritten) siehst du, was in einer Woche im Beet steht. Pflanze antippen zeigt Details, Ist-Stand, Prüfmeldungen und Kulturwissen.
-  - *Ist-Stand:* zeigt die tatsächliche Lage (`ist:` mit punkte/reihen/bereich in plan.yaml) und den Status. Nicht Gepflanztes wird ausgeblendet, was noch im Beet steht, bleibt bis heute sichtbar.
+  - *Ist-Stand:* zeigt die tatsächliche Lage (`ist:` mit punkte/reihen/bereich in plan.yaml) und den Status, dazu die tatsächliche Einteilung des Beets, falls erfasst (`flaechen.<id>.ist:` mit eigenen `zonen`/`wege`). Nicht Gepflanztes wird ausgeblendet, was noch im Beet steht, bleibt bis heute sichtbar.
   - *Alle Kulturen:* zeigt auch Kulturen, die zum gewählten Datum nicht im Beet stehen (blass)
   - *Vorjahr:* blendet ein, was beim letzten Anbau auf dieser Fläche stand (Fruchtfolge)
 - **Über das Beet:** allgemeine Infos zur Fläche, Anbauhistorie aus allen Jahresplänen, offene Fragen und Gartendaten

@@ -1,6 +1,6 @@
 import yaml from './vendor/js-yaml.mjs'; // js-yaml (MIT), lokal statt CDN
 import { naturjahr, saisonAm, GARTENJAHR, GEMUESE_JE_SAISON, KALENDER_ABOS, NATURJAHRESZEITEN } from './naturjahr.js';
-import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, pruefen, schlechteNachbarnVon } from './modell.js';
+import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, einteilung, pruefen, schlechteNachbarnVon } from './modell.js';
 
 const BASIS = 'Gemüsegarten/';
 const TAG = 86400000;
@@ -261,7 +261,8 @@ function zeichnePlan() {
   svg.append(el('rect', { x: sx(0), y: sy(L), width: B, height: L, fill: 'url(#erde)', rx: 4, class: 'beet-rand' }));
 
   // Zonen
-  (fp.zonen || []).forEach((z, i) => {
+  const { zonen, wege } = einteilung(fp, zustand.ist);
+  zonen.forEach((z, i) => {
     svg.append(el('rect', { x: sx(0), y: sy(z.y + z.t), width: B, height: z.t, class: `zone zone-${i % 2}` }));
     svg.append(el('text', { x: sx(4), y: sy(z.y + z.t) + 9, class: 'zonen-text', text: z.id }));
   });
@@ -277,7 +278,7 @@ function zeichnePlan() {
   }
 
   // Wege
-  for (const w of fp.wege || []) {
+  for (const w of wege) {
     svg.append(el('rect', { x: sx(0), y: sy(w.y + w.t), width: B, height: w.t, class: 'weg' }));
     svg.append(el('text', { x: sx(B / 2), y: sy(w.y + w.t / 2) + 3, class: 'weg-text', text: w.name }));
   }

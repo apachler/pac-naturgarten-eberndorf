@@ -61,6 +61,9 @@ feuerbohne:
       text: 5 Stangen ganz am Nordrand brauchten viel Platz – 2027 mit 4 Stangen probieren.
       sicherheit: beobachtet
     - jahr: 2026
+      text: Mit der Stangenreihe direkt am Nordrand reicht für die Bohnen ein ca. 50 cm tiefer Streifen (geplant waren 100 cm); der gewonnene Platz kam den Zonen B und C zugute.
+      sicherheit: beobachtet
+    - jahr: 2026
       text: Im Hitzesommer viele Blüten, aber kaum Schoten; Hauptansatz erst im Spätsommer, Ernte Anfang November teils noch grün. Vermutlich werden die Blüten bei großer Hitze steril. 2025 war das nicht so.
       sicherheit: hypothese
 

@@ -4,7 +4,7 @@ Erinnerungen für die nächsten Saisonen. Claude geht diese Liste zu Beginn jede
 
 ## Saison 2027
 
-- [ ] **Planung 2027 (Beet Ost): Feuerbohnen mit 4 statt 5 Stangen probieren.** 2026 standen die 5 Stangen ganz am Nordrand und brauchten viel Platz. Mit 4 Stangen rückt Zone B weiter nach Norden bzw. wird breiter.
+- [ ] **Planung 2027 (Beet Ost): Feuerbohnen mit 4 statt 5 Stangen probieren.** 2026 standen die 5 Stangen ganz am Nordrand und brauchten viel Platz. Zone A nur ca. 50 cm tief am Nordrand einplanen (so war es 2026 tatsächlich), den gewonnenen Platz vor allem B und C geben.
 - [ ] **Paprika-Fraßschäden fotografieren:** 2026 hatten die Paprika oft Löcher, vermutlich von Raupen. Falls das 2027 wieder auftritt (Fruchtbildung etwa Juli–August), Fotos machen, damit wir den Schädling bestimmen und gezielt vorbeugen können.
 - [ ] **Tomatenhaus:** 3 Tongefäße (Ollas, je 1,5 L) eingraben; Wühlmausschutz für Petersilie (Drahtkorb) überlegen; beim Kauf die Tomatensorten notieren.
 - [ ] **Wühlmäuse:** 2026 haben sie Sellerieknollen ausgehöhlt und die meiste Petersilie im Tomatenhaus geholt. Bei der Planung 2027 Schutz für Sellerie und Petersilie vorsehen, z. B. Drahtkörbe beim Pflanzen.

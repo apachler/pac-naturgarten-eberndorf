@@ -35,6 +35,18 @@ flaechen:
       - { id: C, name: "Zone C – Paprika, Pfefferoni, Mangold, Stangensellerie", y: 160, t: 100 }
       - { id: D, name: "Zone D – Karotten + Lauch + Dill", y: 80, t: 80 }
       - { id: E, name: "Zone E – Rote Rüben, Kohlrabi, Ringelblumen", y: 0, t: 80 }
+    # Tatsächliche Einteilung 2026: Die Feuerbohnen standen ganz am Nordrand, Zone A war daher nur ca. 50 cm tief.
+    # Die gewonnenen 50 cm gingen an Zone B (+30) und Zone C (+20); D und E blieben gleich.
+    ist:
+      wege:
+        - { name: Pflegepfad 1, y: 420, t: 30 }
+        - { name: Pflegepfad 2, y: 280, t: 30 }
+      zonen:
+        - { id: A, name: "Zone A – Feuerbohnen", y: 450, t: 50 }
+        - { id: B, name: "Zone B – Kohlsprossen, Gurken, Sellerie", y: 310, t: 110 }
+        - { id: C, name: "Zone C – Paprika, Pfefferoni, Mangold, Stangensellerie", y: 160, t: 120 }
+        - { id: D, name: "Zone D – Karotten + Lauch + Dill", y: 80, t: 80 }
+        - { id: E, name: "Zone E – Rote Rüben, Kohlrabi, Ringelblumen", y: 0, t: 80 }
   ost:
     rolle: ruhe
     notiz: Ruhejahr – Pflege mit Heu, Terra Preta und EM.
@@ -87,7 +99,9 @@ pflanzungen:
     ist:
       status: im_beet
       ernte: "o"
+      punkte: [[30, 400], [90, 400], [30, 340], [90, 340]]
       notiz: >-
+        Lage in der breiteren Zone B (Y 310–420) neu verteilt – Annahme, genaue Positionen nicht notiert.
         Zu viel. Teilweise gut entwickelt, braucht viel Licht. Röschen anfangs locker,
         werden mit der Kälte fester. Köpfe abgeschlagen.
 
@@ -104,7 +118,8 @@ pflanzungen:
       status: geerntet
       anzahl: 2
       ernte: "++"
-      notiz: 2 Pflanzen vertikal am Gitter (Nord–Süd). Gutes Wachstum, gute Ernte – passt so.
+      punkte: [[150, 395], [150, 335]]
+      notiz: Lage in der breiteren Zone B (Y 310–420) neu verteilt – Annahme, genaue Positionen nicht notiert. 2 Pflanzen vertikal am Gitter (Nord–Süd). Gutes Wachstum, gute Ernte – passt so.
 
   - id: knollensellerie
     kultur: knollensellerie
@@ -118,7 +133,8 @@ pflanzungen:
     ist:
       status: geerntet
       ernte: "o"
-      notiz: Zu viel. Gut gewachsen, ein paar Ausfälle, einige Knollen von Wühlmäusen ausgehöhlt.
+      punkte: [[210, 405], [245, 405], [280, 405], [210, 370], [245, 370], [280, 370], [210, 335], [245, 335], [280, 335]]
+      notiz: Lage in der breiteren Zone B (Y 310–420) neu verteilt – Annahme, genaue Positionen nicht notiert. Zu viel. Gut gewachsen, ein paar Ausfälle, einige Knollen von Wühlmäusen ausgehöhlt.
 
   # ---------------- Zone C ----------------
   - id: paprika
@@ -132,7 +148,9 @@ pflanzungen:
     ist:
       status: geerntet
       ernte: "+"
+      punkte: [[25, 250], [75, 207], [25, 165]]
       notiz: >-
+        Lage in der breiteren Zone C (Y 160–280) neu verteilt – Annahme, genaue Positionen nicht notiert. Im Wechsel mit den Pfefferoni.
         Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Früchte oft angefressen
         (vermutlich Raupen), schwächste Ernte der drei. Anfang November eingegangen.
 
@@ -147,7 +165,8 @@ pflanzungen:
     ist:
       status: geerntet
       ernte: "++"
-      notiz: Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Anfang November eingegangen.
+      punkte: [[75, 250], [25, 207], [75, 165]]
+      notiz: Lage in der breiteren Zone C (Y 160–280) neu verteilt – Annahme, genaue Positionen nicht notiert. Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Anfang November eingegangen.
 
   - id: mangold
     kultur: mangold
@@ -157,7 +176,11 @@ pflanzungen:
     von: 2026-04-30
     bis: 2026-10-31
     punkte: [[150, 240], [150, 200], [150, 160]]
-    ist: { status: im_beet, ernte: "++", notiz: Zu viel – sehr gut gewachsen. }
+    ist:
+      status: im_beet
+      ernte: "++"
+      punkte: [[150, 255], [150, 212], [150, 170]]
+      notiz: Lage in der breiteren Zone C (Y 160–280) neu verteilt – Annahme, genaue Positionen nicht notiert. Zu viel – sehr gut gewachsen.
 
   - id: stangensellerie
     kultur: stangensellerie
@@ -167,7 +190,11 @@ pflanzungen:
     von: 2026-05-15
     bis: 2026-10-31
     punkte: [[220, 240], [260, 240], [220, 190], [260, 190]]
-    ist: { status: geerntet, ernte: "o", notiz: Zu viel – gut gewachsen. }
+    ist:
+      status: geerntet
+      ernte: "o"
+      punkte: [[220, 255], [260, 255], [220, 205], [260, 205]]
+      notiz: Lage in der breiteren Zone C (Y 160–280) neu verteilt – Annahme, genaue Positionen nicht notiert. Zu viel – gut gewachsen.
 
   # ---------------- Zone D ----------------
   - id: karotte

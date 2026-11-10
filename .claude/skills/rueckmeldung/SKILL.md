@@ -7,7 +7,7 @@ description: Rückmeldung zu einem Gartenjahr aufnehmen und auswerten – Ist-St
 
 Jahr = das ausgewertete Jahr (meist das laufende, im Herbst/Winter).
 
-1. **Lesen:** `AGENTS.md`-Leseliste, dazu `Gemüsegarten/<Jahr>/plan.yaml`, `README.md`, ggf. vorhandene `Rueckmeldung.md`,
+1. **Lesen:** Leseliste aus `CLAUDE.md`, dazu `Gemüsegarten/<Jahr>/plan.yaml`, `README.md`, ggf. vorhandene `Rueckmeldung.md`,
    und `Gemüsegarten/Vorlagen/Rueckmeldung.md` als Gliederung.
 2. **Nachfragen, was fehlt** – je Pflanzung: wirklich gepflanzt? Wo (falls anders als geplant)? Wie viele? Ernte (++/+/o/−)?
    Probleme (Schädlinge, Krankheiten, Schossen, Trockenheit)? Sorten und Bezugsquelle? Dazu Gesamteindruck, Wasser,

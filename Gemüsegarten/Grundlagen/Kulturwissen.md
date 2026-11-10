@@ -49,7 +49,7 @@ Die Steckbriefe sind unser Erfahrungsschatz: Allgemeine Werte sind Faustwerte au
 | [Pfefferoni](#pfefferoni) | Nachtschattengewächse | H | 40 cm | sonnig, warm, geschützt | hoch | stark | Frühsommer ❄ | August–Oktober | 1 |
 | [Tomate](#tomate) | Nachtschattengewächse | H | 60 cm | sonnig, regengeschützt | hoch | stark | Frühsommer ❄ | Juli–Oktober | 1 |
 | [Gurke](#gurke) | Kürbisgewächse | H | 30 cm | sonnig, warm, windgeschützt | hoch | stark | Frühsommer ❄ | Juli–September | 2 |
-| [Feuerbohne](#feuerbohne) | Hülsenfrüchtler | H | 15 × 60 cm | sonnig | mittel | schwach | Frühsommer ❄ | grün Juli–Oktober, Trockenbohnen ab September | 2 |
+| [Feuerbohne](#feuerbohne) | Hülsenfrüchtler | H | 15 × 60 cm | sonnig | mittel | schwach | Frühsommer ❄ | grün Juli–Oktober, Trockenbohnen ab September | 3 |
 | [Mangold](#mangold) | Fuchsschwanzgewächse | H | 40 cm | sonnig bis halbschattig | mittel | mittel | Vollfrühling | Juni–November, laufend außen pflücken | 1 |
 | [Rote Rübe](#rote-rübe) | Fuchsschwanzgewächse | H | 15 × 30 cm | sonnig bis halbschattig | mittel | mittel | Vollfrühling | August–November, vor stärkerem Frost | 1 |
 | [Knoblauch](#knoblauch) | Lauchgewächse | H N | 12 × 25 cm | sonnig | niedrig | schwach | Vollherbst | Juni–Juli | 1 |
@@ -413,6 +413,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 **Erfahrungen:**
 
 - 2026 · beobachtet: 5 Stangen ganz am Nordrand brauchten viel Platz – 2027 mit 4 Stangen probieren.
+- 2026 · beobachtet: Mit der Stangenreihe direkt am Nordrand reicht für die Bohnen ein ca. 50 cm tiefer Streifen (geplant waren 100 cm); der gewonnene Platz kam den Zonen B und C zugute.
 - 2026 · *Hypothese*: Im Hitzesommer viele Blüten, aber kaum Schoten; Hauptansatz erst im Spätsommer, Ernte Anfang November teils noch grün. Vermutlich werden die Blüten bei großer Hitze steril. 2025 war das nicht so.
 
 ### Fuchsschwanzgewächse

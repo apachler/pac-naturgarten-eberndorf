@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
-import { validiereKulturen, schlechteNachbarnVon, positionen, anzahlGeplant, aktivAm, aktivInWoche, montagVon, kalenderwoche, ort, hatIstLage, datum, pruefen, huelle } from '../beetplaner/modell.js';
+import { validiereKulturen, schlechteNachbarnVon, positionen, anzahlGeplant, aktivAm, aktivInWoche, montagVon, kalenderwoche, ort, hatIstLage, einteilung, datum, pruefen, huelle } from '../beetplaner/modell.js';
 import { naturjahr, saisonAm, hopkins, GARTENJAHR, NATURJAHRESZEITEN } from '../beetplaner/naturjahr.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'Gemüsegarten');
@@ -154,7 +154,7 @@ test('Ist-Lage: tatsächliche Positionen 2026 und Fruchtfolge danach', () => {
   assert.deepEqual(positionen(ort(bohne, false)).map((q) => q.y), [450, 450, 450, 450, 450], 'Plan bleibt');
   assert.deepEqual(ort(finde('winterlauch'), true).bereich, { x: 0, y: 0, b: 150, t: 80 });
   assert.deepEqual(ort(finde('kohlrabi_frueh'), true).bereich, { x: 200, y: 0, b: 100, t: 80 });
-  assert.equal(ort(finde('paprika'), true), finde('paprika'), 'ohne Ist-Lage gilt der Plan');
+  assert.equal(ort(finde('karotte'), true), finde('karotte'), 'ohne Ist-Lage gilt der Plan');
   // Ein Plan 2028 auf Beet West: Lauch dort, wo 2026 tatsächlich Winterlauch stand → Fruchtfolge-Warnung
   const p2028 = { jahr: 2028, flaechen: { west: { rolle: 'aktiv' } }, pflanzungen: [
     { id: 'l', kultur: 'sommerlauch', flaeche: 'west', typ: 'H', von: '2028-05-20', bis: '2028-09-01', punkte: [[60, 40]] },
@@ -204,4 +204,36 @@ test('Kulturwissen.md ist aus den YAML-Daten erzeugt und aktuell', async () => {
   assert.match(aus, /aktuell/);
   const md = readFileSync(join(root, 'Grundlagen', 'Kulturwissen.md'), 'utf8');
   for (const k of Object.values(kulturen)) assert.ok(md.includes(`#### ${k.name}`), k.name);
+});
+
+test('Tatsächliche Einteilung 2026: Zone A schmaler, B und C breiter, Ist-Lage passt hinein', () => {
+  const fp = plan2026.flaechen.west;
+  const zone = (ist, id) => einteilung(fp, ist).zonen.find((z) => z.id === id);
+  assert.equal(einteilung(fp, false).zonen, fp.zonen, 'Plan bleibt');
+  assert.equal(zone(true, 'A').t, 50);
+  assert.ok(zone(true, 'B').t > zone(false, 'B').t && zone(true, 'C').t > zone(false, 'C').t, 'B und C gewinnen');
+  // Zonen und Wege füllen das Beet lückenlos (0–500 cm)
+  const { zonen, wege } = einteilung(fp, true);
+  const teile = [...zonen, ...wege].sort((a, b) => a.y - b.y);
+  teile.forEach((t, i) => assert.equal(t.y, i ? teile[i - 1].y + teile[i - 1].t : 0, `Lücke vor ${t.name || t.id}`));
+  assert.equal(teile.at(-1).y + teile.at(-1).t, flaechen.west.laenge);
+  // Jede Pflanze aus B und C steht in ihrer Zone, nicht auf einem Weg, mit genug Abstand zu allen anderen
+  const ids = { B: ['kohlsprossen', 'gurke', 'knollensellerie'], C: ['paprika', 'pfefferoni', 'mangold', 'stangensellerie'] };
+  const alle = [];
+  for (const [z, liste] of Object.entries(ids)) {
+    const { y, t } = zone(true, z);
+    for (const id of liste) {
+      for (const q of positionen(ort(finde(id), true))) {
+        assert.ok(q.y >= y && q.y <= y + t, `${id} (${q.x}|${q.y}) liegt in Zone ${z}`);
+        alle.push({ ...q, id, a: kulturen[finde(id).kultur].abstand });
+      }
+    }
+  }
+  for (let i = 0; i < alle.length; i++) for (let j = i + 1; j < alle.length; j++) {
+    const a = alle[i], b = alle[j];
+    const d = Math.hypot(a.x - b.x, a.y - b.y);
+    assert.ok(d >= (a.a + b.a) / 2 - 0.5, `${a.id} (${a.x}|${a.y}) – ${b.id} (${b.x}|${b.y}): ${d.toFixed(0)} cm`);
+  }
+  const m = pruefen({ plan: plan2026, kulturen, flaechen, familien, vorjahre: plaene });
+  assert.ok(!m.some((x) => /tatsächlich auf dem/.test(x.text)), 'keine Ist-Pflanze auf einem Weg');
 });
