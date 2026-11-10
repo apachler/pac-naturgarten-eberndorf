@@ -8,4 +8,6 @@ Erinnerungen für die nächsten Saisonen. Claude geht diese Liste zu Beginn jede
 - [ ] **Wühlmäuse:** 2026 haben sie Sellerieknollen ausgehöhlt und die meiste Petersilie im Tomatenhaus geholt. Bei der Planung 2027 Schutz für Sellerie und Petersilie vorsehen, z. B. Drahtkörbe beim Pflanzen.
 - [ ] **Kohlsprossen:** beobachten, wie lange sich über den Winter 2026/27 ernten lässt
 - [ ] **Feuerbohnen:** Funktioniert das Nachtrocknen der grün geernteten Schoten?
+- [ ] **Regenwasser als zweite Quelle prüfen** (naturgarten.bio-Prinzip „Jeden Tropfen nutzen“): Grundwasser Eberndorf war 2026 deutlich unter dem Mittel.
+- [ ] **Zeigerpflanzen notieren** (Hasel, Forsythie, Apfel, Holunder, Linde …), siehe Rückmeldungs-Vorlage
 - [ ] **Wasserverbrauch 2027 erfassen**, zum Vergleich mit den ca. 3000 L von 2026

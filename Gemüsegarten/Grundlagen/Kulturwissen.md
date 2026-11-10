@@ -39,7 +39,7 @@ Referenzwerte für die Planung: Abstände, Termine und Nachbarschaften, angepass
 
 | Kultur | Aussaat/Pflanzung | Funktion | Hinweis |
 |--------|-------------------|----------|---------|
-| Ringelblume | April–Mai (DS) | Nützlinge, Bodengesundheit | Wuchert und sät sich selbst aus (2026), eher auslichten |
+| Ringelblume | April–Mai (DS) | Nützlinge, Bodengesundheit | Wuchert und sät sich selbst aus (2026), eher auslichten; ungefüllte Sorten für Insekten (naturgarten.bio) |
 | Bohnenkraut | Mai (DS/Jpfl.) | Bohnenbegleiter gegen Blattläuse | Vor der Blüte ernten |
 | Beinwell | März–April (Jpfl.) | Mulch, Jauche, Nährstoffpumpe | Nur am Beetrand, 3–4 Schnitte pro Saison |
 | Dill | April (DS) | Karottenbegleiter | Nicht verpflanzen (Pfahlwurzel); 2026 im Hitzesommer schnell geschossen |

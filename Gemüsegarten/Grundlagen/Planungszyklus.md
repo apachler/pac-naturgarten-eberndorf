@@ -1,8 +1,17 @@
 # Planungszyklus
 
-So läuft ein Gartenjahr im Repo ab, hier am Beispiel 2026 → 2027.
+So läuft ein Gartenjahr im Repo ab, hier am Beispiel 2026 → 2027. Den Takt geben die Jahreskreisfeste und Naturjahreszeiten von [naturgarten.bio](Naturgarten-bio.md):
 
-## 1. Rückmeldung zum Vorjahr (Winter, z. B. Dezember 2026)
+| Zeitpunkt | Schritt |
+|-----------|---------|
+| Mabon / Frühherbst | Haupternte, erste Notizen |
+| **Samhain** / Spätherbst | Rückmeldung und Wetterrückblick |
+| **Yule** / Winter | Wünsche, Planungsauftrag |
+| **Imbolc** / Vorfrühling | Plan fertig und geprüft, Saatgut bestellen |
+| Erstfrühling bis Frühsommer | Aussaat und Pflanzung, Empfindliches erst nach den Eisheiligen |
+| Litha / Hochsommer | Zwischenstand im Ist-Stand |
+
+## 1. Rückmeldung zum Vorjahr (um Samhain, Spätherbst)
 
 - `Vorlagen/Rueckmeldung.md` liegt bereits als `2026/Rueckmeldung.md` im Jahresordner und wird ausgefüllt.
 - Inhalte: tatsächlich gepflanzte Mengen, Ernte gut/schlecht, Platzprobleme, Krankheiten und Schädlinge, Wetter, Arbeitsaufwand, was gefehlt hat oder zu viel war.
@@ -14,12 +23,12 @@ So läuft ein Gartenjahr im Repo ab, hier am Beispiel 2026 → 2027.
 - Was über das Jahr hinaus gilt (z. B. „Gurken brauchen mehr Platz als geplant“, „Kohlweißling-Druck hoch“), kommt nach `Grundlagen/Erfahrungen.md`, mit Jahr als Quelle.
 - Bestätigte Abstände und Termine werden in `Grundlagen/Kulturwissen.md` angepasst.
 
-## 3. Wünsche für das neue Jahr (Winter)
+## 3. Wünsche für das neue Jahr (um Yule)
 
 - Neuer Ordner `2027/` aus den Vorlagen anlegen.
 - `2027/Planungsauftrag.md` ausfüllen: gewünschte Kulturen und Stückzahlen, Sorten, Änderungen bei Boden, Wasser oder Beeten, besondere Wetterbeobachtungen.
 
-## 4. Planung (Winter, spätestens Februar)
+## 4. Planung (bis Imbolc, Vorfrühling)
 
 Eingaben:
 - Plan und Rückmeldung des Vorjahres
@@ -30,6 +39,9 @@ Ergebnisse im Jahresordner:
 - `plan.yaml` mit allen Pflanzungen, Positionen und Zeiträumen. Daraus erzeugt der Beetplaner Draufsicht, Kalender und Prüfung. Die Prüfung (`npm run pruefen`) muss ohne Warnungen durchlaufen oder jede Abweichung begründen.
 - `Beetplanung.md` mit Problemanalyse, Entscheidungen und Pflegetipps. Positionstabellen braucht es dort nicht mehr, die liefert der Beetplaner.
 - `README.md` mit Zusammenfassung und Entscheidungen
+
+- Pflanztermine zusätzlich als Naturjahreszeit mit Zeigerpflanze angeben, z. B. „Frühsommer (Holunderblüte), nach den Eisheiligen“.
+- Prinzipien von naturgarten.bio prüfen: Bodenleben, Mischkultur, Regenwasser, Kreislauf, Biodiversität.
 
 Fruchtfolge beachten: Das aktive Beet wechselt. Auf das Beet, das im Vorjahr geruht hat, kommen die Kulturen. Starkzehrer, Kohlgewächse und Familien aus dem letzten Anbau auf diesem Beet (zwei Jahre zuvor) berücksichtigen.
 

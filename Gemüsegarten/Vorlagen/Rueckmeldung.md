@@ -10,6 +10,20 @@ Auswertung der Saison als Grundlage für die Planung des Folgejahres. Stichworte
 - **Boden und Mulch** (Zustand des Heubeets, Schnecken unter dem Mulch …):
 - **Gesamteindruck:**
 
+## Naturjahreszeiten (eigene Beobachtung)
+
+Wann haben die Zeigerpflanzen bei uns begonnen? Wie bei „Mein Naturkalender“ auf naturgarten.bio. Damit lassen sich die Termine in den Folgejahren genauer planen.
+
+| Zeigerpflanze | Naturjahreszeit | Datum bei uns |
+|---------------|-----------------|---------------|
+| Hasel blüht | Vorfrühling | |
+| Forsythie blüht | Erstfrühling | |
+| Apfel blüht | Vollfrühling | |
+| Schwarzer Holunder blüht | Frühsommer | |
+| Sommer-Linde blüht | Hochsommer | |
+| Holunderbeeren reif | Frühherbst | |
+| Stiel-Eiche färbt sich | Spätherbst | |
+
 ## Kulturen
 
 Geplant laut Plan des Jahres. Tatsächlich = gesetzt bzw. gesät. Ernte: ++ / + / o / – / ––

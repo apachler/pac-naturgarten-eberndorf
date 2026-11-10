@@ -11,6 +11,7 @@ Jahresplanung für die zwei Heubeete (je 3 × 5 m), von denen jedes Jahr eines b
 - [Erfahrungen](Grundlagen/Erfahrungen.md) – was wir gelernt haben
 - [Kulturwissen](Grundlagen/Kulturwissen.md) – Abstände, Termine, Nachbarschaften
 - [Merkliste](Grundlagen/Merkliste.md) – Erinnerungen für die nächsten Saisonen
+- [Naturgarten.bio](Grundlagen/Naturgarten-bio.md) – Naturjahreszeiten, Gartenjahr, Mondgarten, Jahreskreis
 
 ## Jahre
 

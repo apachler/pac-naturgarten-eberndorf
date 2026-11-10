@@ -15,6 +15,8 @@ Gemüsegarten/
 │   ├── Kulturwissen.md
 │   ├── Erfahrungen.md
 │   ├── Merkliste.md
+│   ├── Naturgarten-bio.md  Was von naturgarten.bio in die Planung einfließt
+│   ├── standort.yaml       Koordinaten und Höhe für die Naturjahreszeiten
 │   ├── kulturen.yaml       Kulturdatenbank für Beetplaner und Prüfung
 │   └── flaechen.yaml       Maße von Beet West, Beet Ost und Tomatenhaus
 ├── jahre.yaml             Verzeichnis der Jahrespläne

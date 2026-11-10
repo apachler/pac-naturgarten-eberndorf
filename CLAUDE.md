@@ -9,7 +9,8 @@ Dieses Repo ist das Langzeitgedächtnis für die Gemüsegarten-Planung von Andre
 3. `Gemüsegarten/Grundlagen/Erfahrungen.md` – bestätigte Erkenntnisse aus früheren Jahren
 4. `Gemüsegarten/Grundlagen/Kulturwissen.md` – Abstände, Termine, Nachbarschaften
 5. `Gemüsegarten/Grundlagen/Merkliste.md` – Erinnerungen; passende Punkte von sich aus ansprechen
-6. Den Ordner des **Vorjahres** (Plan + `Rueckmeldung.md`) und ggf. den des aktuellen Jahres
+6. `Gemüsegarten/Grundlagen/Naturgarten-bio.md` – Naturjahreszeiten, Gartenjahr, Mondgarten, Jahreskreis und Prinzipien von naturgarten.bio
+7. Den Ordner des **Vorjahres** (Plan + `Rueckmeldung.md`) und ggf. den des aktuellen Jahres
 
 ## Arbeitsweise
 
@@ -18,6 +19,7 @@ Dieses Repo ist das Langzeitgedächtnis für die Gemüsegarten-Planung von Andre
 - **Beetpläne sind Daten:** Der Plan eines Jahres steht in `Gemüsegarten/<Jahr>/plan.yaml` (Positionen, Zeiträume, Ist-Stand). Kulturwerte stehen in `Grundlagen/kulturen.yaml`, Flächenmaße in `Grundlagen/flaechen.yaml`. Die Anzeige übernimmt der Beetplaner (`index.html` + `beetplaner/`, GitHub Pages: https://apachler.github.io/pac-naturgarten-eberndorf/). Keine eigenen HTML- oder JSX-Beetpläne pro Jahr mehr bauen. Format: `beetplaner/README.md`.
 - Nach jeder Änderung an Plan- oder Kulturdaten `npm install && npm run pruefen` ausführen und Warnungen beheben oder begründen (`begruendung:` in der Pflanzung). Neue Kulturen zuerst in `kulturen.yaml` anlegen.
 - Rückmeldungen auch in `plan.yaml` unter `ist:` nachtragen (Status, Anzahl, Ernte, Notiz).
+- **Im Sinne von naturgarten.bio planen:** Termine zusätzlich als Naturjahreszeit mit Zeigerpflanze angeben (Eberndorf ca. 10 Tage vor dem DWD-Mittel), Prinzipien Bodenleben/No-Dig, Mischkultur, Regenwasser, Kreislauf und Biodiversität berücksichtigen, Mondgarten nur als optionale Feinabstimmung. Quelle ist das Repo `apachler/pacnaturgarten` (nur lesen, dort gelten eigene Regeln). Bei Änderungen dort `beetplaner/naturjahr.js` und `Grundlagen/Naturgarten-bio.md` nachziehen.
 - Beim Planen aktiv auf Probleme hinweisen (Platz, Nachbarschaften, Fruchtfolge) und bei Konflikten begründet priorisieren, statt still wegzulassen.
 - Pflanzpläne müssen 1:1 umsetzbar sein: jede Pflanze mit Position (X/Y in cm, Ursprung Südwest-Ecke) und alle gewünschten Stückzahlen vollständig. Auch Vor- und Nachkulturen möglichst als Punkte oder Reihen statt als Bereich. Die Prüfung kontrolliert Stückzahl, Abstand, Nachbarn, Platz, Frost und Fruchtfolge.
 - Neue Jahre aus `Gemüsegarten/Vorlagen/` anlegen (inkl. `plan.yaml`) und in `Gemüsegarten/jahre.yaml` eintragen.

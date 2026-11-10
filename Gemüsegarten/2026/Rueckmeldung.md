@@ -31,6 +31,10 @@ Auswertung der Saison als Grundlage für die Planung des Folgejahres. Stichworte
 - **Boden und Mulch** (Zustand des Heubeets, Schnecken unter dem Mulch …):
 - **Gesamteindruck:** siehe oben
 
+## Naturjahreszeiten (eigene Beobachtung)
+
+Für 2026 nicht erfasst. Ab 2027 die Zeigerpflanzen notieren (siehe Vorlage).
+
 ## Kulturen
 
 Geplant laut Plan des Jahres. Tatsächlich = gesetzt bzw. gesät. Ernte: ++ / + / o / – / ––

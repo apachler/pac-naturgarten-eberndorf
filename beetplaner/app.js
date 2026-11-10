@@ -1,4 +1,5 @@
 import yaml from 'https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/+esm';
+import { naturjahr, saisonAm, GARTENJAHR, GEMUESE_JE_SAISON, KALENDER_ABOS, QUELLE } from './naturjahr.js';
 import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivAm, huelle, pruefen } from './modell.js';
 
 const BASIS = 'Gemüsegarten/';
@@ -27,7 +28,7 @@ const el = (tag, attrs = {}, ...kinder) => {
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 const zustand = {
-  kulturen: {}, flaechen: {}, plaene: [], jahr: null, flaeche: 'west', datum: null,
+  kulturen: {}, flaechen: {}, standort: null, plaene: [], jahr: null, flaeche: 'west', datum: null,
   ist: false, alle: false, vorjahr: false, markiert: new Set(), meldungen: [],
 };
 
@@ -41,9 +42,11 @@ async function ladeYaml(pfad) {
 
 async function start() {
   try {
-    const [kulturen, flaechen, index] = await Promise.all([
+    const [kulturen, flaechen, index, standort] = await Promise.all([
       ladeYaml('Grundlagen/kulturen.yaml'), ladeYaml('Grundlagen/flaechen.yaml'), ladeYaml('jahre.yaml'),
+      ladeYaml('Grundlagen/standort.yaml').catch(() => null),
     ]);
+    zustand.standort = standort;
     zustand.kulturen = kulturen;
     zustand.flaechen = flaechen;
     zustand.plaene = await Promise.all(index.jahre.map((j) => ladeYaml(j.plan)));
@@ -155,6 +158,7 @@ function zeichneAlles() {
 
 function zeichneZeitabhaengig() {
   $('#datum-text').textContent = formatDatum(zustand.datum);
+  zeichneSaison();
   zeichneAlles();
 }
 
@@ -308,6 +312,21 @@ function zeichneLegende(alle) {
   }
 }
 
+// ---------------------------------------------------------------- Naturjahreszeit
+
+function zeichneSaison() {
+  const s = saisonAm(zustand.datum, zustand.standort);
+  $('#saison').innerHTML = `<span class="saison-punkt" style="background:${s.farbe}"></span><strong>${esc(s.name)}</strong> <span class="leise">· ab ${formatDatum(s.beginn).replace(/ \d{4}$/, '')} · Zeiger: ${esc(s.zeiger)}</span>`;
+  const box = $('#gartenjahr');
+  box.innerHTML = '';
+  const liste = el('ul', { class: 'aufgaben' });
+  for (const t of GEMUESE_JE_SAISON[s.id] || []) liste.append(el('li', { class: 'eigen' }, el('span', { class: 'marke', text: 'Unser Beet' }), ' ', t));
+  for (const t of GARTENJAHR[s.id] || []) liste.append(el('li', { text: t }));
+  box.append(el('p', { class: 'leise klein' }, `${s.name} in ${zustand.standort?.ort?.split(' (')[0] || 'Eberndorf'}: erkennbar an „${s.zeiger}“ oder „${s.auch}“. Tatsächlich zeigt die Natur, wann es so weit ist.`), liste);
+  box.append(el('p', { class: 'leise klein' }, 'Quelle: ', el('a', { href: 'https://naturgarten.bio/naturgarten', text: 'naturgarten.bio' }), ' – Gartenjahr und Naturjahreszeiten (DWD-Mittel, Hopkins-Regel). Als Kalender abonnieren: ',
+    ...KALENDER_ABOS.flatMap((k, i) => [i ? ' · ' : '', el('a', { href: k.url.replace('https://', 'webcal://'), text: k.name })])));
+}
+
 // ---------------------------------------------------------------- Kalender
 
 function zeichneKalender() {
@@ -323,6 +342,16 @@ function zeichneKalender() {
   }
   kopf.append(skala);
   box.append(kopf);
+  // Naturjahreszeiten-Band
+  const band = el('div', { class: 'g-bahn g-band' });
+  const nj = [...naturjahr(zustand.jahr - 1, zustand.standort), ...naturjahr(zustand.jahr, zustand.standort), ...naturjahr(zustand.jahr + 1, zustand.standort)];
+  nj.forEach((n, i) => {
+    const bis = nj[i + 1]?.beginn || e;
+    if (bis <= s || n.beginn >= e) return;
+    band.append(el('span', { class: 'g-saison', style: `left:${pct(n.beginn)}%;width:${pct(bis) - pct(n.beginn)}%;background:${n.farbe}`, title: `${n.name} – ${n.zeiger}`, text: n.name.slice(0, 2) }));
+  });
+  band.append(el('span', { class: 'g-heute', style: `left:${pct(zustand.datum)}%` }));
+  box.append(el('div', { class: 'g-zeile g-kopf' }, el('div', { class: 'g-name leise', text: 'Naturjahreszeit' }), band));
   const liste = pflanzungenHier().slice().sort((a, b) => datum(a.von) - datum(b.von));
   if (!liste.length) box.append(el('p', { class: 'leer', text: 'Für diese Fläche ist in diesem Jahr nichts geplant.' }));
   for (const p of liste) {

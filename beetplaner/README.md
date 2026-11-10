@@ -15,6 +15,7 @@ Am Handy über „Zum Home-Bildschirm hinzufügen“ wie eine App nutzen.
   - *Vorjahr:* blendet ein, was beim letzten Anbau auf dieser Fläche stand (Fruchtfolge)
 - **Kalender:** Gantt-Ansicht aller Kulturen über das Jahr bis März des Folgejahres
 - **Liste:** Stückzahlen Plan, Wunsch und Ist sowie die Ernte
+- **Naturjahreszeit:** zu jedem Datum die Naturjahreszeit in Eberndorf mit Zeigerpflanze, dazu die Aufgaben aus dem Gartenjahr von naturgarten.bio und unsere eigenen. Der Kalender hat ein Band mit den Naturjahreszeiten. Daten in `naturjahr.js`, Standort in `Gemüsegarten/Grundlagen/standort.yaml`.
 - **Prüfung:** automatische Kontrolle des Plans. Antippen springt zu den betroffenen Pflanzen.
 
 ## Daten

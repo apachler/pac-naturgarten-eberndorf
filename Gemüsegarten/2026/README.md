@@ -79,3 +79,4 @@ Beim Ablegen fiel auf, dass einige Anforderungen aus dem Planungsauftrag noch ni
 - 2026-11-10: Gesamteindruck 2026 eingetragen: zu früh gepflanzt, Mengen bei Sellerie, Mangold, Paprika, Pfefferoni und Kohlsprossen zu groß, Erfahrungen zu Gurken, Lauch, Roten Rüben und Feuerbohnen. Erkenntnisse in die Grundlagen übernommen.
 - 2026-11-10: Tomatenhaus und Wasserverbrauch (ca. 3000 L) erfasst. Merkliste für 2027 angelegt (u. a. Fotos von den Paprika-Fraßschäden, Wühlmausschutz).
 - 2026-11-10: Beetplaner gebaut (GitHub Pages) und Plan 2026 als `plan.yaml` erfasst. Die Prüfung deckt die Planungsfehler 2026 auf: Vor- und Nachkulturen hatten zeitlich keinen Platz, außerdem fehlten Pflanzen und Abstände waren zu klein.
+- 2026-11-10: naturgarten.bio eingebunden: Naturjahreszeiten für Eberndorf, Gartenjahr, Mondgarten, Jahreskreis als Takt des Planungszyklus. Der Beetplaner zeigt die Naturjahreszeit und die Aufgaben dazu.
