@@ -1,0 +1,133 @@
+// Unit-Tests für die Planlogik (node:test). Aufruf: npm test
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import yaml from 'js-yaml';
+import { positionen, anzahlGeplant, aktivAm, datum, pruefen, huelle } from '../beetplaner/modell.js';
+import { naturjahr, saisonAm, hopkins, GARTENJAHR, NATURJAHRESZEITEN } from '../beetplaner/naturjahr.js';
+
+const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'Gemüsegarten');
+const lade = (p) => yaml.load(readFileSync(join(root, p), 'utf8'));
+const kulturen = lade('Grundlagen/kulturen.yaml');
+const flaechen = lade('Grundlagen/flaechen.yaml');
+const standort = lade('Grundlagen/standort.yaml');
+const { jahre } = lade('jahre.yaml');
+const plaene = jahre.map((j) => lade(j.plan));
+const plan2026 = plaene.find((p) => p.jahr === 2026);
+const finde = (id) => plan2026.pflanzungen.find((p) => p.id === id);
+
+test('Positionen: Punkte mit je, Reihen gleichmäßig, Bereiche ohne Punkte', () => {
+  assert.deepEqual(positionen({ punkte: [[30, 450]], je: 4 }), [{ x: 30, y: 450, n: 4 }]);
+  const r = positionen({ reihen: [{ y: 70, x1: 20, x2: 140, anzahl: 5 }] });
+  assert.deepEqual(r.map((q) => q.x), [20, 50, 80, 110, 140]);
+  assert.ok(r.every((q) => q.y === 70));
+  const ns = positionen({ reihen: [{ x: 10, y1: 0, y2: 100, anzahl: 3 }] });
+  assert.deepEqual(ns.map((q) => [q.x, q.y]), [[10, 0], [10, 50], [10, 100]]);
+  assert.deepEqual(positionen({ reihen: [{ y: 5, x1: 0, x2: 100, anzahl: 1 }] }).map((q) => q.x), [50]);
+  assert.deepEqual(positionen({ bereich: { x: 0, y: 0, b: 10, t: 10 } }), []);
+});
+
+test('Stückzahlen: Punkte × je, Reihen, Bereiche nach Wunsch', () => {
+  assert.equal(anzahlGeplant(finde('feuerbohne')), 20);
+  assert.equal(anzahlGeplant(finde('karotte')), 30);
+  assert.equal(anzahlGeplant(finde('sommerlauch')), 14);
+  assert.equal(anzahlGeplant(finde('vogerlsalat')), 50);
+});
+
+test('Datum und Aktivität', () => {
+  const p = { von: '2026-05-15', bis: '2026-10-31' };
+  assert.equal(aktivAm(p, datum('2026-05-15')), true);
+  assert.equal(aktivAm(p, datum('2026-10-31')), true);
+  assert.equal(aktivAm(p, datum('2026-05-14')), false);
+  assert.equal(aktivAm(p, datum('2026-11-01')), false);
+  // YAML liefert Date-Objekte, beides muss gleich behandelt werden
+  assert.equal(datum(new Date('2026-05-15T00:00:00Z')).getTime(), datum('2026-05-15').getTime());
+});
+
+test('Positionen 2026 entsprechen dem Positionsplan der Planung 2026', () => {
+  // Stichproben aus Mischkultur-Beetplanung.md, Kapitel 6 (Ursprung Südwest-Ecke)
+  const erwartet = {
+    feuerbohne: [[30, 450], [90, 450], [150, 450], [210, 450], [270, 450]],
+    bohnenkraut: [[60, 420], [120, 420], [180, 420], [240, 420]],
+    kohlsprossen: [[30, 330], [30, 290], [90, 330], [90, 290]],
+    gurke: [[150, 350], [150, 320], [150, 290]],
+    paprika: [[30, 240], [30, 190], [80, 215]],
+    pfefferoni: [[80, 250], [80, 180], [30, 165]],
+    mangold: [[150, 240], [150, 200], [150, 160]],
+    stangensellerie: [[220, 240], [260, 240], [220, 190], [260, 190]],
+  };
+  for (const [id, punkte] of Object.entries(erwartet)) {
+    assert.deepEqual(positionen(finde(id)).map((q) => [q.x, q.y]), punkte, id);
+  }
+  const karotte = positionen(finde('karotte'));
+  assert.deepEqual([...new Set(karotte.map((q) => q.y))], [155, 115, 85]);
+  assert.equal(Math.min(...karotte.map((q) => q.x)), 15);
+  assert.equal(Math.max(...karotte.map((q) => q.x)), 285);
+  const ringel = positionen(finde('ringelblume')).map((q) => [q.x, q.y]);
+  assert.deepEqual(ringel.slice(0, 2), [[80, 20], [220, 20]]);
+});
+
+test('Alle Pläne: gültige Daten, keine Fehler in der Prüfung', () => {
+  for (const plan of plaene) {
+    const m = pruefen({ plan, kulturen, flaechen, vorjahre: plaene });
+    const fehler = m.filter((x) => x.stufe === 'fehler');
+    assert.deepEqual(fehler, [], `${plan.jahr}: ${fehler.map((f) => f.text).join(' | ')}`);
+    for (const p of plan.pflanzungen) {
+      assert.ok(kulturen[p.kultur], `${plan.jahr}/${p.id}: Kultur ${p.kultur} fehlt`);
+      assert.ok(flaechen[p.flaeche], `${plan.jahr}/${p.id}: Fläche ${p.flaeche} fehlt`);
+      assert.ok(datum(p.von) <= datum(p.bis), `${plan.jahr}/${p.id}: von nach bis`);
+    }
+  }
+});
+
+test('Prüfung findet die bekannten Planungsfehler 2026', () => {
+  const m = pruefen({ plan: plan2026, kulturen, flaechen, vorjahre: plaene });
+  const hat = (thema, teil) => m.some((x) => x.thema === thema && x.text.includes(teil));
+  assert.ok(hat('Stückzahl', 'Sommerlauch: 14 Pflanzen positioniert, gewünscht sind 20'));
+  assert.ok(hat('Stückzahl', 'Knollensellerie: 9 Pflanzen positioniert, gewünscht sind 10'));
+  assert.ok(hat('Nachbarn', 'Feuerbohne und Winterlauch'));
+  assert.ok(hat('Abstand', 'Kohlsprossen untereinander'));
+  assert.ok(hat('Platz', 'Wirsing soll ab'));
+  assert.ok(m.some((x) => x.thema === 'Stückzahl' && x.stufe === 'hinweis' && x.text.startsWith('Kohlsprossen')), 'Kohlsprossen begründet → nur Hinweis');
+});
+
+test('Prüfung: Grenzen, Wege, Frost, Fruchtfolge, Datenfehler', () => {
+  const basis = { jahr: 2027, flaechen: { ost: { rolle: 'aktiv', wege: [{ name: 'Pfad', y: 200, t: 30 }] } } };
+  const plan = {
+    ...basis,
+    pflanzungen: [
+      { id: 'a', kultur: 'paprika', flaeche: 'ost', typ: 'H', von: '2027-05-01', bis: '2027-10-01', punkte: [[400, 10]] },
+      { id: 'b', kultur: 'mangold', flaeche: 'ost', typ: 'H', von: '2027-05-20', bis: '2027-10-01', punkte: [[100, 215]] },
+      { id: 'c', kultur: 'kohlrabi', flaeche: 'ost', typ: 'H', von: '2027-05-20', bis: '2027-08-01', punkte: [[50, 50]] },
+      { id: 'd', kultur: 'gibtsnicht', flaeche: 'ost', typ: 'H', von: '2027-05-20', bis: '2027-08-01', punkte: [[50, 50]] },
+    ],
+  };
+  const vorjahr = { jahr: 2025, pflanzungen: [{ id: 'fs', kultur: 'flower_sprouts', flaeche: 'ost', von: '2025-07-15', bis: '2025-12-31', bereich: { x: 0, y: 0, b: 300, t: 125 } }] };
+  const m = pruefen({ plan, kulturen, flaechen, vorjahre: [vorjahr] });
+  const themen = (id) => m.filter((x) => x.ids.includes(id)).map((x) => x.thema);
+  assert.ok(themen('a').includes('Grenzen'));
+  assert.ok(themen('a').includes('Frost'));
+  assert.ok(themen('b').includes('Wege'));
+  assert.ok(themen('c').includes('Fruchtfolge'));
+  assert.ok(m.some((x) => x.stufe === 'fehler' && x.ids.includes('d')));
+});
+
+test('Hülle eines Bereichs und einer Punktgruppe', () => {
+  assert.deepEqual(huelle({ bereich: { x: 1, y: 2, b: 3, t: 4 } }), { x: 1, y: 2, b: 3, t: 4 });
+  const h = huelle({ punkte: [[100, 100], [200, 100]] }, { abstand: 40 });
+  assert.deepEqual(h, { x: 80, y: 80, b: 140, t: 40 });
+});
+
+test('Naturjahreszeiten Eberndorf (Hopkins-Regel wie naturgarten.bio)', () => {
+  assert.equal(hopkins('fullSpring', standort.lat, standort.hoehe), -11); // 4·(46,58−51) + 3,3·(465−250)/100 = −10,6
+  assert.equal(hopkins('winter', standort.lat, standort.hoehe), 11);
+  const nj = naturjahr(2027, standort);
+  assert.equal(nj.length, 10);
+  for (let i = 1; i < nj.length; i++) assert.ok(nj[i].beginn > nj[i - 1].beginn, 'Reihenfolge');
+  assert.equal(nj.find((s) => s.id === 'fullSpring').beginn.toISOString().slice(0, 10), '2027-04-15');
+  assert.equal(saisonAm(datum('2027-01-10'), standort).id, 'winter');
+  assert.equal(saisonAm(datum('2027-06-15'), standort).id, 'highSummer');
+  for (const s of NATURJAHRESZEITEN) assert.ok(GARTENJAHR[s.id]?.length, `Gartenjahr ${s.id}`);
+});

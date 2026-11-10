@@ -4,82 +4,107 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Beetplaner – PAC Naturgarten Eberndorf</title>
-  <meta name="theme-color" content="#2f4a2b">
+  <meta name="description" content="Jahresplanung der Gemüse-Heubeete im Naturgarten Eberndorf: Beetplan mit Zeitregler, Kalender, Naturjahreszeiten und Prüfung.">
+  <meta name="theme-color" content="#FAFAFA">
   <link rel="manifest" href="beetplaner/manifest.json">
   <link rel="icon" href="beetplaner/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="beetplaner/icon.svg">
+  <link rel="preload" href="beetplaner/fonts/open-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="beetplaner/fonts/cormorant-garamond-700.woff2" as="font" type="font/woff2" crossorigin>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="beetplaner/style.css">
 </head>
 <body>
   <header class="kopf">
-    <div class="kopf-zeile">
-      <div class="titel">
-        <span class="titel-klein">PAC Naturgarten Eberndorf</span>
-        <span class="titel-gross">Beetplaner</span>
-      </div>
-      <select id="jahr" aria-label="Jahr"></select>
+    <div class="kopf-innen">
+      <a class="marke-link" href="./" aria-label="Beetplaner – Startseite">
+        <img class="logo" src="beetplaner/icon.svg" alt="" width="40" height="40">
+        <span class="marke-text">
+          <span class="brand-name">PAC Naturgarten Eberndorf</span>
+          <span class="marke-sub">Beetplaner · Gemüsegarten</span>
+        </span>
+      </a>
+      <label class="jahr-wahl">
+        <span class="sr-only">Jahr</span>
+        <select id="jahr"></select>
+      </label>
     </div>
-    <div class="segmente" id="flaechen" role="tablist" aria-label="Fläche"></div>
-    <nav class="tabs" role="tablist">
-      <button data-tab="plan" class="aktiv">Plan</button>
-      <button data-tab="kalender">Kalender</button>
-      <button data-tab="liste">Liste</button>
-      <button data-tab="pruefung">Prüfung <span id="pruef-zahl" class="zahl"></span></button>
-    </nav>
   </header>
 
+  <main id="inhalt">
+    <div class="seitenkopf">
+      <p class="kicker" id="kicker">Gemüsegarten</p>
+      <h1 class="heading-page" id="titel">Beetplaner</h1>
+      <p class="lead" id="flaechen-info"></p>
+      <div class="chips" id="flaechen" role="tablist" aria-label="Fläche"></div>
+    </div>
 
-  <main>
-    <section id="tab-plan" class="tab aktiv">
-      <div class="flaechen-info" id="flaechen-info"></div>
-      <div class="optionen">
+    <nav class="tabs" role="tablist" aria-label="Ansicht">
+      <button type="button" role="tab" data-tab="plan" class="aktiv" aria-selected="true">Plan</button>
+      <button type="button" role="tab" data-tab="kalender" aria-selected="false">Kalender</button>
+      <button type="button" role="tab" data-tab="liste" aria-selected="false">Liste</button>
+      <button type="button" role="tab" data-tab="pruefung" aria-selected="false">Prüfung <span id="pruef-zahl" class="zahl"></span></button>
+    </nav>
+
+    <section id="tab-plan" class="tab aktiv" role="tabpanel" aria-label="Plan">
+      <div class="box zeitregler">
+        <div class="zeit-kopf">
+          <span class="stat-value" id="datum-text"></span>
+          <button type="button" id="heute" class="knopf-outline">Heute</button>
+        </div>
+        <div class="saison" id="saison"></div>
+        <input type="range" id="datum" min="0" max="0" step="1" aria-label="Datum wählen">
+        <div class="monate" id="monate" aria-hidden="true"></div>
+      </div>
+
+      <div class="chips optionen" role="group" aria-label="Anzeige">
         <label class="chip"><input type="checkbox" id="opt-ist"> Ist-Stand</label>
         <label class="chip"><input type="checkbox" id="opt-alle"> Alle Kulturen</label>
         <label class="chip"><input type="checkbox" id="opt-vorjahr"> Vorjahr</label>
       </div>
-      <div class="zeitregler">
-        <div class="zeit-kopf">
-          <strong id="datum-text"></strong>
-          <button id="heute" class="knopf-klein">Heute</button>
-        </div>
-        <div class="saison" id="saison"></div>
-        <input type="range" id="datum" min="0" max="0" step="1" aria-label="Datum">
-        <div class="monate" id="monate"></div>
-      </div>
       <div class="verteilt" id="verteilt"></div>
-      <div class="beet-rahmen">
-        <svg id="beet" role="img" aria-label="Beetplan"></svg>
+
+      <div class="plan-raster">
+        <div class="box beet-rahmen">
+          <svg id="beet" role="img" aria-label="Beetplan, Norden oben"></svg>
+        </div>
+        <div class="plan-seite">
+          <h2 class="heading-sub abschnitt">Gerade im Beet</h2>
+          <ul class="liste-karten" id="legende"></ul>
+        </div>
       </div>
-      <h3 class="abschnitt">Gerade im Beet</h3>
-      <ul class="legende" id="legende"></ul>
-      <h3 class="abschnitt">Gartenjahr jetzt</h3>
-      <div class="gartenjahr" id="gartenjahr"></div>
+
+      <h2 class="heading-sub abschnitt">Gartenjahr jetzt</h2>
+      <div class="box box-getoent" id="gartenjahr"></div>
     </section>
 
-    <section id="tab-kalender" class="tab">
-      <div class="gantt" id="gantt"></div>
+    <section id="tab-kalender" class="tab" role="tabpanel" aria-label="Kalender">
+      <div class="box gantt" id="gantt"></div>
     </section>
 
-    <section id="tab-liste" class="tab">
+    <section id="tab-liste" class="tab" role="tabpanel" aria-label="Liste">
       <div id="liste"></div>
     </section>
 
-    <section id="tab-pruefung" class="tab">
+    <section id="tab-pruefung" class="tab" role="tabpanel" aria-label="Prüfung">
       <p class="erklaerung">Automatische Prüfung des Plans: Stückzahlen, Abstände, Nachbarn, Wege, Platz für Vor- und Nachkulturen, Frost und Fruchtfolge. Antippen zeigt die betroffenen Pflanzen im Plan.</p>
       <div id="pruefung"></div>
     </section>
   </main>
 
   <div class="blatt-huelle" id="blatt-huelle" hidden>
-    <div class="blatt" id="blatt" role="dialog" aria-modal="true">
-      <button class="blatt-zu" id="blatt-zu" aria-label="Schließen">✕</button>
+    <div class="blatt" id="blatt" role="dialog" aria-modal="true" aria-labelledby="blatt-titel">
+      <button type="button" class="blatt-zu" id="blatt-zu" aria-label="Schließen">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
       <div id="blatt-inhalt"></div>
     </div>
   </div>
 
   <footer class="fuss">
-    Daten: <a href="https://github.com/apachler/pac-naturgarten-eberndorf/tree/main/Gem%C3%BCsegarten">Gemüsegarten/</a> im Repo · Norden ist oben · Maße in cm
+    <p>Im Sinne von <a href="https://naturgarten.bio">PAC Natur&amp;Garten – Gemeinschaft der lebendigen Erde ↗</a></p>
+    <p>Daten: <a href="https://github.com/apachler/pac-naturgarten-eberndorf/tree/main/Gem%C3%BCsegarten">Gemüsegarten/ im Repo ↗</a> · Norden ist oben · Maße in cm</p>
+    <p class="klein">Schriften: Cormorant Garamond und Open Sans (SIL Open Font License)</p>
   </footer>
 
   <script type="module" src="beetplaner/app.js"></script>

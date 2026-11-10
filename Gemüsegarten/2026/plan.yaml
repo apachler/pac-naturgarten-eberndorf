@@ -202,6 +202,7 @@ pflanzungen:
     von: 2026-04-15
     bis: 2026-08-31
     punkte: [[10, 135], [10, 95], [290, 135], [290, 95]]
+    notiz: 'Laut Positionsplan „X = 10 und 290, je 2 Pflanzen an Reihenenden“ – Y an den Lauchreihen angenommen.'
     ist: { status: geerntet, ernte: "-", notiz: Sehr schnell in die Blüte – nur kleine Ernte. }
 
   # ---------------- Zone E ----------------
@@ -239,8 +240,8 @@ pflanzungen:
     wunsch: 4
     von: 2026-04-15
     bis: 2026-10-31
-    punkte: [[80, 15], [220, 15], [10, 10], [290, 10]]
-    notiz: '"Südrand und Ecken" – genaue Ecken-Positionen angenommen.'
+    punkte: [[80, 20], [220, 20], [10, 10], [290, 10]]
+    notiz: 'Laut Positionsplan X 80 und 220 bei Y 20 sowie „Ecken“ – die beiden Ecken-Positionen sind angenommen.'
     ist: { status: gepflanzt, notiz: Ausgesät – wuchert stark, Selbstaussaat beobachtet. }
 
   - id: beinwell

@@ -3,9 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "pruefen": "node beetplaner/pruefen.mjs"
+    "pruefen": "node beetplaner/pruefen.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "playwright test",
+    "start": "node tests/server.mjs"
   },
   "dependencies": {
     "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0"
   }
 }

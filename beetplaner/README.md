@@ -34,6 +34,15 @@ Alle Daten liegen als YAML unter `Gemüsegarten/`. Der Beetplaner zeigt sie nur 
 
 Koordinaten in cm, Ursprung = Südwest-Ecke, x nach Osten, y nach Norden. Das Format ist am Anfang von `2026/plan.yaml` beschrieben.
 
+## Design
+
+Der Beetplaner folgt dem Design-System von naturgarten.bio (`docs/DESIGN.md` im Repo `apachler/pacnaturgarten`):
+- Farben als Tokens: Hintergrund #FAFAFA, Text #2D2D2D, Grün #4f7a00 als einziger Akzent, Secondary #B8D4A0 für Ränder und Chips, Notice-Farben für Hinweise
+- Titel in Cormorant Garamond (heading-*-Skala), Text in Open Sans. Die Schriften liegen unter `fonts/` und stehen unter der SIL Open Font License.
+- Karten und Boxen `rounded-xl` mit `border-secondary/30`, Chips als Pillen, Badges eine Farbe je Bedeutung, Hover nur auf Klickbarem
+
+Die Farben und Symbole der Kulturen im Plan sind Daten (`kulturen.yaml`), keine UI-Farben.
+
 ## Prüfung
 
 ```bash
@@ -45,6 +54,26 @@ node beetplaner/pruefen.mjs 2027
 Geprüft werden Stückzahlen gegen den Wunsch, Lage außerhalb des Beetes oder auf Wegen, Mindestabstände, schlechte Nachbarn, Platz für Vor- und Nachkulturen, frostempfindliche Kulturen vor den Eisheiligen und die Fruchtfolge (gleiche Pflanzenfamilie an derselben Stelle wie beim letzten Anbau). Die Prüfung läuft bei jedem Push als GitHub Action. Nur **Fehler** lassen sie scheitern, Warnungen und Hinweise nicht.
 
 Die Prüflogik steckt in `modell.js` und wird vom Browser und vom Script gemeinsam genutzt.
+
+## Tests
+
+```bash
+npm ci
+npm test            # Unit-Tests: Positionen, Stückzahlen, Prüfung, Naturjahreszeiten
+npm run test:e2e    # Browser-Tests (Playwright, Chrome) auf Handy, kleinem Handy und Desktop
+```
+
+Die Browser-Tests prüfen unter anderem:
+- dass **jede Pflanze genau an der Position aus `plan.yaml` gezeichnet** wird, zurückgerechnet aus der SVG-Geometrie, für alle Jahre und Flächen
+- Norden oben und Westen links
+- Zeitregler, Naturjahreszeit, Detailblatt, Tabs, Liste, Kalender und Prüfung (gleiche Meldungen wie das Script)
+- Ist-Stand, Vorjahr, Jahres- und Flächenwahl, Direktlinks
+- dass nichts über den Bildschirmrand ragt
+- eine verständliche Meldung, wenn Daten fehlen
+
+In CI laufen Prüfung und Tests bei jedem Push. **GitHub Pages veröffentlicht nur, wenn alle Tests grün sind.**
+
+js-yaml liegt als `vendor/js-yaml.mjs` (MIT) im Repo, der Planer braucht also kein CDN.
 
 ## Lokal ansehen
 

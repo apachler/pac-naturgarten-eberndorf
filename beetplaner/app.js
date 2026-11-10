@@ -1,4 +1,4 @@
-import yaml from 'https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/+esm';
+import yaml from './vendor/js-yaml.mjs'; // js-yaml (MIT), lokal statt CDN
 import { naturjahr, saisonAm, GARTENJAHR, GEMUESE_JE_SAISON, KALENDER_ABOS, QUELLE } from './naturjahr.js';
 import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivAm, huelle, pruefen } from './modell.js';
 
@@ -9,6 +9,9 @@ const STATUS_FARBE = {
   geplant: '#8a8f86', gepflanzt: '#3f7d3a', im_beet: '#2e7d32', geerntet: '#8d6e63',
   nicht_gepflanzt: '#b0aea8', unbekannt: '#c9a227',
 };
+const TYP_KURZ = { H: 'Haupt', V: 'Vor', N: 'Nach', B: 'Beikraut' };
+const typBadge = (p) => el('span', { class: 'badge badge-typ', title: TYPEN[p.typ] || p.typ, text: TYP_KURZ[p.typ] || p.typ });
+const statusBadge = (st) => el('span', { class: `badge badge-status ${st}`, text: STATUS[st] || st });
 const ERNTE_TEXT = { '++': 'sehr gut', '+': 'gut', o: 'mittel', '-': 'schlecht', '--': 'sehr schlecht' };
 
 const $ = (s) => document.querySelector(s);
@@ -71,6 +74,10 @@ async function start() {
   $('#blatt-zu').addEventListener('click', schliesseBlatt);
   $('#blatt-huelle').addEventListener('click', (e) => { if (e.target.id === 'blatt-huelle') schliesseBlatt(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') schliesseBlatt(); });
+  const kopf = document.querySelector('.kopf');
+  const setzeKopf = () => document.documentElement.style.setProperty('--kopf-h', `${kopf.offsetHeight}px`);
+  setzeKopf();
+  if ('ResizeObserver' in window) new ResizeObserver(setzeKopf).observe(kopf);
   waehleJahr(zustand.jahr, hFlaeche);
 }
 
@@ -118,7 +125,7 @@ function waehleJahr(jahr, flaecheWunsch) {
   for (let m = 0; m < 15; m++) {
     const d = new Date(Date.UTC(zustand.jahr, m, 1));
     const links = ((d - startDatum()) / TAG / tage) * 100;
-    $('#monate').append(el('span', { style: `left:${links}%`, text: 'JFMAMJJASONDJFM'[m] }));
+    $('#monate').append(el('span', { class: m >= 12 ? 'folgejahr' : null, style: `left:${links}%`, text: 'JFMAMJJASONDJFM'[m] }));
   }
   zeichneFlaechenWahl();
   zeichnePruefung();
@@ -139,15 +146,19 @@ function zeichneFlaechenWahl() {
   for (const f of flaechenDesJahres()) {
     const rolle = plan().flaechen?.[f]?.rolle;
     box.append(el('button', {
-      class: f === zustand.flaeche ? 'aktiv' : '', role: 'tab', onclick: () => waehleFlaeche(f),
+      type: 'button', class: f === zustand.flaeche ? 'aktiv' : '', role: 'tab', 'aria-selected': String(f === zustand.flaeche), onclick: () => waehleFlaeche(f),
     }, zustand.flaechen[f]?.name || f, rolle === 'ruhe' ? el('small', { text: ' Ruhe' }) : null));
   }
 }
 
 function zeigeTab(tab) {
-  document.querySelectorAll('.tabs button').forEach((b) => b.classList.toggle('aktiv', b.dataset.tab === tab));
+  document.querySelectorAll('.tabs button').forEach((b) => {
+    b.classList.toggle('aktiv', b.dataset.tab === tab);
+    b.setAttribute('aria-selected', String(b.dataset.tab === tab));
+  });
   document.querySelectorAll('.tab').forEach((s) => s.classList.toggle('aktiv', s.id === `tab-${tab}`));
-  window.scrollTo({ top: 0 });
+  const tabs = document.querySelector('.tabs');
+  if (tabs.getBoundingClientRect().top < 0 || window.scrollY > tabs.offsetTop) window.scrollTo({ top: Math.max(0, tabs.offsetTop - 70) });
 }
 
 function zeichneAlles() {
@@ -175,8 +186,10 @@ function zeichnePlan() {
   svg.innerHTML = '';
   svg.setAttribute('viewBox', `0 0 ${B + M.l + M.r} ${L + M.t + M.b}`);
 
-  $('#flaechen-info').innerHTML = `<strong>${esc(f.name)}</strong> · ${B / 100} × ${L / 100} m` +
-    (fp.rolle === 'ruhe' ? ' · <span class="badge ruhe">Ruhejahr</span>' : '') +
+  $('#titel').textContent = f.name;
+  $('#kicker').textContent = `Gemüsegarten ${zustand.jahr}${fp.rolle === 'ruhe' ? ' · Ruhejahr' : ''}`;
+  document.title = `${f.name} ${zustand.jahr} – Beetplaner`;
+  $('#flaechen-info').innerHTML = `${esc(f.art || '')} · ${B / 100} × ${L / 100} m` +
     (fp.notiz ? `<br><span class="leise">${esc(fp.notiz)}</span>` : '');
 
   const defs = el('defs', {},
@@ -189,7 +202,7 @@ function zeichnePlan() {
   svg.append(defs);
 
   // Himmelsrichtung
-  svg.append(el('text', { x: 12, y: 14, class: 'nord', text: '▲N' }));
+  svg.append(el('g', { 'aria-label': 'Norden' }, el('path', { class: 'nord-pfeil', d: 'M8 16 L12 4 L16 16 M12 4 V20' }), el('text', { x: 20, y: 15, class: 'nord', text: 'N' })));
   svg.append(el('text', { x: sx(B / 2), y: M.t + L + 20, class: 'sued', text: 'S' }));
 
   // Beet
@@ -238,16 +251,18 @@ function zeichnePlan() {
   const alle = pflanzungenHier();
   const sichtbar = (p) => aktivAm(p, zustand.datum);
 
-  // Bereiche
+  // Bereiche (Beschriftungen kommen zuletzt, damit Pflanzen sie nicht verdecken)
+  const beschriftungen = [];
   for (const p of alle.filter((q) => q.bereich && !istGanzesBeet(q))) {
     const aktiv = sichtbar(p);
     if (!aktiv && !zustand.alle) continue;
     const k = kultur(p), b = p.bereich;
     const nicht = zustand.ist && p.ist?.status === 'nicht_gepflanzt';
-    const g = el('g', { class: `bereich ${aktiv ? '' : 'inaktiv'} ${nicht ? 'nicht' : ''} ${zustand.markiert.has(p.id) ? 'markiert' : ''}`, onclick: () => zeigeDetails(p) },
-      el('rect', { x: sx(b.x) + 2, y: sy(b.y + b.t) + 2, width: b.b - 4, height: b.t - 4, fill: k.farbe, stroke: k.farbe }),
+    const g = el('g', { 'data-id': p.id, class: `bereich ${aktiv ? '' : 'inaktiv'} ${nicht ? 'nicht' : ''} ${zustand.markiert.has(p.id) ? 'markiert' : ''}`, onclick: () => zeigeDetails(p) },
+      el('rect', { class: 'flaeche', x: sx(b.x) + 2, y: sy(b.y + b.t) + 2, width: b.b - 4, height: b.t - 4, fill: k.farbe, stroke: k.farbe }),
       el('rect', { x: sx(b.x) + 2, y: sy(b.y + b.t) + 2, width: b.b - 4, height: b.t - 4, fill: 'url(#schraffur)', stroke: 'none' }),
-      el('text', { x: sx(b.x + b.b / 2), y: sy(b.y + b.t) + 16, class: 'bereich-text', text: `${k.symbol} ${k.name}${p.wunsch ? ` ×${p.wunsch}` : ''}` }));
+    );
+    beschriftungen.push(el('text', { x: sx(b.x + b.b / 2), y: sy(b.y + b.t) + 16, class: `bereich-text ${aktiv ? '' : 'inaktiv'}`, 'data-id': p.id, text: `${k.name}${p.wunsch ? ` ×${p.wunsch}` : ''}`, onclick: () => zeigeDetails(p) }));
     svg.append(g);
   }
 
@@ -259,13 +274,13 @@ function zeichnePlan() {
     const r = Math.max(5, Math.min(28, (k.abstand || 20) / 2));
     const status = p.ist?.status;
     const nicht = zustand.ist && status === 'nicht_gepflanzt';
-    const g = el('g', { class: `pflanzung ${aktiv ? '' : 'inaktiv'} ${nicht ? 'nicht' : ''} ${zustand.markiert.has(p.id) ? 'markiert' : ''}`, onclick: () => zeigeDetails(p) });
+    const g = el('g', { 'data-id': p.id, class: `pflanzung ${aktiv ? '' : 'inaktiv'} ${nicht ? 'nicht' : ''} ${zustand.markiert.has(p.id) ? 'markiert' : ''}`, onclick: () => zeigeDetails(p) });
     for (const q of positionen(p)) {
       const cx = sx(q.x), cy = sy(q.y);
       g.append(el('circle', { cx, cy, r: r + 7, class: 'treffer' }));
       if (zustand.markiert.has(p.id)) g.append(el('circle', { cx, cy, r: r + 4, class: 'markier-ring' }));
       g.append(el('circle', {
-        cx, cy, r, fill: nicht ? '#f4f1ea' : k.farbe, class: 'pflanze',
+        cx, cy, r, fill: nicht ? '#f4f1ea' : k.farbe, class: 'pflanze', 'data-id': p.id, 'data-x': q.x, 'data-y': q.y,
         stroke: zustand.ist ? STATUS_FARBE[status || 'geplant'] : '#fff',
         'stroke-width': zustand.ist ? 2.5 : 1.5,
         'stroke-dasharray': nicht ? '3 2' : null,
@@ -276,6 +291,7 @@ function zeichnePlan() {
     svg.append(g);
   }
 
+  svg.append(...beschriftungen);
   zeichneVerteilt(alle);
   zeichneLegende(alle);
 }
@@ -288,7 +304,7 @@ function zeichneVerteilt(alle) {
   box.append(el('span', { class: 'leise', text: 'Im ganzen Beet verteilt: ' }));
   for (const p of v) {
     const k = kultur(p);
-    box.append(el('button', { class: `chip-knopf ${aktivAm(p, zustand.datum) ? '' : 'inaktiv'}`, onclick: () => zeigeDetails(p) }, `${k.symbol} ${k.name}`));
+    box.append(el('button', { type: 'button', class: `chip-gestrichelt ${aktivAm(p, zustand.datum) ? '' : 'inaktiv'}`, onclick: () => zeigeDetails(p) }, el('span', { class: 'punkt klein', style: `background:${k.farbe}` }), k.name));
   }
 }
 
@@ -306,9 +322,9 @@ function zeichneLegende(alle) {
     ul.append(el('li', { onclick: () => zeigeDetails(p) },
       el('span', { class: 'punkt', style: `background:${k.farbe}` }, k.symbol),
       el('span', { class: 'leg-name' }, k.name, p.sorte ? el('small', { text: ` ${p.sorte.split(' (')[0]}` }) : null),
-      el('span', { class: `typ typ-${p.typ}`, text: p.typ }),
+      typBadge(p),
       el('span', { class: 'leg-zahl', text: n != null ? `${n}` : '' }),
-      zustand.ist && p.ist?.status ? el('span', { class: 'status', style: `background:${STATUS_FARBE[p.ist.status]}`, text: STATUS[p.ist.status] }) : null));
+      zustand.ist && p.ist?.status ? statusBadge(p.ist.status) : null));
   }
 }
 
@@ -320,7 +336,7 @@ function zeichneSaison() {
   const box = $('#gartenjahr');
   box.innerHTML = '';
   const liste = el('ul', { class: 'aufgaben' });
-  for (const t of GEMUESE_JE_SAISON[s.id] || []) liste.append(el('li', { class: 'eigen' }, el('span', { class: 'marke', text: 'Unser Beet' }), ' ', t));
+  for (const t of GEMUESE_JE_SAISON[s.id] || []) liste.append(el('li', { class: 'eigen' }, el('span', { class: 'badge badge-typ', text: 'Unser Beet' }), ' ', t));
   for (const t of GARTENJAHR[s.id] || []) liste.append(el('li', { text: t }));
   box.append(el('p', { class: 'leise klein' }, `${s.name} in ${zustand.standort?.ort?.split(' (')[0] || 'Eberndorf'}: erkennbar an „${s.zeiger}“ oder „${s.auch}“. Tatsächlich zeigt die Natur, wann es so weit ist.`), liste);
   box.append(el('p', { class: 'leise klein' }, 'Quelle: ', el('a', { href: 'https://naturgarten.bio/naturgarten', text: 'naturgarten.bio' }), ' – Gartenjahr und Naturjahreszeiten (DWD-Mittel, Hopkins-Regel). Als Kalender abonnieren: ',
@@ -367,7 +383,7 @@ function zeichneKalender() {
     }));
     bahn.append(el('span', { class: 'g-heute', style: `left:${pct(zustand.datum)}%` }));
     box.append(el('div', { class: 'g-zeile', onclick: () => zeigeDetails(p) },
-      el('div', { class: 'g-name' }, el('span', { text: k.symbol }), ` ${k.name}`, el('span', { class: `typ typ-${p.typ}`, text: p.typ })),
+      el('div', { class: 'g-name' }, el('span', { class: 'punkt klein', style: `background:${k.farbe}` }), k.name),
       bahn));
   }
   box.append(el('p', { class: 'leise klein', text: 'Grauer Balken = nicht gepflanzt · Linie = gewähltes Datum im Plan · J F M nach Dezember = Folgejahr' }));
@@ -383,7 +399,7 @@ function zeichneListe() {
   for (const typ of ['H', 'V', 'N', 'B']) {
     const gruppe = alle.filter((p) => p.typ === typ);
     if (!gruppe.length) continue;
-    box.append(el('h3', { class: 'abschnitt', text: { H: 'Hauptkulturen', V: 'Vorkulturen', N: 'Nachkulturen', B: 'Beikräuter' }[typ] }));
+    box.append(el('h2', { class: 'heading-sub abschnitt', text: { H: 'Hauptkulturen', V: 'Vorkulturen', N: 'Nachkulturen', B: 'Beikräuter' }[typ] }));
     const tab = el('table', { class: 'tabelle' },
       el('thead', {}, el('tr', {}, el('th', { text: 'Kultur' }), el('th', { text: 'Plan' }), el('th', { text: 'Ist' }), el('th', { text: 'Ernte' }))));
     const tb = el('tbody');
@@ -393,13 +409,13 @@ function zeichneListe() {
       const planTxt = p.bereich ? (p.wunsch ?? '–') : (p.wunsch != null && p.wunsch !== n ? `${n} / ${p.wunsch}` : n);
       const st = p.ist?.status;
       tb.append(el('tr', { onclick: () => zeigeDetails(p) },
-        el('td', {}, `${k.symbol} ${k.name}`),
+        el('td', {}, el('span', { class: 'kultur' }, el('span', { class: 'punkt klein', style: `background:${k.farbe}` }), k.name)),
         el('td', { text: planTxt }),
-        el('td', {}, p.ist?.anzahl != null ? `${p.ist.anzahl} ` : '', st ? el('span', { class: 'status', style: `background:${STATUS_FARBE[st]}`, text: STATUS[st] }) : '–'),
+        el('td', {}, p.ist?.anzahl != null ? `${p.ist.anzahl} ` : '', st ? statusBadge(st) : '–'),
         el('td', { class: 'ernte', text: p.ist?.ernte || '' })));
     }
     tab.append(tb);
-    box.append(tab);
+    box.append(el('div', { class: 'tabelle-huelle' }, tab));
   }
   box.append(el('p', { class: 'leise klein', text: 'Plan: positioniert / gewünscht · Ernte: ++ sehr gut, + gut, o mittel, - schlecht' }));
 }
@@ -417,7 +433,7 @@ function zeichnePruefung() {
   for (const stufe of ['fehler', 'warnung', 'hinweis']) {
     const g = m.filter((x) => x.stufe === stufe);
     if (!g.length) continue;
-    box.append(el('h3', { class: 'abschnitt', text: `${titel[stufe]} (${g.length})` }));
+    box.append(el('h2', { class: 'heading-sub abschnitt', text: `${titel[stufe]} (${g.length})` }));
     for (const x of g) {
       box.append(el('button', { class: `meldung ${stufe}`, onclick: () => springeZu(x) },
         el('span', { class: 'thema', text: x.thema }), el('span', { text: x.text })));
@@ -469,7 +485,7 @@ function zeigeDetails(p) {
   const dl = (rows) => `<dl>${rows.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join('')}</dl>`;
   $('#blatt-inhalt').innerHTML = `
     <div class="blatt-titel"><span class="punkt gross" style="background:${k.farbe}">${k.symbol}</span>
-      <div><h2>${esc(k.name)}</h2><span class="leise">${esc(zustand.flaechen[p.flaeche]?.name || '')} · ${zustand.jahr}</span></div></div>
+      <div><h2 class="heading-sub" id="blatt-titel">${esc(k.name)}</h2><span class="leise">${esc(zustand.flaechen[p.flaeche]?.name || '')} · ${zustand.jahr}</span></div></div>
     ${dl(zeilen)}
     ${ist.length ? `<h3>Ist-Stand</h3>${dl(ist)}` : ''}
     ${meld.length ? `<h3>Prüfung</h3>${meld.map((m) => `<p class="meldung ${m.stufe}"><span class="thema">${esc(m.thema)}</span> ${esc(m.text)}</p>`).join('')}` : ''}
