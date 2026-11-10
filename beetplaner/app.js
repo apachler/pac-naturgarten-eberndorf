@@ -1,6 +1,6 @@
 import yaml from './vendor/js-yaml.mjs'; // js-yaml (MIT), lokal statt CDN
 import { naturjahr, saisonAm, GARTENJAHR, GEMUESE_JE_SAISON, KALENDER_ABOS, NATURJAHRESZEITEN } from './naturjahr.js';
-import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, einteilung, pruefen, schlechteNachbarnVon } from './modell.js';
+import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, hatIstStand, einteilung, pruefen, schlechteNachbarnVon } from './modell.js';
 
 const BASIS = 'Gemüsegarten/';
 const TAG = 86400000;
@@ -32,7 +32,7 @@ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<
 
 const zustand = {
   kulturen: {}, flaechen: {}, familien: {}, standort: null, plaene: [], jahr: null, flaeche: 'west', datum: null,
-  ist: false, alle: false, vorjahr: false, markiert: new Set(), meldungen: [],
+  ist: false, alle: false, vorjahr: false, markiert: new Set(), meldungen: [], meldungenIst: null,
 };
 
 // ---------------------------------------------------------------- Laden
@@ -69,7 +69,7 @@ async function start() {
   $('#jahr').addEventListener('change', (e) => waehleJahr(Number(e.target.value)));
   document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => zeigeTab(b.dataset.tab)));
   for (const id of ['ist', 'alle', 'vorjahr']) {
-    $(`#opt-${id}`).addEventListener('change', (e) => { zustand[id] = e.target.checked; zeichnePlan(); });
+    $(`#opt-${id}`).addEventListener('change', (e) => { zustand[id] = e.target.checked; zeichnePlan(); if (id === 'ist') zeichnePruefung(); });
   }
   $('#datum').addEventListener('input', (e) => { zustand.datum = new Date(startDatum().getTime() + Number(e.target.value) * 7 * TAG); zeichneZeitabhaengig(); });
   $('#heute').addEventListener('click', () => { setzeDatum(heuteOderSommer()); });
@@ -140,7 +140,9 @@ function waehleJahr(jahr, flaecheWunsch) {
   const fl = flaechenDesJahres();
   const aktiv = fl.find((f) => plan().flaechen?.[f]?.rolle === 'aktiv' && zustand.flaechen[f]?.art === 'Heubeet');
   zustand.flaeche = fl.includes(flaecheWunsch) ? flaecheWunsch : (fl.includes(zustand.flaeche) && plan().flaechen?.[zustand.flaeche]?.rolle === 'aktiv' ? zustand.flaeche : aktiv || fl[0]);
-  zustand.meldungen = pruefen({ plan: plan(), kulturen: zustand.kulturen, flaechen: zustand.flaechen, familien: zustand.familien, vorjahre: zustand.plaene });
+  const basis = { plan: plan(), kulturen: zustand.kulturen, flaechen: zustand.flaechen, familien: zustand.familien, vorjahre: zustand.plaene };
+  zustand.meldungen = pruefen(basis);
+  zustand.meldungenIst = hatIstStand(plan()) ? pruefen({ ...basis, ist: true }) : null;
 
   const tage = Math.round((endDatum() - startDatum()) / TAG);
   $('#datum').max = Math.floor(tage / 7);
@@ -368,7 +370,7 @@ function zeichneVerteilt(alle) {
   box.innerHTML = '';
   const mitIst = alle.filter(hatIstLage).length;
   if (mitIst && !zustand.ist) {
-    box.append(el('p', { class: 'hinweis-ist' }, `Für ${mitIst} ${mitIst === 1 ? 'Kultur' : 'Kulturen'} ist die tatsächliche Lage erfasst – `, el('button', { type: 'button', class: 'link-knopf', onclick: () => { $('#opt-ist').checked = true; zustand.ist = true; zeichnePlan(); } }, 'Ist-Stand zeigen ↓')));
+    box.append(el('p', { class: 'hinweis-ist' }, `Für ${mitIst} ${mitIst === 1 ? 'Kultur' : 'Kulturen'} ist die tatsächliche Lage erfasst – `, el('button', { type: 'button', class: 'link-knopf', onclick: () => setzeIst(true) }, 'Ist-Stand zeigen ↓')));
   }
   const v = alle.filter((p) => istGanzesBeet(p) && (imPlan(p) || zustand.alle));
   if (!v.length) return;
@@ -502,10 +504,27 @@ function zeichneListe() {
 
 // ---------------------------------------------------------------- Prüfung
 
+/** Meldungen passend zur Ansicht: Ist-Stand geprüft, wenn „Ist-Stand“ an ist und das Jahr einen hat. */
+const meldungen = () => (zustand.ist && zustand.meldungenIst) || zustand.meldungen;
+
+function setzeIst(an) {
+  zustand.ist = an;
+  $('#opt-ist').checked = an;
+  zeichnePlan();
+  zeichnePruefung();
+}
+
 function zeichnePruefung() {
   const box = $('#pruefung');
   box.innerHTML = '';
-  const m = zustand.meldungen;
+  const m = meldungen();
+  if (zustand.meldungenIst) {
+    const istAn = zustand.ist;
+    box.append(el('p', { class: 'pruef-ansicht' },
+      istAn ? 'Geprüft wird der tatsächliche Stand (Lage, Anzahl, Pfade wie erfasst; Termine wie geplant, wo nichts erfasst ist). '
+        : 'Geprüft wird der Plan, wie er damals war. ',
+      el('button', { type: 'button', class: 'link-knopf', onclick: () => setzeIst(!istAn) }, istAn ? 'Plan prüfen' : 'Ist-Stand prüfen')));
+  }
   const ernst = m.filter((x) => x.stufe !== 'hinweis').length;
   $('#pruef-zahl').textContent = ernst || '';
   if (!m.length) { box.append(el('p', { class: 'ok', text: '✓ Keine Auffälligkeiten.' })); return; }
@@ -541,7 +560,7 @@ function zeigeDetails(p) {
   const { von, bis } = zeitraum(p);
   const n = anzahlGeplant(p);
   const nameVon = (ids) => (ids || []).map((id) => zustand.kulturen[id]?.name || id).join(', ') || '–';
-  const meld = zustand.meldungen.filter((m) => m.ids.includes(p.id));
+  const meld = meldungen().filter((m) => m.ids.includes(p.id));
   const zeilen = [
     ['Typ', TYPEN[p.typ] || p.typ],
     ['Zeitraum', `${formatDatum(von)} – ${formatDatum(bis)}`],

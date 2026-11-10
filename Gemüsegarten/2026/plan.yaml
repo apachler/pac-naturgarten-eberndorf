@@ -13,6 +13,7 @@
 #   reihen:  [{y, x1, x2, anzahl}]   Pflanzen gleichmäßig auf einer Reihe verteilt
 #            (oder {x, y1, y2, anzahl} für Nord–Süd-Reihen)
 #   bereich: {x, y, b, t}            Fläche für Streusaat / ohne genaue Position
+# Tatsächliche Termine: ist.von / ist.bis (z. B. Ernte früher als geplant) – die Prüfung des Ist-Stands rechnet damit.
 # Tatsächliche Lage: dieselben Felder unter ist: (punkte/reihen/bereich). Der Beetplaner zeigt sie
 # in der Ansicht „Ist-Stand“, die Fruchtfolge-Prüfung späterer Jahre rechnet damit.
 #            mischsaat: true = absichtlich zwischen anderen Kulturen (z. B. Markiersaat)

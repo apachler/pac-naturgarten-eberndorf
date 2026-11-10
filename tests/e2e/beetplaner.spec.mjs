@@ -303,3 +303,18 @@ test('verständliche Meldung, wenn Daten fehlen', async ({ page }) => {
   await page.goto('/index.html');
   await expect(page.locator('.fehler-box')).toContainText('nicht geladen');
 });
+
+test('Prüfung: Plan und Ist-Stand umschaltbar', async ({ page }) => {
+  await oeffne(page);
+  await page.locator('[data-tab="pruefung"]').click();
+  const box = page.locator('#pruefung');
+  await expect(box.locator('.pruef-ansicht')).toContainText('Plan, wie er damals war');
+  await expect(box).toContainText('Flower Sprouts');
+  await box.locator('.pruef-ansicht .link-knopf').click();
+  await expect(box.locator('.pruef-ansicht')).toContainText('tatsächliche Stand');
+  await expect(box).not.toContainText('Flower Sprouts');
+  await expect(box).toContainText('Kohlsprossen untereinander');
+  await expect(page.locator('#opt-ist')).toBeChecked();
+  await box.locator('.pruef-ansicht .link-knopf').click();
+  await expect(page.locator('#opt-ist')).not.toBeChecked();
+});

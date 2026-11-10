@@ -6,7 +6,7 @@ import { readFileSync, appendFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
-import { pruefen, validiereKulturen } from './modell.js';
+import { pruefen, validiereKulturen, hatIstStand } from './modell.js';
 import { NATURJAHRESZEITEN } from './naturjahr.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'Gemüsegarten');
@@ -31,16 +31,19 @@ fehler += kulturFehler.length;
 
 for (const plan of plaene) {
   if (nurJahr && plan.jahr !== nurJahr) continue;
-  const m = pruefen({ plan, kulturen, flaechen, familien, vorjahre: plaene });
-  const z = (s) => m.filter((x) => x.stufe === s).length;
-  fehler += z('fehler');
-  console.log(`\n== ${plan.jahr}: ${z('fehler')} Fehler, ${z('warnung')} Warnungen, ${z('hinweis')} Hinweise ==`);
-  summary += `## ${plan.jahr}: ${z('fehler')} Fehler, ${z('warnung')} Warnungen, ${z('hinweis')} Hinweise\n\n`;
-  for (const x of m) {
-    console.log(`${symbol[x.stufe]} [${x.thema}] ${x.text}`);
-    summary += `- ${symbol[x.stufe].trim()} **${x.thema}:** ${x.text}\n`;
+  for (const ist of hatIstStand(plan) ? [false, true] : [false]) {
+    const m = pruefen({ plan, kulturen, flaechen, familien, vorjahre: plaene, ist });
+    const z = (s) => m.filter((x) => x.stufe === s).length;
+    fehler += z('fehler');
+    const titel = `${plan.jahr}${ist ? ' – Ist-Stand' : hatIstStand(plan) ? ' – Plan' : ''}: ${z('fehler')} Fehler, ${z('warnung')} Warnungen, ${z('hinweis')} Hinweise`;
+    console.log(`\n== ${titel} ==`);
+    summary += `## ${titel}\n\n`;
+    for (const x of m) {
+      console.log(`${symbol[x.stufe]} [${x.thema}] ${x.text}`);
+      summary += `- ${symbol[x.stufe].trim()} **${x.thema}:** ${x.text}\n`;
+    }
+    summary += '\n';
   }
-  summary += '\n';
 }
 
 if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);

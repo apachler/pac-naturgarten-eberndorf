@@ -237,6 +237,7 @@ main { max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 .meldung:hover { filter: brightness(0.98); }
 .thema { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-right: 0.4rem; }
 .ok { color: var(--primary); font-weight: 700; }
+.pruef-ansicht { margin: 0 0 12px; font-size: .9rem; color: var(--fg-70); }
 .fehler-box { background: var(--notice-danger); border: 1px solid var(--notice-danger-border); color: var(--notice-danger-fg); border-radius: var(--radius-xl); padding: 1rem; }
 
 /* ---------- Detailblatt ---------- */

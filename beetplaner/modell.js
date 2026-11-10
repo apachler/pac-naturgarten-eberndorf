@@ -179,10 +179,29 @@ function schlechteNachbarn(ka, kb, idA, idB) {
 }
 
 /**
- * Prüft einen Jahresplan.
+ * Der tatsächliche Stand eines Jahres als Plan: Ist-Lage und Ist-Einteilung statt der Planung,
+ * nicht Gepflanztes fällt weg. Zeiträume: ist.von/ist.bis, sonst die geplanten.
+ */
+export function istPlan(plan) {
+  const flaechen = Object.fromEntries(Object.entries(plan.flaechen || {}).map(([id, fp]) => {
+    const { zonen, wege } = einteilung(fp, true);
+    return [id, { ...fp, zonen, wege }];
+  }));
+  const pflanzungen = (plan.pflanzungen || [])
+    .filter((p) => p.ist?.status !== 'nicht_gepflanzt')
+    .map((p) => ({ ...ort(p, true), wunsch: p.ist?.anzahl ?? p.wunsch, von: p.ist?.von ?? p.von, bis: p.ist?.bis ?? p.bis }));
+  return { ...plan, flaechen, pflanzungen };
+}
+
+/** Hat ein Jahr einen erfassten Ist-Stand? */
+export const hatIstStand = (plan) => (plan.pflanzungen || []).some((p) => p.ist);
+
+/**
+ * Prüft einen Jahresplan – oder mit ist: true den tatsächlichen Stand.
  * @returns Liste von { stufe: 'fehler'|'warnung'|'hinweis', thema, text, ids: [pflanzungs-ids] }
  */
-export function pruefen({ plan, kulturen, flaechen, familien = null, vorjahre = [] }) {
+export function pruefen({ plan, kulturen, flaechen, familien = null, vorjahre = [], ist = false }) {
+  if (ist) plan = istPlan(plan);
   const meldungen = [];
   const melde = (stufe, thema, text, ids = []) => meldungen.push({ stufe, thema, text, ids });
   const pfl = plan.pflanzungen || [];
@@ -200,9 +219,9 @@ export function pruefen({ plan, kulturen, flaechen, familien = null, vorjahre = 
   }
   const gueltig = pfl.filter((p) => kulturen[p.kultur] && flaechen[p.flaeche] && p.von && p.bis);
 
-  // 2. Stückzahlen
+  // 2. Stückzahlen (nur im Plan – im Ist-Stand gilt die gezählte Anzahl)
   for (const p of gueltig) {
-    if (p.wunsch == null || p.bereich) continue;
+    if (ist || p.wunsch == null || p.bereich) continue;
     const g = anzahlGeplant(p);
     if (g !== p.wunsch) {
       if (p.begruendung) melde('hinweis', 'Stückzahl', `${name(p)}: ${g} statt ${p.wunsch} gewünscht – ${p.begruendung}`, [p.id]);
@@ -231,22 +250,6 @@ export function pruefen({ plan, kulturen, flaechen, familien = null, vorjahre = 
       const b = p.bereich;
       if (b.x < 0 || b.y < 0 || b.x + b.b > f.breite || b.y + b.t > f.laenge) melde('warnung', 'Grenzen', `${name(p)}: Bereich ragt über ${f.name} hinaus.`, [p.id]);
     }
-  }
-
-  // 3b. Tatsächliche Lage gegen die tatsächliche Einteilung (nur Hinweise – das Jahr ist vorbei)
-  for (const p of gueltig.filter(hatIstLage)) {
-    const f = flaechen[p.flaeche];
-    const { wege } = einteilung(plan.flaechen?.[p.flaeche], true);
-    const istPos = positionen(ort(p, true));
-    if (istPos.some((q) => q.x < 0 || q.x > f.breite || q.y < 0 || q.y > f.laenge)) melde('warnung', 'Grenzen', `${name(p)}: tatsächliche Lage liegt teilweise außerhalb von ${f.name}.`, [p.id]);
-    for (const w of wege) {
-      const n = istPos.filter((q) => q.y > w.y && q.y < w.y + w.t).length;
-      if (n) melde('hinweis', 'Wege', `${name(p)}: ${n} Pflanze(n) standen tatsächlich auf dem ${w.name}.`, [p.id]);
-    }
-    const soll = kulturen[p.kultur].abstand || 0;
-    let eng = Infinity;
-    for (let i = 0; i < istPos.length; i++) for (let j = i + 1; j < istPos.length; j++) eng = Math.min(eng, Math.hypot(istPos[i].x - istPos[j].x, istPos[i].y - istPos[j].y));
-    if (soll && eng < soll * 0.9) melde('hinweis', 'Abstand', `${name(p)}: standen tatsächlich enger als empfohlen (ca. ${Math.round(eng)} statt ${soll} cm).`, [p.id]);
   }
 
   // 4. Abstände und Nachbarn (Einzelpositionen, gleiche Fläche, Zeit überlappend)

@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
-import { validiereKulturen, schlechteNachbarnVon, positionen, anzahlGeplant, aktivAm, aktivInWoche, montagVon, kalenderwoche, ort, hatIstLage, einteilung, datum, pruefen, huelle } from '../beetplaner/modell.js';
+import { validiereKulturen, schlechteNachbarnVon, positionen, anzahlGeplant, aktivAm, aktivInWoche, montagVon, kalenderwoche, ort, hatIstLage, hatIstStand, istPlan, einteilung, datum, pruefen, huelle } from '../beetplaner/modell.js';
 import { naturjahr, saisonAm, hopkins, GARTENJAHR, NATURJAHRESZEITEN } from '../beetplaner/naturjahr.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'Gemüsegarten');
@@ -240,9 +240,9 @@ test('Tatsächliche Einteilung 2026: Zone A schmaler, B und C breiter, Ist-Lage 
       }
     }
   }
-  const m = pruefen({ plan: plan2026, kulturen, flaechen, familien, vorjahre: plaene });
-  assert.ok(!m.some((x) => /tatsächlich auf dem/.test(x.text)), 'keine Ist-Pflanze auf einem Weg');
-  assert.ok(m.some((x) => x.thema === 'Abstand' && x.ids.includes('kohlsprossen') && /tatsächlich enger/.test(x.text)), '8 Kohlsprossen standen zu eng');
+  const m = pruefen({ plan: plan2026, kulturen, flaechen, familien, vorjahre: plaene, ist: true });
+  assert.ok(!m.some((x) => x.thema === 'Wege' && x.stufe === 'warnung'), 'keine Ist-Pflanze auf einem Pfad');
+  assert.ok(m.some((x) => x.thema === 'Abstand' && x.ids.includes('kohlsprossen') && /untereinander/.test(x.text)), '8 Kohlsprossen standen zu eng');
   // Anzahlen aus der Rückmeldung
   const anzahl = Object.fromEntries(plan2026.pflanzungen.map((p) => [p.id, p.ist?.anzahl]));
   assert.equal(anzahl.feuerbohne, 25);
@@ -250,4 +250,25 @@ test('Tatsächliche Einteilung 2026: Zone A schmaler, B und C breiter, Ist-Lage 
   for (const id of ['kohlsprossen', 'gurke', 'knollensellerie', 'paprika', 'pfefferoni', 'mangold', 'stangensellerie']) {
     assert.equal(positionen(ort(finde(id), true)).length, anzahl[id], `${id}: Ist-Positionen = Anzahl`);
   }
+});
+
+test('Prüfung des Ist-Stands: tatsächliche Lage, Anzahl, Pfade und Termine', () => {
+  assert.ok(hatIstStand(plan2026));
+  const ip = istPlan(plan2026);
+  assert.ok(!ip.pflanzungen.some((p) => p.ist?.status === 'nicht_gepflanzt'), 'nicht Gepflanztes fällt weg');
+  assert.deepEqual(ip.flaechen.west.wege, plan2026.flaechen.west.ist.wege, 'tatsächliche Pfade');
+  assert.equal(ip.pflanzungen.find((p) => p.id === 'kohlsprossen').wunsch, 8, 'Ist-Anzahl');
+  assert.deepEqual(ip.pflanzungen.find((p) => p.id === 'winterlauch').bereich, finde('winterlauch').ist.bereich, 'Ist-Lage');
+  const plan = pruefen({ plan: plan2026, kulturen, flaechen, familien, vorjahre: plaene });
+  const ist = pruefen({ plan: plan2026, kulturen, flaechen, familien, vorjahre: plaene, ist: true });
+  assert.ok(plan.some((x) => x.thema === 'Platz' && x.ids.includes('flower_sprouts')), 'im Plan: kein Platz für Flower Sprouts');
+  assert.ok(!ist.some((x) => x.ids.includes('flower_sprouts') || x.ids.includes('wirsing')), 'nicht Gepflanztes wird im Ist nicht geprüft');
+  assert.ok(!ist.some((x) => x.thema === 'Stückzahl'), 'im Ist zählt die erfasste Anzahl');
+  assert.ok(plan.some((x) => x.thema === 'Nachbarn' && x.ids.includes('winterlauch')), 'im Plan: Winterlauch neben den Bohnen');
+  assert.ok(!ist.some((x) => x.thema === 'Nachbarn' && x.ids.includes('winterlauch') && x.ids.includes('feuerbohne')), 'tatsächlich stand der Winterlauch in Zone E');
+  // Ein tatsächlicher Termin (ist.von/ist.bis) ersetzt den geplanten
+  const mitTermin = { ...plan2026, pflanzungen: plan2026.pflanzungen.map((p) => (p.id === 'knollensellerie' ? { ...p, ist: { ...p.ist, bis: '2026-10-10' } } : p)) };
+  const vorher = ist.filter((x) => x.thema === 'Platz' && x.ids.includes('knollensellerie')).length;
+  const nachher = pruefen({ plan: mitTermin, kulturen, flaechen, familien, vorjahre: plaene, ist: true }).filter((x) => x.thema === 'Platz' && x.ids.includes('knollensellerie')).length;
+  assert.ok(vorher > 0 && nachher === 0, 'Ernte vor dem Zwiebelstecken → kein Platzkonflikt');
 });

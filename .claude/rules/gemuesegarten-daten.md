@@ -13,7 +13,7 @@ paths:
 - `Erfahrungen.md` nur für Artübergreifendes (Boden, Wetter, Wasser, Planung, Anzucht).
 - `Kulturwissen.md` nie von Hand ändern – der Hook bzw. `npm run kulturwissen` erzeugt sie.
 - In `plan.yaml`: Koordinaten in cm, Ursprung Südwest-Ecke. Abweichungen der Wirklichkeit unter `ist:`
-  (`status`: geplant | gepflanzt | im_beet | geerntet | nicht_gepflanzt | unbekannt, `anzahl`, `ernte`, `notiz`, ggf. eigene
+  (`status`: geplant | gepflanzt | im_beet | geerntet | nicht_gepflanzt | unbekannt, `anzahl`, `ernte`, `notiz`, `von`/`bis` für tatsächliche Termine, ggf. eigene
   `punkte`/`reihen`/`bereich` für die tatsächliche Lage). Wich die Einteilung eines Beets ab, unter
   `flaechen.<id>.ist:` eigene `zonen`/`wege` eintragen. Den Plan selbst nach der Saison nicht umschreiben.
 - Warnungen der Prüfung beheben oder mit `begruendung:` in der Pflanzung erklären.
