@@ -1,6 +1,6 @@
 import yaml from './vendor/js-yaml.mjs'; // js-yaml (MIT), lokal statt CDN
-import { naturjahr, saisonAm, GARTENJAHR, GEMUESE_JE_SAISON, KALENDER_ABOS, QUELLE } from './naturjahr.js';
-import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivAm, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, pruefen } from './modell.js';
+import { naturjahr, saisonAm, GARTENJAHR, GEMUESE_JE_SAISON, KALENDER_ABOS, NATURJAHRESZEITEN } from './naturjahr.js';
+import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, pruefen, schlechteNachbarnVon } from './modell.js';
 
 const BASIS = 'Gemüsegarten/';
 const TAG = 86400000;
@@ -31,7 +31,7 @@ const el = (tag, attrs = {}, ...kinder) => {
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 const zustand = {
-  kulturen: {}, flaechen: {}, standort: null, plaene: [], jahr: null, flaeche: 'west', datum: null,
+  kulturen: {}, flaechen: {}, familien: {}, standort: null, plaene: [], jahr: null, flaeche: 'west', datum: null,
   ist: false, alle: false, vorjahr: false, markiert: new Set(), meldungen: [],
 };
 
@@ -45,11 +45,13 @@ async function ladeYaml(pfad) {
 
 async function start() {
   try {
-    const [kulturen, flaechen, index, standort] = await Promise.all([
+    const [kulturen, flaechen, index, standort, familien] = await Promise.all([
       ladeYaml('Grundlagen/kulturen.yaml'), ladeYaml('Grundlagen/flaechen.yaml'), ladeYaml('jahre.yaml'),
       ladeYaml('Grundlagen/standort.yaml').catch(() => null),
+      ladeYaml('Grundlagen/familien.yaml').catch(() => ({})),
     ]);
     zustand.standort = standort;
+    zustand.familien = familien;
     zustand.kulturen = kulturen;
     zustand.flaechen = flaechen;
     zustand.plaene = await Promise.all(index.jahre.map((j) => ladeYaml(j.plan)));
@@ -138,7 +140,7 @@ function waehleJahr(jahr, flaecheWunsch) {
   const fl = flaechenDesJahres();
   const aktiv = fl.find((f) => plan().flaechen?.[f]?.rolle === 'aktiv' && zustand.flaechen[f]?.art === 'Heubeet');
   zustand.flaeche = fl.includes(flaecheWunsch) ? flaecheWunsch : (fl.includes(zustand.flaeche) && plan().flaechen?.[zustand.flaeche]?.rolle === 'aktiv' ? zustand.flaeche : aktiv || fl[0]);
-  zustand.meldungen = pruefen({ plan: plan(), kulturen: zustand.kulturen, flaechen: zustand.flaechen, vorjahre: zustand.plaene });
+  zustand.meldungen = pruefen({ plan: plan(), kulturen: zustand.kulturen, flaechen: zustand.flaechen, familien: zustand.familien, vorjahre: zustand.plaene });
 
   const tage = Math.round((endDatum() - startDatum()) / TAG);
   $('#datum').max = Math.floor(tage / 7);
@@ -182,7 +184,36 @@ function zeigeTab(tab) {
   if (tabs.getBoundingClientRect().top < 0 || window.scrollY > tabs.offsetTop) window.scrollTo({ top: Math.max(0, tabs.offsetTop - 70) });
 }
 
+// ---------------------------------------------------------------- Über die Fläche
+
+function zeichneFlaechenInfo() {
+  const f = zustand.flaechen[zustand.flaeche] || {};
+  const s = zustand.standort || {};
+  const box = $('#flaechen-inhalt');
+  box.innerHTML = '';
+  const dl = (rows) => el('dl', {}, ...rows.filter(([, v]) => v).flatMap(([a, b]) => [el('dt', { text: a }), el('dd', { text: b })]));
+  box.append(dl([
+    ['Größe', `${f.breite / 100} × ${f.laenge / 100} m (${(f.breite * f.laenge / 10000).toLocaleString('de-AT')} m²)`],
+    ['Art', f.art], ['Angelegt', f.angelegt], ['Ausrichtung', f.ausrichtung], ['Lage', f.lage], ['Boden', f.boden],
+    ['Aufbau', f.aufbau], ['Wasser', f.wasser], ['Rhythmus', f.rhythmus],
+  ]));
+  if (f.besonderheiten?.length) box.append(el('h3', { text: 'Besonderheiten' }), el('ul', {}, ...f.besonderheiten.map((b) => el('li', { text: b }))));
+  // Anbauhistorie aus allen Jahresplänen, mit der tatsächlichen Lage
+  const jahre = zustand.plaene.filter((p) => p.flaechen?.[zustand.flaeche] || (p.pflanzungen || []).some((q) => q.flaeche === zustand.flaeche)).sort((a, b) => a.jahr - b.jahr);
+  if (jahre.length) {
+    box.append(el('h3', { text: 'Anbauhistorie' }), el('ul', {}, ...jahre.map((p) => {
+      const rolle = p.flaechen?.[zustand.flaeche]?.rolle;
+      const fam = [...new Set((p.pflanzungen || []).filter((q) => q.flaeche === zustand.flaeche && q.ist?.status !== 'nicht_gepflanzt').map((q) => zustand.kulturen[q.kultur]?.familie).filter(Boolean))];
+      return el('li', {}, el('strong', { text: `${p.jahr}: ` }), rolle === 'ruhe' ? 'Ruhejahr' : rolle === 'aktiv' ? 'bepflanzt' : '', fam.length ? ` – ${fam.join(', ')}` : '');
+    })));
+  }
+  if (f.offen?.length) box.append(el('h3', { text: 'Noch offen' }), el('ul', { class: 'offen' }, ...f.offen.map((b) => el('li', { text: b }))));
+  box.append(el('h3', { text: 'Garten' }), dl([['Ort', s.ort && `${s.ort}, ${s.hoehe} m`], ['Klima', s.klima], ['Wasser', s.wasser], ['Anzucht', s.anzucht]]));
+  $('#flaechen-summary').textContent = `Über ${f.art === 'Tomatenhaus' ? 'das Tomatenhaus' : 'das Beet'}`;
+}
+
 function zeichneAlles() {
+  zeichneFlaechenInfo();
   zeichnePlan();
   zeichneKalender();
   zeichneListe();
@@ -525,12 +556,29 @@ function zeigeDetails(p) {
     p.ist.ernte ? ['Ernte', `${p.ist.ernte} (${ERNTE_TEXT[p.ist.ernte] || ''})`] : null,
     p.ist.notiz ? ['Notiz', p.ist.notiz] : null,
   ].filter(Boolean) : [];
+  const fam = zustand.familien[k.familie];
+  const saison = NATURJAHRESZEITEN.find((s) => s.id === k.naturjahreszeit);
   const wissen = [
-    ['Familie', k.familie], ['Abstand', `${k.abstand} cm${k.reihe ? ` · Reihe ${k.reihe} cm` : ''}`],
-    ['Höhe', k.hoehe ? `ca. ${k.hoehe} cm` : '–'], ['Zehrer / Wasser', `${k.zehrer || '–'} / ${k.wasser || '–'}`],
-    ['Gute Nachbarn', nameVon(k.gut)], ['Schlechte Nachbarn', nameVon(k.schlecht)],
+    k.botanisch ? ['Botanisch', k.botanisch] : null,
+    ['Familie', `${k.familie}${fam ? ` · Anbaupause ${fam.anbaupause} ${fam.anbaupause === 1 ? 'Jahr' : 'Jahre'}` : ''}`],
+    ['Platz', `${k.abstand} cm${k.reihe ? ` · Reihe ${k.reihe} cm` : ''} · Höhe ca. ${k.hoehe} cm`],
+    k.licht ? ['Licht', k.licht] : null,
+    k.boden ? ['Boden', `${k.boden}${k.wurzel ? ` · Wurzel ${k.wurzel}` : ''}`] : null,
+    ['Nährstoffe / Wasser', `${k.zehrer || '–'} / ${k.wasser || '–'}`],
+    k.anbau ? ['Anbau', [k.anbau, k.aussaat && `Aussaat ${k.aussaat}`, k.pflanzung && `Pflanzung ${k.pflanzung}`].filter(Boolean).join(' · ')] : null,
+    saison ? ['Wann', `${saison.name} (${saison.zeiger})`] : null,
+    k.ernte ? ['Ernte', k.ernte] : null,
+    ['Gute Nachbarn', nameVon(k.gut)], ['Schlechte Nachbarn', nameVon(schlechteNachbarnVon(p.kultur, zustand.kulturen))],
+    k.schaedlinge?.length ? ['Schädlinge', k.schaedlinge.join(', ')] : null,
+    k.krankheiten?.length ? ['Krankheiten', k.krankheiten.join(', ')] : null,
     k.frost ? ['Frost', 'frostempfindlich – erst nach den Eisheiligen'] : null,
+    k.bedarf ? ['Küche', k.bedarf] : null,
+    k.hinweis ? ['Hinweis', k.hinweis] : null,
   ].filter(Boolean);
+  const SICHER = { beobachtet: 'beobachtet', bestaetigt: 'bestätigt', hypothese: 'Hypothese' };
+  const erfahrungen = [...(k.erfahrungen || [])].sort((a, b) => b.jahr - a.jahr);
+  const sorten = k.sorten || [];
+  const anker = k.name.toLowerCase().replace(/[^a-zäöüß0-9]+/g, '-');
   const dl = (rows) => `<dl>${rows.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join('')}</dl>`;
   $('#blatt-inhalt').innerHTML = `
     <div class="blatt-titel"><span class="punkt gross" style="background:${k.farbe}">${k.symbol}</span>
@@ -538,7 +586,10 @@ function zeigeDetails(p) {
     ${dl(zeilen)}
     ${ist.length ? `<h3>Ist-Stand</h3>${dl(ist)}` : ''}
     ${meld.length ? `<h3>Prüfung</h3>${meld.map((m) => `<p class="meldung ${m.stufe}"><span class="thema">${esc(m.thema)}</span> ${esc(m.text)}</p>`).join('')}` : ''}
-    <h3>Kulturwissen</h3>${dl(wissen)}`;
+    ${erfahrungen.length ? `<h3>Unsere Erfahrungen</h3><ul class="erfahrungen">${erfahrungen.map((e) => `<li><span class="badge badge-status">${e.jahr} · ${esc(SICHER[e.sicherheit] || 'beobachtet')}</span> ${esc(e.text)}</li>`).join('')}</ul>` : ''}
+    ${sorten.length ? `<h3>Erprobte Sorten</h3><ul class="erfahrungen">${sorten.map((s) => `<li><strong>${esc(s.name)}</strong> (${esc(s.quelle || '')}, ${s.jahr}): ${esc(s.ergebnis || '')}</li>`).join('')}</ul>` : ''}
+    <h3>Kulturwissen</h3>${dl(wissen)}
+    <p class="klein"><a href="https://github.com/apachler/pac-naturgarten-eberndorf/blob/main/Gem%C3%BCsegarten/Grundlagen/Kulturwissen.md#${encodeURIComponent(anker)}">Steckbrief ${esc(k.name)} ↗</a></p>`;
   $('#blatt-huelle').hidden = false;
   requestAnimationFrame(() => $('#blatt-huelle').classList.add('offen'));
 }

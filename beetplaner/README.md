@@ -15,6 +15,8 @@ Veröffentlicht wird bei jedem Push auf `main` vom Workflow `.github/workflows/p
   - *Ist-Stand:* zeigt die tatsächliche Lage (`ist:` mit punkte/reihen/bereich in plan.yaml) und den Status. Nicht Gepflanztes wird ausgeblendet, was noch im Beet steht, bleibt bis heute sichtbar.
   - *Alle Kulturen:* zeigt auch Kulturen, die zum gewählten Datum nicht im Beet stehen (blass)
   - *Vorjahr:* blendet ein, was beim letzten Anbau auf dieser Fläche stand (Fruchtfolge)
+- **Über das Beet:** allgemeine Infos zur Fläche, Anbauhistorie aus allen Jahresplänen, offene Fragen und Gartendaten
+- **Detailblatt:** Steckbrief der Art aus `kulturen.yaml` mit unseren Erfahrungen und erprobten Sorten
 - **Kalender:** Gantt-Ansicht aller Kulturen über das Jahr bis März des Folgejahres
 - **Liste:** Stückzahlen Plan, Wunsch und Ist sowie die Ernte
 - **Naturjahreszeit:** zu jedem Datum die Naturjahreszeit in Eberndorf mit Zeigerpflanze, dazu die Aufgaben aus dem Gartenjahr von naturgarten.bio und unsere eigenen. Der Kalender hat ein Band mit den Naturjahreszeiten. Daten in `naturjahr.js`, Standort in `Gemüsegarten/Grundlagen/standort.yaml`.
@@ -28,8 +30,10 @@ Alle Daten liegen als YAML unter `Gemüsegarten/`. Der Beetplaner zeigt sie nur 
 |-------|--------|
 | `Gemüsegarten/jahre.yaml` | Verzeichnis der Jahrespläne |
 | `Gemüsegarten/<Jahr>/plan.yaml` | Plan eines Jahres: Flächen, Zonen, Wege, Pflanzungen, Ist-Stand |
-| `Gemüsegarten/Grundlagen/kulturen.yaml` | Kulturdatenbank: Familie, Abstand, Höhe, Nachbarn, Frost … |
-| `Gemüsegarten/Grundlagen/flaechen.yaml` | Dauerhafte Maße der Flächen (Beet West, Beet Ost, Tomatenhaus) |
+| `Gemüsegarten/Grundlagen/kulturen.yaml` | **Datenquelle aller Gemüsearten**: Platz, Licht, Boden, Wurzel, Nährstoffe, Wasser, Frost, Termine, Nachbarn, Schädlinge, Küchenbedarf, Sorten, Erfahrungen |
+| `Gemüsegarten/Grundlagen/familien.yaml` | Pflanzenfamilien mit Anbaupause (Fruchtfolge-Prüfung) |
+| `Gemüsegarten/Grundlagen/flaechen.yaml` | Beete und Tomatenhaus: Maße, Ausrichtung, Boden, Aufbau, Rhythmus, Besonderheiten, offene Fragen |
+| `Gemüsegarten/Grundlagen/standort.yaml` | Garten: Ort, Höhe, Klima, Wasser, Anzucht |
 | `Gemüsegarten/Vorlagen/plan.yaml` | Vorlage für ein neues Jahr |
 
 Koordinaten in cm, Ursprung = Südwest-Ecke, x nach Osten, y nach Norden. Das Format ist am Anfang von `2026/plan.yaml` beschrieben.
@@ -59,7 +63,9 @@ Die Prüflogik steckt in `modell.js` und wird vom Browser und vom Script gemeins
 
 ```bash
 npm ci
-npm test            # Unit-Tests: Positionen, Stückzahlen, Prüfung, Naturjahreszeiten
+npm run pruefen     # Pläne prüfen, Kulturdaten validieren, Kulturwissen.md aktuell?
+npm run kulturwissen  # Kulturwissen.md aus kulturen.yaml/familien.yaml erzeugen
+npm test            # Unit-Tests: Positionen, Stückzahlen, Prüfung, Fruchtfolge, Kulturdaten, Naturjahreszeiten
 npm run test:e2e    # Browser-Tests (Playwright, Chrome) auf Handy, kleinem Handy und Desktop
 ```
 

@@ -2,6 +2,8 @@
 
 Auswertung der Saison als Grundlage für die Planung des Folgejahres. Stichworte genügen.
 
+Claude überträgt die Ergebnisse danach in die Datenquellen: Erfahrungen und Sorten je Art nach `Grundlagen/kulturen.yaml`, Lage und Status nach `<Jahr>/plan.yaml` (`ist:`), Artübergreifendes nach `Grundlagen/Erfahrungen.md`.
+
 ## Allgemein
 
 - **Aktives Beet:**

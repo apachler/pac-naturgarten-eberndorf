@@ -3,10 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "pruefen": "node beetplaner/pruefen.mjs",
+    "pruefen": "node beetplaner/pruefen.mjs && node beetplaner/kulturwissen.mjs --check",
     "test": "node --test tests/*.test.mjs",
     "test:e2e": "playwright test",
-    "start": "node tests/server.mjs"
+    "start": "node tests/server.mjs",
+    "kulturwissen": "node beetplaner/kulturwissen.mjs"
   },
   "dependencies": {
     "js-yaml": "^4.1.0"

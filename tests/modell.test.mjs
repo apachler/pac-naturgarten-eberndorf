@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
-import { positionen, anzahlGeplant, aktivAm, aktivInWoche, montagVon, kalenderwoche, ort, hatIstLage, datum, pruefen, huelle } from '../beetplaner/modell.js';
+import { validiereKulturen, schlechteNachbarnVon, positionen, anzahlGeplant, aktivAm, aktivInWoche, montagVon, kalenderwoche, ort, hatIstLage, datum, pruefen, huelle } from '../beetplaner/modell.js';
 import { naturjahr, saisonAm, hopkins, GARTENJAHR, NATURJAHRESZEITEN } from '../beetplaner/naturjahr.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'Gemüsegarten');
@@ -13,6 +13,7 @@ const lade = (p) => yaml.load(readFileSync(join(root, p), 'utf8'));
 const kulturen = lade('Grundlagen/kulturen.yaml');
 const flaechen = lade('Grundlagen/flaechen.yaml');
 const standort = lade('Grundlagen/standort.yaml');
+const familien = lade('Grundlagen/familien.yaml');
 const { jahre } = lade('jahre.yaml');
 const plaene = jahre.map((j) => lade(j.plan));
 const plan2026 = plaene.find((p) => p.jahr === 2026);
@@ -162,4 +163,45 @@ test('Ist-Lage: tatsächliche Positionen 2026 und Fruchtfolge danach', () => {
   const m = pruefen({ plan: p2028, kulturen, flaechen, vorjahre: plaene });
   assert.ok(m.some((x) => x.thema === 'Fruchtfolge' && x.ids.includes('l')), 'Lauch auf Winterlauch-Fläche');
   assert.ok(!m.some((x) => x.thema === 'Fruchtfolge' && x.ids.includes('k')), 'Karotte am Nordrand ok');
+});
+
+test('Kultur-Datenquelle: vollständig und gültig', () => {
+  const ids = NATURJAHRESZEITEN.map((s) => s.id);
+  assert.deepEqual(validiereKulturen(kulturen, familien, ids), []);
+  // Jede in einem Plan verwendete Kultur ist erfasst, jede Familie hat eine Anbaupause
+  for (const plan of plaene) for (const p of plan.pflanzungen) assert.ok(kulturen[p.kultur], p.kultur);
+  for (const [name, f] of Object.entries(familien)) assert.ok(Number.isInteger(f.anbaupause), name);
+  // Die Validierung findet Fehler
+  const kaputt = { x: { name: 'X', familie: 'Gibtsnicht', abstand: 0, wurzel: 'sehr tief', gut: ['nix'], schlecht: [], rollen: ['Z'], erfahrungen: [{ text: 'ohne Jahr' }] } };
+  const f = validiereKulturen(kaputt, familien, ids).join(' | ');
+  for (const teil of ['Pflichtfeld „botanisch“', 'Familie „Gibtsnicht“', 'wurzel „sehr tief“', 'gut-Nachbar „nix“', 'rollen nur', 'abstand muss', 'Erfahrung braucht']) assert.ok(f.includes(teil), teil);
+});
+
+test('Schlechte Nachbarn gelten in beide Richtungen', () => {
+  const s = schlechteNachbarnVon('knoblauch', kulturen);
+  assert.ok(s.includes('feuerbohne'));
+  assert.ok(schlechteNachbarnVon('feuerbohne', kulturen).includes('knoblauch'));
+});
+
+test('Fruchtfolge mit Anbaupause je Familie und tatsächlicher Lage', () => {
+  // Karotten (Doldenblütler, Pause 4) 2028 dort, wo 2026 Karotten standen → Warnung mit Anbaupause
+  const plan = (jahr) => ({ jahr, flaechen: { west: { rolle: 'aktiv' } }, pflanzungen: [
+    { id: 'k', kultur: 'karotte', flaeche: 'west', typ: 'H', von: `${jahr}-04-01`, bis: `${jahr}-09-01`, reihen: [{ y: 115, x1: 15, x2: 285, anzahl: 10 }] },
+    { id: 'b', kultur: 'feuerbohne', flaeche: 'west', typ: 'H', von: `${jahr}-05-20`, bis: `${jahr}-10-01`, punkte: [[150, 300]] },
+  ] });
+  const m28 = pruefen({ plan: plan(2028), kulturen, flaechen, familien, vorjahre: plaene });
+  assert.ok(m28.some((x) => x.thema === 'Fruchtfolge' && x.ids.includes('k') && x.text.includes('Anbaupause Doldenblütler: 4 Jahre')));
+  // Bohnen 2028 bei Y 300: 2026 standen die Bohnen tatsächlich am Nordrand (Ist-Lage) → keine Warnung
+  assert.ok(!m28.some((x) => x.thema === 'Fruchtfolge' && x.ids.includes('b')));
+  // 2030: 4 Jahre nach 2026 – Anbaupause eingehalten
+  const m30 = pruefen({ plan: plan(2030), kulturen, flaechen, familien, vorjahre: plaene });
+  assert.ok(!m30.some((x) => x.thema === 'Fruchtfolge' && x.ids.includes('k')));
+});
+
+test('Kulturwissen.md ist aus den YAML-Daten erzeugt und aktuell', async () => {
+  const { execFileSync } = await import('node:child_process');
+  const aus = execFileSync(process.execPath, [join(root, '..', 'beetplaner', 'kulturwissen.mjs'), '--check'], { encoding: 'utf8' });
+  assert.match(aus, /aktuell/);
+  const md = readFileSync(join(root, 'Grundlagen', 'Kulturwissen.md'), 'utf8');
+  for (const k of Object.values(kulturen)) assert.ok(md.includes(`#### ${k.name}`), k.name);
 });

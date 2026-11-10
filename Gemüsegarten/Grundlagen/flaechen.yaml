@@ -1,25 +1,58 @@
-# Anbauflächen – dauerhafte Maße
+# Anbauflächen – die eine Datenquelle (SSOT) für Beete und Tomatenhaus
 #
-# Koordinaten in cm, Ursprung (0,0) = Südwest-Ecke der Fläche.
-# x = von West nach Ost (Breite), y = von Süd nach Nord (Länge).
+# Alles Dauerhafte über eine Fläche steht hier. Der Beetplaner zeigt es unter „Über die Fläche“,
+# Standort-und-Beete.md beschreibt es in Worten. Was in einem Jahr wo stand, steht in <Jahr>/plan.yaml.
+#
+# Koordinaten in cm, Ursprung (0,0) = Südwest-Ecke der Fläche,
+# x = von West nach Ost (breite), y = von Süd nach Nord (laenge).
+#
+# Felder: name, art, breite, laenge, ausrichtung, lage, boden, aufbau, wasser, angelegt,
+#         rhythmus, besonderheiten [], offen [] (offene Fragen)
 
 west:
   name: Beet West
   art: Heubeet
   breite: 300
   laenge: 500
-  notiz: Permakultur-Heubeet, Nord–Süd ausgerichtet, vollsonnig. Aktiv in geraden Jahren (2026, 2028 …).
+  ausrichtung: Nord–Süd (Längsseite), hohe Kulturen nach Norden
+  lage: vollsonnig, früh bis spät
+  boden: mittelschwerer, lehmiger Boden
+  aufbau: Permakultur-Heubeet auf der ehemaligen Wiese – Heu aufgeschichtet, Terra Preta eingearbeitet, Effektive Mikroorganismen, Schafwolle als Dünger und Mulch
+  wasser: Brunnenwasser aus dem 1000-L-Container, Gießkanne oder Schlauch
+  rhythmus: bepflanzt in geraden Jahren (2026, 2028 …), dazwischen ein Ruhejahr mit Heu, Terra Preta und EM
+  besonderheiten:
+    - Zwei Pflegepfade à 30 cm quer zum Beet (Lage je nach Jahresplan)
+    - "Herbst 2026 bis Sommer 2027: Knoblauch und Wintersteckzwiebeln in der Osthälfte (X 150–300) – das Ruhejahr 2027 beginnt dort erst nach der Ernte"
 
 ost:
   name: Beet Ost
   art: Heubeet
   breite: 300
   laenge: 500
-  notiz: Permakultur-Heubeet, Nord–Süd ausgerichtet, vollsonnig. Aktiv in ungeraden Jahren (2025, 2027 …).
+  ausrichtung: Nord–Süd (Längsseite), hohe Kulturen nach Norden
+  lage: vollsonnig, früh bis spät
+  boden: mittelschwerer, lehmiger Boden
+  aufbau: Permakultur-Heubeet auf der ehemaligen Wiese – Heu aufgeschichtet, Terra Preta eingearbeitet, Effektive Mikroorganismen, Schafwolle als Dünger und Mulch
+  wasser: Brunnenwasser aus dem 1000-L-Container, Gießkanne oder Schlauch
+  rhythmus: bepflanzt in ungeraden Jahren (2025, 2027 …), dazwischen ein Ruhejahr mit Heu, Terra Preta und EM
+  besonderheiten:
+    - "2025: Flower Sprouts im südlichen Viertel – dort 2027 keine Kreuzblütler (Anbaupause 4 Jahre)"
 
 tomatenhaus:
   name: Tomatenhaus
   art: Tomatenhaus
   breite: 300
   laenge: 200
-  notiz: Gebaut 2026, ca. 3 × 2 m, Platz für 8 Tomaten und Basilikum. Ausrichtung und Pflanzpositionen noch nicht erfasst.
+  angelegt: 2026
+  lage: regengeschützt
+  wasser: Brunnenwasser
+  rhythmus: jedes Jahr bepflanzt – Fruchtfolge im Tomatenhaus kaum möglich, daher Boden jährlich mit Kompost auffrischen
+  besonderheiten:
+    - Platz für 8 Tomaten, dazwischen Basilikum
+    - "2026: Wühlmäuse haben die meiste Petersilie geholt"
+  offen:
+    - Ausrichtung (Längsseite Nord–Süd oder Ost–West?) und Lage im Garten
+    - Bauweise und Eindeckung (Folie, Doppelstegplatten, Glas?), Höhe, Lüftung (Türen, Klappen)
+    - Boden (gewachsener Boden oder Beete/Hochbeete im Haus?) und Wühlmausschutz
+    - Bewässerung (Gießkanne, Schlauch, Tropfschlauch?)
+    - Anordnung der 8 Tomaten (eine Reihe, zwei Reihen?) und die Sorten 2026

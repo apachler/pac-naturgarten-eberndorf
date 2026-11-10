@@ -9,7 +9,7 @@ Jahresplanung für die zwei Heubeete (je 3 × 5 m), von denen jedes Jahr eines b
 - [Standort und Beete](Grundlagen/Standort-und-Beete.md) – Rahmenbedingungen und Fruchtfolge
 - [Planungszyklus](Grundlagen/Planungszyklus.md) – Rückmeldung → Planung → Saison
 - [Erfahrungen](Grundlagen/Erfahrungen.md) – was wir gelernt haben
-- [Kulturwissen](Grundlagen/Kulturwissen.md) – Abstände, Termine, Nachbarschaften
+- [Kulturwissen](Grundlagen/Kulturwissen.md) – Steckbriefe aller Gemüsearten mit unseren Erfahrungen (erzeugt aus `kulturen.yaml`)
 - [Merkliste](Grundlagen/Merkliste.md) – Erinnerungen für die nächsten Saisonen
 - [Naturgarten.bio](Grundlagen/Naturgarten-bio.md) – Naturjahreszeiten, Gartenjahr, Mondgarten, Jahreskreis
 

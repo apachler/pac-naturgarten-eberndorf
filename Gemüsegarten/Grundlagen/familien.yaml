@@ -1,0 +1,69 @@
+# Pflanzenfamilien – Fruchtfolge-Regeln
+#
+# Teil der Kultur-Datenquelle (siehe kulturen.yaml). Jede Kultur verweist mit `familie:` hierher.
+#
+#   anbaupause  Jahre, bevor dieselbe Familie wieder an derselben Stelle stehen soll.
+#               Faustwerte aus der gängigen Gartenpraxis – mit eigenen Erfahrungen prüfen und anpassen.
+#               Unsere Beete wechseln jährlich: Anbaupause 4 = an derselben Stelle frühestens im 4. Jahr danach.
+#   grund       Warum (bodenbürtige Krankheiten, Schädlinge, Bodenmüdigkeit)
+#   erfahrungen eigene Beobachtungen zur Fruchtfolge dieser Familie: [{jahr, text, sicherheit}]
+
+Kreuzblütler:
+  botanisch: Brassicaceae
+  anbaupause: 4
+  grund: Kohlhernie bleibt viele Jahre im Boden; Kohlfliege und Erdflöhe.
+  hinweis: Gilt auch für Radieschen, Mairübchen, Pak Choi und Chinakohl. Kreuzblütler auf einem Beet nicht häufen.
+
+Doldenblütler:
+  botanisch: Apiaceae
+  anbaupause: 4
+  grund: Möhrenfliege, Sellerie-Blattflecken, Bodenmüdigkeit.
+  hinweis: Karotte, Sellerie, Petersilie und Dill zählen gemeinsam. Wühlmäuse mögen die Wurzeln.
+
+Nachtschattengewächse:
+  botanisch: Solanaceae
+  anbaupause: 3
+  grund: Kraut- und Braunfäule, Nematoden, Bodenmüdigkeit.
+
+Kürbisgewächse:
+  botanisch: Cucurbitaceae
+  anbaupause: 3
+  grund: Bodenbürtige Welkekrankheiten.
+
+Hülsenfrüchtler:
+  botanisch: Fabaceae
+  anbaupause: 3
+  grund: Leguminosenmüdigkeit, Fußkrankheiten.
+  hinweis: Hinterlassen Stickstoff – gute Vorkultur für Starkzehrer.
+
+Fuchsschwanzgewächse:
+  botanisch: Amaranthaceae
+  anbaupause: 3
+  grund: Rübenmüdigkeit (Nematoden), Blattfleckenkrankheiten.
+  hinweis: Mangold und Rote Rübe sind dieselbe Art.
+
+Lauchgewächse:
+  botanisch: Amaryllidaceae
+  anbaupause: 3
+  grund: Weißfäule, Zwiebelfliege, Lauchmotte.
+  hinweis: Lauch, Zwiebel und Knoblauch zählen gemeinsam.
+
+Korbblütler:
+  botanisch: Asteraceae
+  anbaupause: 2
+  grund: Salatfäulen, Mehltau.
+
+Lippenblütler:
+  botanisch: Lamiaceae
+  anbaupause: 2
+  grund: Kaum Probleme, Abwechslung schadet nicht.
+
+Baldriangewächse:
+  botanisch: Caprifoliaceae (Valerianoideae)
+  anbaupause: 1
+  grund: Kaum Fruchtfolgeprobleme.
+
+Raublattgewächse:
+  botanisch: Boraginaceae
+  anbaupause: 0
+  grund: Beinwell ist mehrjährig und steht dauerhaft am Rand.

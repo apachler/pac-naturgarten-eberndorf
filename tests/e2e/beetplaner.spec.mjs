@@ -232,6 +232,37 @@ test('Ist-Stand: nicht Gepflanztes ausgeblendet, „steht im Beet“ bleibt sich
   expect(Math.abs((await y('chinakohl')) - (await y('endivie')))).toBeGreaterThanOrEqual(12);
 });
 
+test('Über die Fläche: allgemeine Infos, Anbauhistorie und offene Fragen', async ({ page }) => {
+  await oeffne(page);
+  const info = page.locator('#flaechen-details');
+  await expect(info.locator('summary')).toHaveText('Über das Beet');
+  await info.locator('summary').click();
+  await expect(info).toContainText('Heubeet');
+  await expect(info).toContainText('Terra Preta');
+  await expect(info).toContainText('Nord–Süd');
+  await expect(info).toContainText('2026: bepflanzt');
+  await expect(info).toContainText('Eberndorf');
+  await page.getByRole('tab', { name: /Beet Ost/ }).click();
+  await expect(page.locator('#flaechen-details')).toContainText('2025: bepflanzt – Kreuzblütler');
+  await expect(page.locator('#flaechen-details')).toContainText('2026: Ruhejahr');
+  await page.getByRole('tab', { name: 'Tomatenhaus' }).click();
+  await expect(page.locator('#flaechen-details summary')).toHaveText('Über das Tomatenhaus');
+  await expect(page.locator('#flaechen-details ul.offen li').first()).toBeAttached();
+});
+
+test('Detailblatt zeigt Steckbrief und Erfahrungen aus der Kultur-Datenquelle', async ({ page }) => {
+  await oeffne(page);
+  await setzeDatum(page, '2026-06-17');
+  await page.locator('#beet circle.pflanze[data-id="feuerbohne"]').first().click({ force: true });
+  const b = page.locator('#blatt-inhalt');
+  await expect(b).toContainText('Phaseolus coccineus');
+  await expect(b).toContainText('Anbaupause 3 Jahre');
+  await expect(b).toContainText('Unsere Erfahrungen');
+  await expect(b).toContainText('2026 · Hypothese');
+  await expect(b).toContainText('Knoblauch'); // schlechter Nachbar, auch aus Sicht des Knoblauchs
+  await expect(b.locator('a[href*="Kulturwissen.md#feuerbohne"]')).toBeAttached();
+});
+
 test('Jahr wechseln und Direktlink', async ({ page }) => {
   await oeffne(page, '#2026/tomatenhaus');
   await expect(page.locator('h1')).toHaveText('Tomatenhaus');

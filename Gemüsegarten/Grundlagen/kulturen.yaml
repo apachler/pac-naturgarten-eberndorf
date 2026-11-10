@@ -1,363 +1,868 @@
-# Kulturdatenbank – maschinenlesbares Kulturwissen
+# Kulturen – die eine Datenquelle (SSOT) für alle Gemüse- und Begleitpflanzen
 #
-# Wird vom Beetplaner (Anzeige) und vom Prüf-Script (Abstände, Nachbarn,
-# Fruchtfolge) verwendet. Erklärungen und Erfahrungen stehen in
-# Kulturwissen.md und Erfahrungen.md – hier nur die Werte.
+# Alles, was wir über eine Art wissen, steht HIER und nur hier. Daraus entstehen:
+#   - Grundlagen/Kulturwissen.md (Steckbriefe, erzeugt mit `npm run kulturwissen` – nicht von Hand bearbeiten)
+#   - die Anzeige im Beetplaner (Detailblatt) und die automatische Prüfung (Abstände, Nachbarn, Frost, Fruchtfolge)
+# Pflanzenfamilien und Anbaupausen: familien.yaml
 #
-# Felder:
-#   name        Anzeigename
-#   familie     Pflanzenfamilie (für die Fruchtfolge)
-#   symbol      Emoji für die Anzeige
-#   farbe       Farbe im Beetplan
-#   abstand     Pflanzabstand in der Reihe in cm (bestimmt die Kreisgröße)
-#   reihe       Reihenabstand in cm (optional)
-#   hoehe       ungefähre Wuchshöhe in cm
-#   zehrer      stark | mittel | schwach
-#   wasser      hoch | mittel | niedrig
-#   gut         gute Nachbarn (IDs)
-#   schlecht    schlechte Nachbarn (IDs) – werden beidseitig geprüft
-#   frost       true = frostempfindlich, erst nach den Eisheiligen pflanzen
+# Pflichtfelder (werden von `npm test` geprüft):
+#   name, botanisch, familie, symbol, farbe, rollen, abstand, hoehe, licht, boden, wurzel, zehrer, wasser,
+#   anbau, ernte, naturjahreszeit
+# Optional: reihe, frost, aussaat, pflanzung, gut, schlecht, schaedlinge, krankheiten, bedarf, hinweis,
+#   sorten, erfahrungen, quellen
+#
+# Werte:
+#   rollen          V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut (wofür die Art bei uns taugt)
+#   abstand / reihe Pflanzabstand in der Reihe / Reihenabstand in cm; hoehe in cm
+#   licht           sonnig | sonnig bis halbschattig | halbschattig
+#   wurzel          flach | mittel | tief
+#   zehrer          stark | mittel | schwach  (Nährstoffbedarf)
+#   wasser          hoch | mittel | niedrig
+#   frost           true = frostempfindlich, erst nach den Eisheiligen ins Freie
+#   anbau           Direktsaat, Jungpflanze, Steckzwiebel …
+#   naturjahreszeit ID der Naturjahreszeit für Aussaat/Pflanzung (preSpring … winter, siehe beetplaner/naturjahr.js)
+#   gut / schlecht  IDs anderer Kulturen (schlechte Nachbarn werden beidseitig geprüft)
+#   sorten          [{name, quelle, jahr, ergebnis}] – erprobte Sorten
+#   erfahrungen     [{jahr, text, sicherheit}] – sicherheit: beobachtet | bestaetigt | hypothese
+#                   „bestaetigt“ erst, wenn es sich in mindestens zwei Jahren gezeigt hat.
+#
+# Allgemeine Werte (Abstände, Termine, Nachbarn) sind Faustwerte aus der gängigen Gartenpraxis für Kärnten.
+# Eigene Erfahrungen gehen vor: Werte anpassen, wenn sie sich bei uns anders zeigen, und das als Erfahrung notieren.
+
+# ============================================================ Hülsenfrüchtler
 
 feuerbohne:
   name: Feuerbohne
+  botanisch: Phaseolus coccineus
   familie: Hülsenfrüchtler
   symbol: "🫘"
   farbe: "#7cb342"
+  rollen: [H]
   abstand: 15
+  reihe: 60
   hoehe: 300
+  licht: sonnig
+  boden: humos, warm, durchlässig; keine frische Düngung nötig
+  wurzel: tief
   zehrer: schwach
   wasser: mittel
   frost: true
+  anbau: Direktsaat, 4 Bohnen je Stange
+  aussaat: nach den Eisheiligen, Mitte bis Ende Mai
+  naturjahreszeit: earlySummer
+  ernte: grün Juli–Oktober, Trockenbohnen ab September
   gut: [bohnenkraut, gurke, kohlrabi, rote_ruebe]
   schlecht: [sommerlauch, winterlauch, zwiebel, knoblauch]
+  schaedlinge: [Schwarze Bohnenlaus, Schnecken an Keimlingen]
+  krankheiten: [Brennfleckenkrankheit]
+  hinweis: Hohe Kultur – an die Nordseite des Beetes, sonst beschattet sie alles.
+  erfahrungen:
+    - jahr: 2026
+      text: 5 Stangen ganz am Nordrand brauchten viel Platz – 2027 mit 4 Stangen probieren.
+      sicherheit: beobachtet
+    - jahr: 2026
+      text: Im Hitzesommer viele Blüten, aber kaum Schoten; Hauptansatz erst im Spätsommer, Ernte Anfang November teils noch grün. Vermutlich werden die Blüten bei großer Hitze steril. 2025 war das nicht so.
+      sicherheit: hypothese
+
+# ============================================================ Lippenblütler
 
 bohnenkraut:
   name: Bohnenkraut
+  botanisch: Satureja hortensis
   familie: Lippenblütler
   symbol: "🌿"
   farbe: "#aed581"
+  rollen: [B]
   abstand: 25
   hoehe: 40
+  licht: sonnig
+  boden: durchlässig, eher mager
+  wurzel: flach
   zehrer: schwach
   wasser: niedrig
+  anbau: Direktsaat (Lichtkeimer) oder Jungpflanze
+  aussaat: Mai
+  naturjahreszeit: earlySummer
+  ernte: Juni–September, vor der Blüte am aromatischsten
   gut: [feuerbohne]
-
-kohlsprossen:
-  name: Kohlsprossen
-  familie: Kreuzblütler
-  symbol: "🥬"
-  farbe: "#2e7d32"
-  abstand: 60
-  reihe: 60
-  hoehe: 100
-  zehrer: stark
-  wasser: hoch
-  gut: [knollensellerie, stangensellerie, sommerlauch, winterlauch]
-  schlecht: []
-
-kohlrabi:
-  name: Kohlrabi
-  familie: Kreuzblütler
-  symbol: "🥬"
-  farbe: "#9575cd"
-  abstand: 30
-  reihe: 30
-  hoehe: 30
-  zehrer: mittel
-  wasser: hoch
-  gut: [knollensellerie, stangensellerie, rote_ruebe, feuerbohne]
-
-flower_sprouts:
-  name: Flower Sprouts
-  familie: Kreuzblütler
-  symbol: "🥬"
-  farbe: "#6a1b9a"
-  abstand: 55
-  hoehe: 70
-  zehrer: stark
-  wasser: hoch
-
-chinakohl:
-  name: Chinakohl
-  familie: Kreuzblütler
-  symbol: "🥬"
-  farbe: "#c0ca33"
-  abstand: 35
-  hoehe: 40
-  zehrer: mittel
-  wasser: hoch
-
-wirsing:
-  name: Wirsing
-  familie: Kreuzblütler
-  symbol: "🥬"
-  farbe: "#558b2f"
-  abstand: 50
-  hoehe: 40
-  zehrer: stark
-  wasser: hoch
-  gut: [knollensellerie, stangensellerie]
-
-pak_choi:
-  name: Pak Choi
-  familie: Kreuzblütler
-  symbol: "🥬"
-  farbe: "#9ccc65"
-  abstand: 25
-  hoehe: 30
-  zehrer: mittel
-  wasser: hoch
-
-radieschen:
-  name: Radieschen
-  familie: Kreuzblütler
-  symbol: "🔴"
-  farbe: "#e53935"
-  abstand: 4
-  reihe: 15
-  hoehe: 15
-  zehrer: schwach
-  wasser: mittel
-  gut: [karotte]
-
-mairuebchen:
-  name: Mairübchen
-  familie: Kreuzblütler
-  symbol: "⚪"
-  farbe: "#e1bee7"
-  abstand: 15
-  hoehe: 25
-  zehrer: mittel
-  wasser: mittel
-
-gurke:
-  name: Gurke
-  familie: Kürbisgewächse
-  symbol: "🥒"
-  farbe: "#43a047"
-  abstand: 30
-  hoehe: 200
-  zehrer: stark
-  wasser: hoch
-  frost: true
-  gut: [dill, feuerbohne]
-
-knollensellerie:
-  name: Knollensellerie
-  familie: Doldenblütler
-  symbol: "🥔"
-  farbe: "#c5e1a5"
-  abstand: 35
-  reihe: 35
-  hoehe: 50
-  zehrer: stark
-  wasser: hoch
-  frost: true
-  gut: [kohlsprossen, kohlrabi, wirsing, sommerlauch]
-
-stangensellerie:
-  name: Stangensellerie
-  familie: Doldenblütler
-  symbol: "🌱"
-  farbe: "#4db6ac"
-  abstand: 35
-  hoehe: 60
-  zehrer: stark
-  wasser: hoch
-  frost: true
-  gut: [kohlsprossen, kohlrabi, wirsing, sommerlauch]
-
-karotte:
-  name: Karotte
-  familie: Doldenblütler
-  symbol: "🥕"
-  farbe: "#fb8c00"
-  abstand: 5
-  reihe: 20
-  hoehe: 30
-  zehrer: mittel
-  wasser: mittel
-  gut: [sommerlauch, winterlauch, zwiebel, dill, radieschen]
-
-dill:
-  name: Dill
-  familie: Doldenblütler
-  symbol: "🌿"
-  farbe: "#9ccc65"
-  abstand: 20
-  hoehe: 100
-  zehrer: schwach
-  wasser: mittel
-  gut: [karotte, gurke]
-
-petersilie:
-  name: Petersilie
-  familie: Doldenblütler
-  symbol: "🌿"
-  farbe: "#388e3c"
-  abstand: 20
-  hoehe: 30
-  zehrer: mittel
-  wasser: mittel
-  gut: [tomate]
-
-paprika:
-  name: Paprika
-  familie: Nachtschattengewächse
-  symbol: "🫑"
-  farbe: "#e53935"
-  abstand: 45
-  hoehe: 70
-  zehrer: stark
-  wasser: hoch
-  frost: true
-  gut: [ringelblume, basilikum]
-
-pfefferoni:
-  name: Pfefferoni
-  familie: Nachtschattengewächse
-  symbol: "🌶️"
-  farbe: "#ff7043"
-  abstand: 40
-  hoehe: 60
-  zehrer: stark
-  wasser: hoch
-  frost: true
-  gut: [ringelblume, basilikum]
-
-tomate:
-  name: Tomate
-  familie: Nachtschattengewächse
-  symbol: "🍅"
-  farbe: "#d32f2f"
-  abstand: 60
-  hoehe: 180
-  zehrer: stark
-  wasser: hoch
-  frost: true
-  gut: [basilikum, petersilie]
-
-mangold:
-  name: Mangold
-  familie: Fuchsschwanzgewächse
-  symbol: "🥬"
-  farbe: "#00897b"
-  abstand: 40
-  hoehe: 50
-  zehrer: mittel
-  wasser: mittel
-  schlecht: [rote_ruebe]
-
-rote_ruebe:
-  name: Rote Rübe
-  familie: Fuchsschwanzgewächse
-  symbol: "🟣"
-  farbe: "#ad1457"
-  abstand: 15
-  reihe: 30
-  hoehe: 30
-  zehrer: mittel
-  wasser: mittel
-  gut: [kohlrabi, zwiebel, feuerbohne]
-  schlecht: [mangold]
-
-sommerlauch:
-  name: Sommerlauch
-  familie: Lauchgewächse
-  symbol: "🧅"
-  farbe: "#7cb342"
-  abstand: 15
-  reihe: 30
-  hoehe: 60
-  zehrer: stark
-  wasser: mittel
-  gut: [karotte, knollensellerie, stangensellerie, kohlsprossen]
-
-winterlauch:
-  name: Winterlauch
-  familie: Lauchgewächse
-  symbol: "🧅"
-  farbe: "#558b2f"
-  abstand: 15
-  reihe: 30
-  hoehe: 60
-  zehrer: stark
-  wasser: mittel
-  gut: [karotte, knollensellerie, kohlsprossen]
-
-zwiebel:
-  name: Zwiebel
-  familie: Lauchgewächse
-  symbol: "🧅"
-  farbe: "#d7a86e"
-  abstand: 10
-  reihe: 20
-  hoehe: 40
-  zehrer: schwach
-  wasser: niedrig
-  gut: [karotte, rote_ruebe]
-
-knoblauch:
-  name: Knoblauch
-  familie: Lauchgewächse
-  symbol: "🧄"
-  farbe: "#b8a99a"
-  abstand: 12
-  reihe: 25
-  hoehe: 60
-  zehrer: schwach
-  wasser: niedrig
-  gut: [karotte, rote_ruebe]
-
-endivie:
-  name: Endiviensalat
-  familie: Korbblütler
-  symbol: "🥗"
-  farbe: "#cddc39"
-  abstand: 30
-  hoehe: 30
-  zehrer: mittel
-  wasser: mittel
-
-ringelblume:
-  name: Ringelblume
-  familie: Korbblütler
-  symbol: "🌼"
-  farbe: "#ffb300"
-  abstand: 25
-  hoehe: 50
-  zehrer: schwach
-  wasser: niedrig
-  gut: [paprika, pfefferoni, tomate]
-
-vogerlsalat:
-  name: Vogerlsalat
-  familie: Baldriangewächse
-  symbol: "🌱"
-  farbe: "#81c784"
-  abstand: 8
-  hoehe: 10
-  zehrer: schwach
-  wasser: mittel
-
-beinwell:
-  name: Beinwell
-  familie: Raublattgewächse
-  symbol: "🌿"
-  farbe: "#5c6bc0"
-  abstand: 60
-  hoehe: 100
-  zehrer: stark
-  wasser: mittel
+  hinweis: Klassischer Bohnenbegleiter, soll Bohnenläuse fernhalten.
+  erfahrungen:
+    - jahr: 2026
+      text: Geht einigermaßen, stand im November noch im Beet.
+      sicherheit: beobachtet
 
 basilikum:
   name: Basilikum
+  botanisch: Ocimum basilicum
   familie: Lippenblütler
   symbol: "🌿"
   farbe: "#66bb6a"
+  rollen: [B]
   abstand: 25
   hoehe: 40
+  licht: sonnig
+  boden: humos, warm, gleichmäßig feucht
+  wurzel: flach
   zehrer: mittel
   wasser: mittel
   frost: true
+  anbau: Jungpflanze
+  pflanzung: nach den Eisheiligen
+  naturjahreszeit: earlySummer
+  ernte: Juni–September, laufend Triebspitzen
   gut: [tomate, paprika, pfefferoni]
+  hinweis: Am besten im Tomatenhaus – warm und regengeschützt.
+  erfahrungen:
+    - jahr: 2026
+      text: Im Tomatenhaus zwischen den Tomaten sehr gute Ernte.
+      sicherheit: beobachtet
+
+# ============================================================ Kreuzblütler
+
+kohlsprossen:
+  name: Kohlsprossen
+  botanisch: Brassica oleracea var. gemmifera
+  familie: Kreuzblütler
+  symbol: "🥬"
+  farbe: "#2e7d32"
+  rollen: [H]
+  abstand: 60
+  reihe: 60
+  hoehe: 100
+  licht: sonnig
+  boden: nährstoffreich, lehmig, fest, kalkhaltig
+  wurzel: tief
+  zehrer: stark
+  wasser: hoch
+  anbau: Jungpflanze
+  pflanzung: Mitte Mai bis Anfang Juni
+  naturjahreszeit: earlySummer
+  ernte: Oktober–Februar, nach den ersten Frösten am besten
+  gut: [knollensellerie, stangensellerie, sommerlauch, winterlauch]
+  schaedlinge: [Kohlweißling, Kohlfliege, Mehlige Kohlblattlaus, Erdflöhe]
+  krankheiten: [Kohlhernie]
+  bedarf: wenige Pflanzen reichen
+  erfahrungen:
+    - jahr: 2026
+      text: 4 Pflanzen waren zu viel. Braucht viel Licht. Röschen anfangs locker, mit der Kälte fester; Köpfe abgeschlagen.
+      sicherheit: beobachtet
+
+kohlrabi:
+  name: Kohlrabi
+  botanisch: Brassica oleracea var. gongylodes
+  familie: Kreuzblütler
+  symbol: "🥬"
+  farbe: "#9575cd"
+  rollen: [V, H, N]
+  abstand: 30
+  reihe: 30
+  hoehe: 30
+  licht: sonnig bis halbschattig
+  boden: humos, gleichmäßig feucht
+  wurzel: flach
+  zehrer: mittel
+  wasser: hoch
+  anbau: Jungpflanze oder Direktsaat
+  pflanzung: früh ab Mitte März (Vlies), sonst bis Juli
+  naturjahreszeit: earlySpring
+  ernte: Mai–Oktober, etwa 8–12 Wochen nach der Pflanzung
+  gut: [knollensellerie, stangensellerie, rote_ruebe, feuerbohne]
+  schaedlinge: [Kohlfliege, Erdflöhe]
+  krankheiten: [Kohlhernie]
+  hinweis: Ungleichmäßig gegossen platzen die Knollen.
+  erfahrungen:
+    - jahr: 2026
+      text: Vor- und Hauptkultur standen gemeinsam in Zone E (X 200–300) und sind abgeerntet.
+      sicherheit: beobachtet
+
+flower_sprouts:
+  name: Flower Sprouts
+  botanisch: Brassica oleracea (Grünkohl × Kohlsprossen)
+  familie: Kreuzblütler
+  symbol: "🥬"
+  farbe: "#6a1b9a"
+  rollen: [H, N]
+  abstand: 55
+  hoehe: 70
+  licht: sonnig
+  boden: nährstoffreich, fest
+  wurzel: tief
+  zehrer: stark
+  wasser: hoch
+  anbau: Jungpflanze
+  pflanzung: Ende Mai bis Juli
+  naturjahreszeit: earlySummer
+  ernte: Oktober–Februar
+  schaedlinge: [Kohlweißling, Kohlfliege]
+  krankheiten: [Kohlhernie]
+  erfahrungen:
+    - jahr: 2025
+      text: Im Beet Ost (südliches Viertel) geschossen und geblüht statt Röschen zu bilden. Ursache offen – Pflanztermin, Sorte, Hitze/Trockenheit oder Stickstoff im frischen Heubeet?
+      sicherheit: beobachtet
+    - jahr: 2026
+      text: Nicht gepflanzt.
+      sicherheit: beobachtet
+
+chinakohl:
+  name: Chinakohl
+  botanisch: Brassica rapa subsp. pekinensis
+  familie: Kreuzblütler
+  symbol: "🥬"
+  farbe: "#c0ca33"
+  rollen: [N]
+  abstand: 35
+  hoehe: 40
+  licht: sonnig bis halbschattig
+  boden: humos, feucht
+  wurzel: flach
+  zehrer: mittel
+  wasser: hoch
+  anbau: Direktsaat oder Jungpflanze
+  aussaat: ab Mitte Juli – früher gesät schießt er im Langtag
+  naturjahreszeit: lateSummer
+  ernte: Oktober–November
+  schaedlinge: [Erdflöhe, Kohlfliege, Schnecken]
+  krankheiten: [Kohlhernie]
+  erfahrungen:
+    - jahr: 2026
+      text: Als Nachkultur in Zone E (X 150–300) mit Endivie, stand im November noch im Beet.
+      sicherheit: beobachtet
+
+wirsing:
+  name: Wirsing
+  botanisch: Brassica oleracea var. sabauda
+  familie: Kreuzblütler
+  symbol: "🥬"
+  farbe: "#558b2f"
+  rollen: [H, N]
+  abstand: 50
+  hoehe: 40
+  licht: sonnig
+  boden: nährstoffreich, lehmig
+  wurzel: tief
+  zehrer: stark
+  wasser: hoch
+  anbau: Jungpflanze
+  pflanzung: Mai (Sommerwirsing) bzw. Juni–Juli (Herbst- und Winterwirsing)
+  naturjahreszeit: highSummer
+  ernte: September–Jänner, Winterwirsing verträgt Frost
+  gut: [knollensellerie, stangensellerie]
+  schaedlinge: [Kohlweißling, Kohlfliege]
+  krankheiten: [Kohlhernie]
+  erfahrungen:
+    - jahr: 2026
+      text: Nicht gepflanzt.
+      sicherheit: beobachtet
+
+pak_choi:
+  name: Pak Choi
+  botanisch: Brassica rapa subsp. chinensis
+  familie: Kreuzblütler
+  symbol: "🥬"
+  farbe: "#9ccc65"
+  rollen: [V, N]
+  abstand: 25
+  hoehe: 30
+  licht: sonnig bis halbschattig
+  boden: humos, feucht
+  wurzel: flach
+  zehrer: mittel
+  wasser: hoch
+  anbau: Direktsaat oder Jungpflanze
+  aussaat: ab August – im Frühjahr schießt er schnell
+  naturjahreszeit: earlyAutumn
+  ernte: September–Oktober, etwa 6 Wochen nach der Saat
+  schaedlinge: [Erdflöhe, Schnecken]
+  krankheiten: [Kohlhernie]
+  erfahrungen:
+    - jahr: 2026
+      text: Nicht gepflanzt.
+      sicherheit: beobachtet
+
+radieschen:
+  name: Radieschen
+  botanisch: Raphanus sativus var. sativus
+  familie: Kreuzblütler
+  symbol: "🔴"
+  farbe: "#e53935"
+  rollen: [V, N]
+  abstand: 4
+  reihe: 15
+  hoehe: 15
+  licht: sonnig bis halbschattig
+  boden: locker, humos, gleichmäßig feucht
+  wurzel: flach
+  zehrer: schwach
+  wasser: mittel
+  anbau: Direktsaat, alle 2–3 Wochen nachsäen
+  aussaat: März–Mai und August–September
+  naturjahreszeit: earlySpring
+  ernte: 4–6 Wochen nach der Saat
+  gut: [karotte]
+  schaedlinge: [Erdflöhe]
+  hinweis: Gute Markiersaat zwischen Karotten.
+  erfahrungen:
+    - jahr: 2026
+      text: Immer wieder angesät – hat recht gut funktioniert.
+      sicherheit: beobachtet
+
+mairuebchen:
+  name: Mairübchen
+  botanisch: Brassica rapa subsp. rapa
+  familie: Kreuzblütler
+  symbol: "⚪"
+  farbe: "#e1bee7"
+  rollen: [V]
+  abstand: 15
+  hoehe: 25
+  licht: sonnig bis halbschattig
+  boden: humos, feucht
+  wurzel: mittel
+  zehrer: mittel
+  wasser: mittel
+  anbau: Direktsaat
+  aussaat: März–April
+  naturjahreszeit: earlySpring
+  ernte: Mai–Juni
+  schaedlinge: [Erdflöhe, Kohlfliege]
+  erfahrungen:
+    - jahr: 2026
+      text: Nicht gepflanzt.
+      sicherheit: beobachtet
+
+# ============================================================ Kürbisgewächse
+
+gurke:
+  name: Gurke
+  botanisch: Cucumis sativus
+  familie: Kürbisgewächse
+  symbol: "🥒"
+  farbe: "#43a047"
+  rollen: [H]
+  abstand: 30
+  hoehe: 200
+  licht: sonnig, warm, windgeschützt
+  boden: humos, warm, gleichmäßig feucht
+  wurzel: flach
+  zehrer: stark
+  wasser: hoch
+  frost: true
+  anbau: Jungpflanze, vertikal am Gitter
+  pflanzung: nach den Eisheiligen, Ende Mai
+  naturjahreszeit: earlySummer
+  ernte: Juli–September
+  gut: [dill, feuerbohne]
+  schaedlinge: [Schnecken, Spinnmilben bei Hitze]
+  krankheiten: [Echter Mehltau, Falscher Mehltau]
+  bedarf: 2 Pflanzen reichen
+  erfahrungen:
+    - jahr: 2026
+      text: 2 Pflanzen vertikal am Gitter (Nord–Süd ausgerichtet) – gutes Wachstum, gute Ernte. Passt so.
+      sicherheit: beobachtet
+    - jahr: 2026
+      text: Vor den Eisheiligen gesetzt und angeschlagen, hat sich erholt.
+      sicherheit: beobachtet
+
+# ============================================================ Doldenblütler
+
+knollensellerie:
+  name: Knollensellerie
+  botanisch: Apium graveolens var. rapaceum
+  familie: Doldenblütler
+  symbol: "🥔"
+  farbe: "#c5e1a5"
+  rollen: [H]
+  abstand: 35
+  reihe: 35
+  hoehe: 50
+  licht: sonnig bis halbschattig
+  boden: nährstoffreich, humos, feucht
+  wurzel: flach
+  zehrer: stark
+  wasser: hoch
+  frost: true
+  anbau: Jungpflanze, nicht zu tief setzen
+  pflanzung: nach den Eisheiligen
+  naturjahreszeit: earlySummer
+  ernte: Oktober–November, vor stärkerem Frost
+  gut: [kohlsprossen, kohlrabi, wirsing, sommerlauch]
+  schaedlinge: [Wühlmäuse, Selleriefliege]
+  krankheiten: [Septoria-Blattflecken]
+  bedarf: nur wenig – hauptsächlich für die Suppenwürze (Sellerie, Karotten, Lauch, Petersilie)
+  erfahrungen:
+    - jahr: 2026
+      text: 10 Pflanzen waren zu viel, obwohl sie gut wuchsen. Einige Ausfälle, einige Knollen von Wühlmäusen ausgehöhlt – Drahtkorb beim Pflanzen vorsehen.
+      sicherheit: beobachtet
+
+stangensellerie:
+  name: Stangensellerie
+  botanisch: Apium graveolens var. dulce
+  familie: Doldenblütler
+  symbol: "🌱"
+  farbe: "#4db6ac"
+  rollen: [H]
+  abstand: 35
+  hoehe: 60
+  licht: sonnig bis halbschattig
+  boden: nährstoffreich, humos, feucht
+  wurzel: flach
+  zehrer: stark
+  wasser: hoch
+  frost: true
+  anbau: Jungpflanze
+  pflanzung: nach den Eisheiligen
+  naturjahreszeit: earlySummer
+  ernte: August–Oktober
+  gut: [kohlsprossen, kohlrabi, wirsing, sommerlauch]
+  schaedlinge: [Wühlmäuse, Selleriefliege]
+  krankheiten: [Septoria-Blattflecken]
+  bedarf: nur wenig – Suppenwürze
+  erfahrungen:
+    - jahr: 2026
+      text: 4 Pflanzen waren zu viel, gut gewachsen.
+      sicherheit: beobachtet
+
+karotte:
+  name: Karotte
+  botanisch: Daucus carota subsp. sativus
+  familie: Doldenblütler
+  symbol: "🥕"
+  farbe: "#fb8c00"
+  rollen: [H]
+  abstand: 5
+  reihe: 20
+  hoehe: 30
+  licht: sonnig
+  boden: tiefgründig, locker, steinfrei; kein frischer Mist
+  wurzel: tief
+  zehrer: mittel
+  wasser: mittel
+  anbau: Direktsaat mit Saatband
+  aussaat: Mitte März bis Juni
+  naturjahreszeit: earlySpring
+  ernte: Juli–Oktober
+  gut: [sommerlauch, winterlauch, zwiebel, dill, radieschen]
+  schaedlinge: [Möhrenfliege, Wühlmäuse]
+  bedarf: auch für die Suppenwürze
+  hinweis: Mischkultur mit Lauch schützt beide vor Möhrenfliege und Lauchmotte.
+  erfahrungen:
+    - jahr: 2026
+      text: Nach Gefühl gesät – viel Ernte, aber zu eng. Künftig nur noch mit Saatband.
+      sicherheit: beobachtet
+
+dill:
+  name: Dill
+  botanisch: Anethum graveolens
+  familie: Doldenblütler
+  symbol: "🌿"
+  farbe: "#9ccc65"
+  rollen: [B]
+  abstand: 20
+  hoehe: 100
+  licht: sonnig
+  boden: locker, humos
+  wurzel: tief
+  zehrer: schwach
+  wasser: mittel
+  anbau: Direktsaat – nicht verpflanzen (Pfahlwurzel)
+  aussaat: April bis Juli, in kleinen Mengen nachsäen
+  naturjahreszeit: fullSpring
+  ernte: Juni–August
+  gut: [karotte, gurke]
+  erfahrungen:
+    - jahr: 2026
+      text: Im heißen, trockenen Sommer sehr schnell in die Blüte – nur kleine Ernte. Folgesaaten oder Halbschatten prüfen.
+      sicherheit: beobachtet
+
+petersilie:
+  name: Petersilie
+  botanisch: Petroselinum crispum
+  familie: Doldenblütler
+  symbol: "🌿"
+  farbe: "#388e3c"
+  rollen: [B, H]
+  abstand: 20
+  hoehe: 30
+  licht: sonnig bis halbschattig
+  boden: humos, gleichmäßig feucht
+  wurzel: tief
+  zehrer: mittel
+  wasser: mittel
+  anbau: Direktsaat (keimt langsam) oder Jungpflanze
+  aussaat: März–Mai
+  naturjahreszeit: earlySpring
+  ernte: Juni–November
+  gut: [tomate]
+  schaedlinge: [Wühlmäuse]
+  bedarf: für die Suppenwürze
+  erfahrungen:
+    - jahr: 2026
+      text: Im Tomatenhaus – die meisten Pflanzen haben Wühlmäuse geholt.
+      sicherheit: beobachtet
+
+# ============================================================ Nachtschattengewächse
+
+paprika:
+  name: Paprika
+  botanisch: Capsicum annuum
+  familie: Nachtschattengewächse
+  symbol: "🫑"
+  farbe: "#e53935"
+  rollen: [H]
+  abstand: 45
+  hoehe: 70
+  licht: sonnig, warm, geschützt
+  boden: humos, warm, nährstoffreich
+  wurzel: mittel
+  zehrer: stark
+  wasser: hoch
+  frost: true
+  anbau: Jungpflanze
+  pflanzung: nach den Eisheiligen
+  naturjahreszeit: earlySummer
+  ernte: August–Oktober
+  gut: [ringelblume, basilikum]
+  schaedlinge: [Raupen (Fraßlöcher in den Früchten, 2026 vermutet), Blattläuse]
+  krankheiten: [Blütenendfäule]
+  bedarf: weniger als 3 Pflanzen
+  hinweis: Blütenendfäule kommt von gestörtem Calciumtransport, nicht von Calciummangel – gleichmäßig tief gießen und mulchen.
+  erfahrungen:
+    - jahr: 2026
+      text: 3 Pflanzen waren zu viel. Früchte oft angefressen, schwächste Ernte der drei Fruchtgemüse.
+      sicherheit: beobachtet
+    - jahr: 2026
+      text: Vor den Eisheiligen gesetzt und angeschlagen; ab Anfang November zu kalt, Pflanzen gehen ein.
+      sicherheit: beobachtet
+
+pfefferoni:
+  name: Pfefferoni
+  botanisch: Capsicum annuum (scharfe Sorten)
+  familie: Nachtschattengewächse
+  symbol: "🌶️"
+  farbe: "#ff7043"
+  rollen: [H]
+  abstand: 40
+  hoehe: 60
+  licht: sonnig, warm, geschützt
+  boden: humos, warm, nährstoffreich
+  wurzel: mittel
+  zehrer: stark
+  wasser: hoch
+  frost: true
+  anbau: Jungpflanze
+  pflanzung: nach den Eisheiligen
+  naturjahreszeit: earlySummer
+  ernte: August–Oktober
+  gut: [ringelblume, basilikum]
+  krankheiten: [Blütenendfäule]
+  bedarf: weniger als 3 Pflanzen
+  erfahrungen:
+    - jahr: 2026
+      text: Sehr gute Ernte, 3 Pflanzen waren aber zu viel. Ab Anfang November zu kalt.
+      sicherheit: beobachtet
+
+tomate:
+  name: Tomate
+  botanisch: Solanum lycopersicum
+  familie: Nachtschattengewächse
+  symbol: "🍅"
+  farbe: "#d32f2f"
+  rollen: [H]
+  abstand: 60
+  hoehe: 180
+  licht: sonnig, regengeschützt
+  boden: humos, nährstoffreich, tiefgründig
+  wurzel: tief
+  zehrer: stark
+  wasser: hoch
+  frost: true
+  anbau: Jungpflanze, im Tomatenhaus
+  pflanzung: nach den Eisheiligen
+  naturjahreszeit: earlySummer
+  ernte: Juli–Oktober
+  gut: [basilikum, petersilie]
+  krankheiten: [Kraut- und Braunfäule, Blütenendfäule]
+  hinweis: Gehört ins Tomatenhaus, nicht ins Heubeet.
+  erfahrungen:
+    - jahr: 2026
+      text: 8 Pflanzen im neuen Tomatenhaus – sehr gute Ernte. Vor den Eisheiligen gesetzt und geschädigt, komplett neu gepflanzt.
+      sicherheit: beobachtet
+
+# ============================================================ Fuchsschwanzgewächse
+
+mangold:
+  name: Mangold
+  botanisch: Beta vulgaris subsp. vulgaris (Cicla-Gruppe)
+  familie: Fuchsschwanzgewächse
+  symbol: "🥬"
+  farbe: "#00897b"
+  rollen: [H]
+  abstand: 40
+  hoehe: 50
+  licht: sonnig bis halbschattig
+  boden: humos, tiefgründig
+  wurzel: tief
+  zehrer: mittel
+  wasser: mittel
+  anbau: Direktsaat oder Jungpflanze
+  aussaat: Ende April bis Juni
+  naturjahreszeit: fullSpring
+  ernte: Juni–November, laufend außen pflücken
+  schlecht: [rote_ruebe]
+  bedarf: weniger als 3 Pflanzen
+  erfahrungen:
+    - jahr: 2026
+      text: Sehr gute Ernte, 3 Pflanzen waren aber zu viel. Stand im November noch im Beet.
+      sicherheit: beobachtet
+
+rote_ruebe:
+  name: Rote Rübe
+  botanisch: Beta vulgaris subsp. vulgaris (Conditiva-Gruppe)
+  familie: Fuchsschwanzgewächse
+  symbol: "🟣"
+  farbe: "#ad1457"
+  rollen: [H]
+  abstand: 15
+  reihe: 30
+  hoehe: 30
+  licht: sonnig bis halbschattig
+  boden: humos, tiefgründig
+  wurzel: tief
+  zehrer: mittel
+  wasser: mittel
+  anbau: Direktsaat oder Jungpflanze
+  aussaat: Mitte April bis Juni
+  naturjahreszeit: fullSpring
+  ernte: August–November, vor stärkerem Frost
+  gut: [kohlrabi, zwiebel, feuerbohne]
+  schlecht: [mangold]
+  erfahrungen:
+    - jahr: 2026
+      text: Einfach und gute Ernte. Die Jungpflanzen wirkten geschwächt, entwickelten sich aber gut.
+      sicherheit: beobachtet
+
+# ============================================================ Lauchgewächse
+
+sommerlauch:
+  name: Sommerlauch
+  botanisch: Allium porrum
+  familie: Lauchgewächse
+  symbol: "🧅"
+  farbe: "#7cb342"
+  rollen: [H]
+  abstand: 15
+  reihe: 30
+  hoehe: 60
+  licht: sonnig
+  boden: nährstoffreich, tiefgründig, feucht
+  wurzel: mittel
+  zehrer: stark
+  wasser: mittel
+  anbau: Jungpflanze – ins Pflanzloch setzen und einschwemmen
+  pflanzung: April–Mai
+  naturjahreszeit: fullSpring
+  ernte: August–Oktober
+  gut: [karotte, knollensellerie, stangensellerie, kohlsprossen]
+  schlecht: [feuerbohne]
+  schaedlinge: [Lauchmotte, Lauchminierfliege]
+  bedarf: auch für die Suppenwürze
+  erfahrungen:
+    - jahr: 2026
+      text: Einfach zu kultivieren, sehr gute Ernte. Ins Pflanzloch setzen und einschwemmen bewährt.
+      sicherheit: beobachtet
+
+winterlauch:
+  name: Winterlauch
+  botanisch: Allium porrum
+  familie: Lauchgewächse
+  symbol: "🧅"
+  farbe: "#558b2f"
+  rollen: [N]
+  abstand: 15
+  reihe: 30
+  hoehe: 60
+  licht: sonnig
+  boden: nährstoffreich, tiefgründig, feucht
+  wurzel: mittel
+  zehrer: stark
+  wasser: mittel
+  anbau: Jungpflanze – ins Pflanzloch setzen und einschwemmen
+  pflanzung: Juni–Juli
+  naturjahreszeit: highSummer
+  ernte: November–März, winterhart
+  gut: [karotte, knollensellerie, kohlsprossen]
+  schlecht: [feuerbohne]
+  schaedlinge: [Lauchmotte, Lauchminierfliege]
+  erfahrungen:
+    - jahr: 2026
+      text: Einfach, sehr gute Ernte. Stand in Zone E (X 0–150).
+      sicherheit: beobachtet
+
+zwiebel:
+  name: Zwiebel
+  botanisch: Allium cepa
+  familie: Lauchgewächse
+  symbol: "🧅"
+  farbe: "#d7a86e"
+  rollen: [H, N]
+  abstand: 10
+  reihe: 20
+  hoehe: 40
+  licht: sonnig
+  boden: locker, durchlässig; kein frischer Mist
+  wurzel: flach
+  zehrer: schwach
+  wasser: niedrig
+  anbau: Steckzwiebeln
+  pflanzung: März–April (Sommerzwiebeln) bzw. September–Oktober (Winterzwiebeln)
+  naturjahreszeit: fullAutumn
+  ernte: Juli–August (Sommer), Juni (Winter); Grün ab März
+  gut: [karotte, rote_ruebe]
+  schlecht: [feuerbohne]
+  schaedlinge: [Zwiebelfliege, Thripse]
+  krankheiten: [Falscher Mehltau]
+  hinweis: Ausgetriebene Speisezwiebeln bilden keine neuen Lagerzwiebeln mehr.
+  sorten:
+    - name: Shakespeare
+      quelle: Reinsaat (Zw58), 500 g Wintersteckzwiebeln
+      jahr: 2026
+      ergebnis: Ende Oktober 2026 gesteckt (Beet West, Zone B–C) – Ernte 2027 ausständig
+  erfahrungen:
+    - jahr: 2026
+      text: Wintersteckzwiebeln Ende Oktober gesteckt; das Grün wird ab dem Frühjahr geerntet.
+      sicherheit: beobachtet
+
+knoblauch:
+  name: Knoblauch
+  botanisch: Allium sativum
+  familie: Lauchgewächse
+  symbol: "🧄"
+  farbe: "#b8a99a"
+  rollen: [H, N]
+  abstand: 12
+  reihe: 25
+  hoehe: 60
+  licht: sonnig
+  boden: durchlässig, nicht frisch gedüngt
+  wurzel: mittel
+  zehrer: schwach
+  wasser: niedrig
+  anbau: Zehen stecken (Hardneck-Sorten)
+  pflanzung: Oktober–November
+  naturjahreszeit: fullAutumn
+  ernte: Juni–Juli
+  gut: [karotte, rote_ruebe]
+  schlecht: [feuerbohne]
+  krankheiten: [Rost, Weißfäule]
+  hinweis: Frische Heubeete mit viel Stickstoff sind ungeeignet – etablierte Beete ab dem 2.–3. Jahr. Mulch nach dem Stecken dünn halten, vor Ernte und Trocknung zurückziehen.
+  sorten:
+    - name: Therador
+      quelle: Reinsaat (Kn6), 250 g
+      jahr: 2026
+      ergebnis: Ende Oktober 2026 gesteckt (Beet West, Zone C–D) – Ernte 2027 ausständig
+  erfahrungen:
+    - jahr: 2026
+      text: Ende Oktober gesteckt.
+      sicherheit: beobachtet
+
+# ============================================================ Korbblütler
+
+endivie:
+  name: Endiviensalat
+  botanisch: Cichorium endivia
+  familie: Korbblütler
+  symbol: "🥗"
+  farbe: "#cddc39"
+  rollen: [N]
+  abstand: 30
+  hoehe: 30
+  licht: sonnig bis halbschattig
+  boden: humos
+  wurzel: mittel
+  zehrer: mittel
+  wasser: mittel
+  anbau: Jungpflanze
+  pflanzung: Juli–August
+  naturjahreszeit: lateSummer
+  ernte: September–November, verträgt leichten Frost
+  schaedlinge: [Schnecken]
+  erfahrungen:
+    - jahr: 2026
+      text: Als Nachkultur in Zone E (X 150–300) mit Chinakohl, stand im November noch im Beet.
+      sicherheit: beobachtet
+
+ringelblume:
+  name: Ringelblume
+  botanisch: Calendula officinalis
+  familie: Korbblütler
+  symbol: "🌼"
+  farbe: "#ffb300"
+  rollen: [B]
+  abstand: 25
+  hoehe: 50
+  licht: sonnig
+  boden: anspruchslos, locker
+  wurzel: mittel
+  zehrer: schwach
+  wasser: niedrig
+  anbau: Direktsaat
+  aussaat: April–Mai
+  naturjahreszeit: fullSpring
+  ernte: Blüten Juni–Oktober, laufend für Nachblüte
+  gut: [paprika, pfefferoni, tomate]
+  hinweis: Für Insekten ungefüllte Sorten wählen (naturgarten.bio).
+  erfahrungen:
+    - jahr: 2026
+      text: Einfach ausgesät – wuchert stark, Selbstaussaat beobachtet. Einmal säen reicht, danach eher auslichten.
+      sicherheit: beobachtet
+
+# ============================================================ Baldriangewächse
+
+vogerlsalat:
+  name: Vogerlsalat
+  botanisch: Valerianella locusta
+  familie: Baldriangewächse
+  symbol: "🌱"
+  farbe: "#81c784"
+  rollen: [N]
+  abstand: 8
+  hoehe: 10
+  licht: sonnig bis halbschattig
+  boden: fest, feinkrümelig
+  wurzel: flach
+  zehrer: schwach
+  wasser: mittel
+  anbau: Direktsaat (breit, andrücken; Dunkelkeimer, keimt erst unter etwa 20 °C)
+  aussaat: Mitte August bis September
+  naturjahreszeit: earlyAutumn
+  ernte: Oktober–März
+  erfahrungen:
+    - jahr: 2026
+      text: Trotz mehrfacher Saat schlecht gekommen (Radieschen dagegen gut). Ursache offen – vermutlich zu warm oder zu grobes, gemulchtes Saatbett. 2027 ab Ende August auf freigeräumtem, feinem Streifen oder als Jungpflanzen.
+      sicherheit: hypothese
+
+# ============================================================ Raublattgewächse
+
+beinwell:
+  name: Beinwell
+  botanisch: Symphytum officinale
+  familie: Raublattgewächse
+  symbol: "🌿"
+  farbe: "#5c6bc0"
+  rollen: [B]
+  abstand: 60
+  hoehe: 100
+  licht: sonnig bis halbschattig
+  boden: nährstoffreich, feucht
+  wurzel: tief
+  zehrer: stark
+  wasser: mittel
+  anbau: Jungpflanze oder Wurzelstück
+  pflanzung: März–April
+  naturjahreszeit: earlySpring
+  ernte: Blätter 3–4 Schnitte pro Jahr für Mulch und Jauche
+  hinweis: Wuchert und ist kaum wieder zu entfernen – nur außerhalb des Beetes pflanzen.
+  erfahrungen:
+    - jahr: 2026
+      text: Nicht gepflanzt.
+      sicherheit: beobachtet

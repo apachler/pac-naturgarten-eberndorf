@@ -1,6 +1,10 @@
-# Standort des Gartens – für die Naturjahreszeiten im Beetplaner
+# Standort des Gartens – gilt für alle Flächen
+# lat/lon/hoehe: für die Naturjahreszeiten im Beetplaner
 # (Hopkins-Regel wie auf naturgarten.bio: 4 Tage je Breitengrad, 3,3 Tage je 100 m Höhe)
 ort: Eberndorf (Jauntal, Kärnten)
 lat: 46.58
 lon: 14.64
 hoehe: 465
+klima: mitteleuropäisch, pannonisch beeinflusst, relativ mild; frostempfindliche Kulturen erst nach den Eisheiligen
+wasser: eigener Brunnen, Zwischenspeicher 1000-L-Container; 2026 ca. 3000 L im Gemüsegarten verbraucht
+anzucht: keine eigene Vorkultur – Direktsaat oder gekaufte Jungpflanzen; Jungpflanzen bis nach den Eisheiligen im ehemaligen Heizraum zwischenlagern

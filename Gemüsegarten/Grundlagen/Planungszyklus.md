@@ -20,8 +20,9 @@ So läuft ein Gartenjahr im Repo ab, hier am Beispiel 2026 → 2027. Den Takt ge
 
 ## 2. Erkenntnisse sichern
 
-- Was über das Jahr hinaus gilt (z. B. „Gurken brauchen mehr Platz als geplant“, „Kohlweißling-Druck hoch“), kommt nach `Grundlagen/Erfahrungen.md`, mit Jahr als Quelle.
-- Bestätigte Abstände und Termine werden in `Grundlagen/Kulturwissen.md` angepasst.
+- **Je Gemüseart:** Beobachtungen als Erfahrung mit Jahr und Sicherheit in `Grundlagen/kulturen.yaml` (`erfahrungen:`), erprobte Sorten unter `sorten:`. Zeigt sich etwas im zweiten Jahr wieder, wird es „bestaetigt“. Weicht ein Faustwert (Abstand, Termin, Menge) dauerhaft ab, wird der Wert angepasst. Danach `npm run kulturwissen`.
+- **Artübergreifend** (Boden, Wetter, Wasser, Planung) nach `Grundlagen/Erfahrungen.md`, mit Jahr als Quelle.
+- Tatsächliche Lage und Status je Pflanzung in `<Jahr>/plan.yaml` unter `ist:` – wichtig für die Fruchtfolge der Folgejahre.
 
 ## 3. Wünsche für das neue Jahr (um Yule)
 

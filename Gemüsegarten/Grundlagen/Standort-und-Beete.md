@@ -1,6 +1,6 @@
 # Standort und Beete
 
-Jahresübergreifende Rahmenbedingungen des Gemüsegartens. Bei Änderungen (neues Beet, andere Bewässerung …) hier aktualisieren.
+Jahresübergreifende Rahmenbedingungen des Gemüsegartens in Worten. Die Daten dazu (Maße, Boden, Aufbau, Rhythmus, offene Fragen) stehen in [`flaechen.yaml`](flaechen.yaml) und [`standort.yaml`](standort.yaml) und erscheinen im Beetplaner unter „Über das Beet“. Bei Änderungen dort und hier aktualisieren.
 
 ## Standort
 

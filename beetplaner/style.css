@@ -268,3 +268,23 @@ main { max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
   .beet-rahmen { position: sticky; top: calc(var(--kopf-h, 4rem) + 4.5rem); }
   #beet { max-height: calc(100vh - var(--kopf-h, 4rem) - 6rem); }
 }
+
+/* ---------- Über die Fläche ---------- */
+.flaechen-details { margin-top: 1rem; padding: 0; }
+.flaechen-details summary { cursor: pointer; padding: 0.75rem 1rem; font-weight: 700; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.flaechen-details summary::-webkit-details-marker { display: none; }
+.flaechen-details summary::after { content: ''; width: 0.5rem; height: 0.5rem; border-right: 2px solid var(--fg-70); border-bottom: 2px solid var(--fg-70); transform: rotate(45deg); transition: transform 0.15s; margin-right: 0.25rem; }
+.flaechen-details[open] summary::after { transform: rotate(-135deg); }
+.flaechen-details summary:hover { background: var(--secondary-10); border-radius: var(--radius-xl); }
+#flaechen-inhalt { padding: 0 1rem 1rem; font-size: 0.92rem; }
+#flaechen-inhalt dl { display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 0.9rem; margin: 0; }
+#flaechen-inhalt dt { color: var(--fg-70); font-size: 0.82rem; padding-top: 0.1rem; }
+#flaechen-inhalt dd { margin: 0; }
+#flaechen-inhalt h3, .blatt h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--fg-70); margin: 1.1rem 0 0.4rem; font-weight: 700; }
+#flaechen-inhalt ul { margin: 0; padding-left: 1.2rem; }
+#flaechen-inhalt li { margin: 0.2rem 0; }
+#flaechen-inhalt ul.offen li::marker { content: '? '; color: var(--notice-caution-fg); font-weight: 700; }
+@media (max-width: 480px) { #flaechen-inhalt dl, .blatt dl { grid-template-columns: 1fr; gap: 0 0; } #flaechen-inhalt dd, .blatt dd { margin-bottom: 0.45rem; } }
+.erfahrungen { margin: 0; padding-left: 0; list-style: none; font-size: 0.92rem; }
+.erfahrungen li { margin: 0 0 0.5rem; }
+.erfahrungen .badge { margin-right: 0.3rem; }

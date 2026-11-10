@@ -17,6 +17,45 @@ export const STATUS = {
   unbekannt: 'unbekannt',
 };
 
+export const PFLICHTFELDER = ['name', 'botanisch', 'familie', 'symbol', 'farbe', 'rollen', 'abstand', 'hoehe', 'licht', 'boden', 'wurzel', 'zehrer', 'wasser', 'anbau', 'ernte', 'naturjahreszeit'];
+const ERLAUBT = {
+  wurzel: ['flach', 'mittel', 'tief'],
+  zehrer: ['stark', 'mittel', 'schwach'],
+  wasser: ['hoch', 'mittel', 'niedrig'],
+  sicherheit: ['beobachtet', 'bestaetigt', 'hypothese'],
+};
+
+/**
+ * Prüft die Kultur-Datenquelle auf Vollständigkeit und gültige Verweise.
+ * @returns {string[]} Fehlermeldungen
+ */
+export function validiereKulturen(kulturen, familien, naturjahreszeitIds = []) {
+  const f = [];
+  for (const [id, k] of Object.entries(kulturen)) {
+    for (const feld of PFLICHTFELDER) if (k[feld] == null || k[feld] === '') f.push(`${id}: Pflichtfeld „${feld}“ fehlt`);
+    if (k.familie && familien && !familien[k.familie]) f.push(`${id}: Familie „${k.familie}“ fehlt in familien.yaml`);
+    for (const feld of ['wurzel', 'zehrer', 'wasser']) if (k[feld] && !ERLAUBT[feld].includes(k[feld])) f.push(`${id}: ${feld} „${k[feld]}“ ungültig (${ERLAUBT[feld].join(' | ')})`);
+    if (k.rollen && (!Array.isArray(k.rollen) || k.rollen.some((r) => !['V', 'H', 'N', 'B'].includes(r)))) f.push(`${id}: rollen nur V, H, N, B`);
+    if (naturjahreszeitIds.length && k.naturjahreszeit && !naturjahreszeitIds.includes(k.naturjahreszeit)) f.push(`${id}: naturjahreszeit „${k.naturjahreszeit}“ unbekannt`);
+    if (!(Number(k.abstand) > 0)) f.push(`${id}: abstand muss eine Zahl > 0 sein`);
+    for (const feld of ['gut', 'schlecht']) for (const n of k[feld] || []) if (!kulturen[n]) f.push(`${id}: ${feld}-Nachbar „${n}“ gibt es nicht`);
+    for (const n of k.gut || []) if ((k.schlecht || []).includes(n)) f.push(`${id}: „${n}“ ist zugleich guter und schlechter Nachbar`);
+    for (const e of k.erfahrungen || []) {
+      if (!Number.isInteger(e.jahr) || !e.text) f.push(`${id}: Erfahrung braucht jahr und text`);
+      if (e.sicherheit && !ERLAUBT.sicherheit.includes(e.sicherheit)) f.push(`${id}: sicherheit „${e.sicherheit}“ ungültig`);
+    }
+    for (const s of k.sorten || []) if (!s.name || !Number.isInteger(s.jahr)) f.push(`${id}: Sorte braucht name und jahr`);
+  }
+  return f;
+}
+
+/** Schlechte Nachbarn in beide Richtungen. */
+export function schlechteNachbarnVon(id, kulturen) {
+  const s = new Set(kulturen[id]?.schlecht || []);
+  for (const [anderer, k] of Object.entries(kulturen)) if ((k.schlecht || []).includes(id)) s.add(anderer);
+  return [...s];
+}
+
 /** Datum aus YAML (Date-Objekt oder 'YYYY-MM-DD') als UTC-Date. */
 export function datum(v) {
   if (v instanceof Date) return new Date(Date.UTC(v.getUTCFullYear(), v.getUTCMonth(), v.getUTCDate()));
@@ -137,7 +176,7 @@ function schlechteNachbarn(ka, kb, idA, idB) {
  * Prüft einen Jahresplan.
  * @returns Liste von { stufe: 'fehler'|'warnung'|'hinweis', thema, text, ids: [pflanzungs-ids] }
  */
-export function pruefen({ plan, kulturen, flaechen, vorjahre = [] }) {
+export function pruefen({ plan, kulturen, flaechen, familien = null, vorjahre = [] }) {
   const meldungen = [];
   const melde = (stufe, thema, text, ids = []) => meldungen.push({ stufe, thema, text, ids });
   const pfl = plan.pflanzungen || [];
@@ -252,22 +291,30 @@ export function pruefen({ plan, kulturen, flaechen, vorjahre = [] }) {
     if (kulturen[p.kultur].frost && datum(p.von) < eis) melde('warnung', 'Frost', `${name(p)} ist frostempfindlich und soll am ${formatDatum(datum(p.von))} – vor den Eisheiligen – ins Beet.`, [p.id]);
   }
 
-  // 7. Fruchtfolge: gleiche Familie wie beim letzten Anbau auf derselben Fläche
+  // 7. Fruchtfolge: dieselbe Familie innerhalb ihrer Anbaupause an derselben Stelle.
+  //    Ohne familien.yaml: nur der letzte Anbau auf der Fläche. Beim Vorjahr zählt die tatsächliche Lage.
   for (const fid of new Set(gueltig.map((p) => p.flaeche))) {
-    const vorher = vorjahre
+    const frueher = vorjahre
       .filter((v) => v.jahr < plan.jahr && (v.pflanzungen || []).some((q) => q.flaeche === fid))
-      .sort((x, y) => y.jahr - x.jahr)[0];
-    if (!vorher) continue;
+      .sort((x, y) => y.jahr - x.jahr);
+    if (!frueher.length) continue;
     for (const p of gueltig.filter((q) => q.flaeche === fid)) {
       const kp = kulturen[p.kultur];
+      const pause = familien?.[kp.familie]?.anbaupause;
       const hp = huelle(p, kp);
-      // Beim Vorjahr zählt die tatsächliche Lage, sofern erfasst
-      for (const q of vorher.pflanzungen.filter((x) => x.flaeche === fid && x.ist?.status !== 'nicht_gepflanzt')) {
-        const kq = kulturen[q.kultur];
-        if (!kq || kq.familie !== kp.familie) continue;
-        const hq = huelle(ort(q, true), kq);
-        if (hp && hq && rechteckeUeberlappen(hp, hq)) {
-          melde('warnung', 'Fruchtfolge', `${name(p)}: ${kp.familie} standen ${vorher.jahr} an derselben Stelle (${kq.name}).`, [p.id]);
+      const kandidaten = pause == null ? frueher.slice(0, 1) : frueher.filter((v) => plan.jahr - v.jahr < pause);
+      const gemeldet = new Set();
+      for (const vorher of kandidaten) {
+        for (const q of vorher.pflanzungen.filter((x) => x.flaeche === fid && x.ist?.status !== 'nicht_gepflanzt')) {
+          const kq = kulturen[q.kultur];
+          if (!kq || kq.familie !== kp.familie) continue;
+          const hq = huelle(ort(q, true), kq);
+          const key = `${vorher.jahr}|${kq.name}`;
+          if (hp && hq && rechteckeUeberlappen(hp, hq) && !gemeldet.has(key)) {
+            gemeldet.add(key);
+            const regel = pause == null ? '' : ` – Anbaupause ${kp.familie}: ${pause} Jahre`;
+            melde('warnung', 'Fruchtfolge', `${name(p)}: ${kp.familie} standen ${vorher.jahr} an derselben Stelle (${kq.name})${regel}.`, [p.id]);
+          }
         }
       }
     }
