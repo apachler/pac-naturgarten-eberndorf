@@ -11,7 +11,9 @@ Auswertung der Saison als Grundlage für die Planung des Folgejahres. Stichworte
 - **Paprika und Pfefferoni:** Ab etwa Anfang November war es zu kühl, die Pflanzen sind am Eingehen.
 - **Karotten:** nach Gefühl gesät, viel Ernte, aber zu eng. Künftig nur noch mit Saatband.
 - **Beikräuter:** Bohnenkraut geht einigermaßen; Ringelblume wuchert und sät sich selbst aus; Dill ist schnell in die Blüte gegangen, nur kleine Ernte.
-- **Noch offen:** tatsächliche Pflanzenanzahlen; was hat die Löcher in die Paprika gefressen (Raupen, Schnecken)?
+- **Paprika-Löcher:** vermutlich Raupen. 2027 Fotos machen, falls es wieder auftritt (steht auf der Merkliste).
+- **Tomatenhaus** (ca. 3 × 2 m, 2026 gebaut): 8 Tomaten und Basilikum mit sehr guter Ernte; die Petersilie haben großteils die Wühlmäuse geholt.
+- **Noch offen:** tatsächliche Pflanzenanzahlen
 
 ## Gesamteindruck (Andreas, 10.11.2026)
 
@@ -25,7 +27,7 @@ Auswertung der Saison als Grundlage für die Planung des Folgejahres. Stichworte
 
 - **Aktives Beet:** West
 - **Wetter der Saison, eigene Beobachtung:** Juni bis August sehr trocken, ab Juli zusätzlich sehr heiß. Recherchierte Daten: [Wetter.md](Wetter.md)
-- **Bewässerung** (reichte das Wasser, Gießaufwand):
+- **Bewässerung:** insgesamt gut 3000 L im ganzen Gemüsegarten (Beet und Tomatenhaus)
 - **Boden und Mulch** (Zustand des Heubeets, Schnecken unter dem Mulch …):
 - **Gesamteindruck:** siehe oben
 
@@ -61,7 +63,9 @@ Geplant laut Plan des Jahres. Tatsächlich = gesetzt bzw. gesät. Ernte: ++ / + 
 | Ringelblume (B) |  | 4 | ausgesät |  | wuchert stark, Selbstaussaat beobachtet |  |
 | Bohnenkraut (B) |  | 4 | gesetzt | o | geht einigermaßen, steht noch im Beet |  |
 | Beinwell (B) |  | 4 | 0 |  | nicht gepflanzt |  |
-| Tomaten (zusätzlich, nicht im Plan) | | – | gepflanzt, nach Schaden komplett neu gepflanzt | | vor den Eisheiligen gesetzt und angeschlagen | |
+| Tomaten (Tomatenhaus, nicht im Beetplan) | | – | 8 im neuen Tomatenhaus (ca. 3 × 2 m); nach Schaden durch zu frühes Pflanzen komplett neu gepflanzt | ++ | vor den Eisheiligen gesetzt und angeschlagen | gleich |
+| Basilikum (Tomatenhaus) | | – | mehrere | ++ | | gleich |
+| Petersilie (Tomatenhaus) | | – | ja | – | die meisten von Wühlmäusen geholt | Wühlmausschutz |
 | Knoblauch (zusätzlich) | 'Therador' (Reinsaat, Kn6), 250 g | – | Ende Oktober 2026 gesteckt | | Ernte 2027 | |
 | Dill (B) |  | 4 | gepflanzt | – | sehr schnell in Blüte, nur kleine Ernte |  |
 

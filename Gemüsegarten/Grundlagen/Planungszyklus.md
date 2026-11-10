@@ -35,5 +35,6 @@ Fruchtfolge beachten: Das aktive Beet wechselt. Auf das Beet, das im Vorjahr ger
 
 ## 5. Saison (März bis November)
 
+- Die Punkte der `Grundlagen/Merkliste.md` für die Saison im Blick behalten.
 - Abweichungen vom Plan und Beobachtungen laufend in `<Jahr>/Notizen.md` festhalten (optional, erleichtert die Rückmeldung).
 - Danach beginnt der Zyklus mit Schritt 1 von vorn.

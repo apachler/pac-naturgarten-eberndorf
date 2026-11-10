@@ -13,7 +13,8 @@ Gemüsegarten/
 │   ├── Standort-und-Beete.md
 │   ├── Planungszyklus.md
 │   ├── Kulturwissen.md
-│   └── Erfahrungen.md
+│   ├── Erfahrungen.md
+│   └── Merkliste.md
 ├── Vorlagen/              Kopiervorlagen für jedes neue Jahr
 │   ├── Rueckmeldung.md
 │   ├── Planungsauftrag.md

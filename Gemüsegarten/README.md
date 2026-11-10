@@ -8,6 +8,7 @@ Jahresplanung für die zwei Heubeete (je 3 × 5 m), von denen jedes Jahr eines b
 - [Planungszyklus](Grundlagen/Planungszyklus.md) – Rückmeldung → Planung → Saison
 - [Erfahrungen](Grundlagen/Erfahrungen.md) – was wir gelernt haben
 - [Kulturwissen](Grundlagen/Kulturwissen.md) – Abstände, Termine, Nachbarschaften
+- [Merkliste](Grundlagen/Merkliste.md) – Erinnerungen für die nächsten Saisonen
 
 ## Jahre
 

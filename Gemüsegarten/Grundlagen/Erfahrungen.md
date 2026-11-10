@@ -39,4 +39,7 @@ Bestätigte, jahresübergreifende Erkenntnisse. Jeder Eintrag mit Quelle (Jahr o
 - **Sellerie** brauchen wir nur in kleinen Mengen, hauptsächlich für die Suppenwürze (Sellerie, Karotten, Lauch, Petersilie). 10 Knollen und 4 Stangen waren zu viel. Wühlmäuse höhlen Knollen aus. *(2026)*
 - **Mangold, Paprika, Pfefferoni:** je 3 Pflanzen waren zu viel, alle wuchsen gut. Die Paprika wurden oft angefressen und brachten die schwächste Ernte der drei. *(2026)*
 - **Feuerbohnen** haben im Hitzesommer viel geblüht, aber kaum Schoten angesetzt. Der Hauptansatz kam erst im Spätsommer und Frühherbst, viele Schoten waren bei der Ernte Anfang November noch grün. 2025 war das nicht so. Vermutliche Ursache: Bei großer Hitze werden die Blüten der Feuerbohne steril. *(2026 – Hypothese)*
+- **Tomatenhaus** (ca. 3 × 2 m, 8 Tomaten und Basilikum): sehr gute Ernte. Seit es steht, gehören Tomaten nicht mehr ins Heubeet. *(2026)*
+- **Wühlmäuse** haben Sellerieknollen ausgehöhlt und die meiste Petersilie im Tomatenhaus geholt. Beide sind Doldenblütler mit Wurzeln, die Wühlmäuse besonders mögen. Beim Pflanzen Schutz vorsehen. *(2026)*
+- **Wasser:** Im Hitzesommer wurden im ganzen Gemüsegarten etwa 3000 L verbraucht, also rund drei Füllungen des 1000-L-Containers. *(2026)*
 - **Kohlsprossen:** 4 Pflanzen waren zu viel. Sie brauchen viel Licht, die Röschen waren anfangs locker und werden mit der Kälte fester. Wie lange sich über den Winter ernten lässt, wird noch beobachtet. *(2026)*

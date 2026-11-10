@@ -8,7 +8,8 @@ Dieses Repo ist das Langzeitgedächtnis für die Gemüsegarten-Planung von Andre
 2. `Gemüsegarten/Grundlagen/Planungszyklus.md` – wie geplant und ausgewertet wird
 3. `Gemüsegarten/Grundlagen/Erfahrungen.md` – bestätigte Erkenntnisse aus früheren Jahren
 4. `Gemüsegarten/Grundlagen/Kulturwissen.md` – Abstände, Termine, Nachbarschaften
-5. Den Ordner des **Vorjahres** (Plan + `Rueckmeldung.md`) und ggf. den des aktuellen Jahres
+5. `Gemüsegarten/Grundlagen/Merkliste.md` – Erinnerungen; passende Punkte von sich aus ansprechen
+6. Den Ordner des **Vorjahres** (Plan + `Rueckmeldung.md`) und ggf. den des aktuellen Jahres
 
 ## Arbeitsweise
 

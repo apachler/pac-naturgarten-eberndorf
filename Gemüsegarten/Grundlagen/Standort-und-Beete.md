@@ -27,6 +27,20 @@ Jahresübergreifende Rahmenbedingungen des Gemüsegartens. Bei Änderungen (neue
 | Bodenaufbau | Terra Preta eingearbeitet, Effektive Mikroorganismen (EM), Schafwolle als Dünger und Mulch |
 | Weitere Bodenhilfsstoffe | Urgesteinsmehl (bevorzugt Diabas), Hornspäne gezielt, Kompost aus eigener Kompostierung |
 
+## Tomatenhaus
+
+| Parameter | Angabe |
+|-----------|--------|
+| Größe | ca. 3 × 2 m, gebaut 2026 |
+| Belegung 2026 | 8 Tomaten, mehrere Basilikum, Petersilie |
+| Ergebnis 2026 | Tomaten- und Basilikumernte sehr gut; die meiste Petersilie haben Wühlmäuse geholt |
+
+## Wasserverbrauch
+
+| Jahr | Verbrauch Gemüsegarten | Bemerkung |
+|------|------------------------|-----------|
+| 2026 | ca. 3000 L | Rekord-Hitzesommer mit extrem trockenem Frühling, siehe [Wetter 2026](../2026/Wetter.md) |
+
 ## Fruchtfolge: aktives Beet und Ruhebeet
 
 - Pro Jahr wird **nur ein Beet bepflanzt**, das andere hat ein **komplettes Ruhejahr**.
