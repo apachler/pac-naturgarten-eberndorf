@@ -44,8 +44,8 @@ flaechen:
         - { name: Pfad C/D (schmal), y: 160, t: 15 }
       zonen:
         - { id: A, name: "Zone A – Feuerbohnen, Bohnenkraut", y: 450, t: 50 }
-        - { id: B, name: "Zone B – Kohlsprossen, Gurken, Sellerie", y: 320, t: 130 }
-        - { id: C, name: "Zone C – Kohlsprossen, Mangold, Paprika, Pfefferoni", y: 175, t: 115 }
+        - { id: B, name: "Zone B – Kohlsprossen, Gurken, Knollensellerie", y: 320, t: 130 }
+        - { id: C, name: "Zone C – Paprika, Pfefferoni, Mangold, Stangensellerie", y: 175, t: 115 }
         - { id: D, name: "Zone D – Karotten + Lauch + Dill", y: 80, t: 80 }
         - { id: E, name: "Zone E – Rote Rüben, Kohlrabi, Ringelblumen", y: 0, t: 80 }
   ost:
@@ -107,9 +107,9 @@ pflanzungen:
       status: im_beet
       anzahl: 8
       ernte: "o"
-      punkte: [[15, 410], [50, 410], [15, 350], [50, 350], [15, 260], [50, 260], [15, 200], [50, 200]]
+      punkte: [[25, 435], [75, 435], [25, 400], [75, 400], [25, 365], [75, 365], [25, 330], [75, 330]]
       notiz: >-
-        Zwei Reihen längs Nord–Süd am Westrand, durch Zone B und C (Andreas); genaue Abstände angenommen.
+        Zwei Reihen längs Nord–Süd in Zone B, X 0–100 (Andreas); Abstände in der Reihe angenommen.
         Zu viel. Teilweise gut entwickelt, braucht viel Licht. Röschen anfangs locker,
         werden mit der Kälte fester. Köpfe abgeschlagen.
 
@@ -126,8 +126,8 @@ pflanzungen:
       status: geerntet
       anzahl: 2
       ernte: "++"
-      punkte: [[105, 420], [105, 360]]
-      notiz: Lage in Zone B angenommen. 2 Pflanzen vertikal am Gitter (Nord–Süd). Gutes Wachstum, gute Ernte – passt so.
+      punkte: [[150, 420], [150, 360]]
+      notiz: In Zone B bei X 150 (Andreas). 2 Pflanzen vertikal am Gitter (Nord–Süd). Gutes Wachstum, gute Ernte – passt so.
 
   - id: knollensellerie
     kultur: knollensellerie
@@ -142,8 +142,8 @@ pflanzungen:
       status: geerntet
       anzahl: 6
       ernte: "o"
-      punkte: [[160, 420], [200, 420], [240, 420], [280, 420], [160, 380], [200, 380]]
-      notiz: Lage in Zone B angenommen. Zu viel. Gut gewachsen, ein paar Ausfälle, einige Knollen von Wühlmäusen ausgehöhlt.
+      punkte: [[215, 405], [250, 405], [285, 405], [215, 350], [250, 350], [285, 350]]
+      notiz: In Zone B, X 200–300 (Andreas); Abstände angenommen. Zu viel. Gut gewachsen, ein paar Ausfälle, einige Knollen von Wühlmäusen ausgehöhlt.
 
   # ---------------- Zone C ----------------
   - id: paprika
@@ -158,9 +158,9 @@ pflanzungen:
       status: geerntet
       anzahl: 3
       ernte: "+"
-      punkte: [[185, 280], [275, 280], [230, 238]]
+      punkte: [[20, 280], [90, 280], [55, 240]]
       notiz: >-
-        Lage in Zone C Ost angenommen, im Wechsel mit den Pfefferoni.
+        In Zone C, X 0–100, gemeinsam mit den Pfefferoni (Andreas); Anordnung angenommen.
         Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Früchte oft angefressen
         (vermutlich Raupen), schwächste Ernte der drei. Anfang November eingegangen.
 
@@ -176,8 +176,8 @@ pflanzungen:
       status: geerntet
       anzahl: 4
       ernte: "++"
-      punkte: [[230, 280], [185, 238], [275, 238], [230, 196]]
-      notiz: Lage in Zone C Ost angenommen. Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Anfang November eingegangen.
+      punkte: [[55, 280], [20, 240], [90, 240], [55, 195]]
+      notiz: In Zone C, X 0–100, gemeinsam mit den Paprika (Andreas); Anordnung angenommen. Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Anfang November eingegangen.
 
   - id: mangold
     kultur: mangold
@@ -191,8 +191,8 @@ pflanzungen:
       status: im_beet
       anzahl: 4
       ernte: "++"
-      punkte: [[100, 260], [140, 260], [100, 200], [140, 200]]
-      notiz: In Zone C ab X 75 (Andreas); genaue Lage angenommen. Zu viel – sehr gut gewachsen.
+      punkte: [[125, 260], [175, 260], [125, 200], [175, 200]]
+      notiz: In Zone C zwischen Paprika/Pfefferoni (X 0–100) und Stangensellerie (X 200–300), also etwa X 100–200 (Andreas nannte „C 75–“); genaue Lage angenommen. Zu viel – sehr gut gewachsen.
 
   - id: stangensellerie
     kultur: stangensellerie
@@ -206,8 +206,8 @@ pflanzungen:
       status: geerntet
       anzahl: 6
       ernte: "o"
-      punkte: [[240, 380], [280, 380], [160, 340], [200, 340], [240, 340], [280, 340]]
-      notiz: Lage angenommen – in Zone B neben dem Knollensellerie, weil Zone C mit Kohlsprossen, Mangold, Paprika und Pfefferoni voll war. Zu viel – gut gewachsen.
+      punkte: [[215, 260], [250, 260], [285, 260], [215, 205], [250, 205], [285, 205]]
+      notiz: In Zone C, X 200–300 (Andreas); Abstände angenommen. Zu viel – gut gewachsen.
 
   # ---------------- Zone D ----------------
   - id: karotte

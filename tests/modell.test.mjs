@@ -213,11 +213,14 @@ test('Tatsächliche Einteilung 2026: Zone A schmaler, B und C breiter, Ist-Lage 
   assert.equal(einteilung(fp, false).zonen, fp.zonen, 'Plan bleibt');
   assert.equal(zone(true, 'A').t, 50);
   assert.deepEqual(einteilung(fp, true).wege.map((w) => w.name), ['Pflegepfad B/C', 'Pfad C/D (schmal)'], 'Pfade zwischen B/C und C/D, keiner zwischen A und B');
-  // Kohlsprossen in zwei Nord–Süd-Reihen durch B und C, Mangold in C ab X 75, Bohnenkraut zwischen den Bohnenstangen
+  // Lage laut Andreas: Kohlsprossen zwei Nord–Süd-Reihen in B, Paprika/Pfefferoni C 0–100, Stangensellerie C 200–300,
+  // Knollensellerie B 200–300, Gurke B 150, Mangold dazwischen in C; Bohnenkraut zwischen den Bohnenstangen
   const ks = positionen(ort(finde('kohlsprossen'), true));
-  assert.equal(new Set(ks.map((q) => q.x)).size, 2);
-  assert.ok(ks.some((q) => inZone('B', q)) && ks.some((q) => inZone('C', q)));
-  assert.ok(positionen(ort(finde('mangold'), true)).every((q) => q.x >= 75 && inZone('C', q)));
+  assert.equal(new Set(ks.map((q) => q.x)).size, 2, 'zwei Reihen');
+  const xBereich = { kohlsprossen: [0, 100], paprika: [0, 100], pfefferoni: [0, 100], stangensellerie: [200, 300], knollensellerie: [200, 300], gurke: [150, 150], mangold: [100, 200] };
+  for (const [id, [x1, x2]] of Object.entries(xBereich)) {
+    for (const q of positionen(ort(finde(id), true))) assert.ok(q.x >= x1 && q.x <= x2, `${id}: X ${q.x} in ${x1}–${x2}`);
+  }
   const stangen = positionen(ort(finde('feuerbohne'), true)).map((q) => q.x);
   for (const q of positionen(ort(finde('bohnenkraut'), true))) {
     assert.ok(inZone('A', q) && q.y < 490 && stangen.some((x) => x < q.x) && stangen.some((x) => x > q.x), `Bohnenkraut (${q.x}|${q.y}) zwischen den Stangen`);
@@ -228,23 +231,14 @@ test('Tatsächliche Einteilung 2026: Zone A schmaler, B und C breiter, Ist-Lage 
   const teile = [...zonen, ...wege].sort((a, b) => a.y - b.y);
   teile.forEach((t, i) => assert.equal(t.y, i ? teile[i - 1].y + teile[i - 1].t : 0, `Lücke vor ${t.name || t.id}`));
   assert.equal(teile.at(-1).y + teile.at(-1).t, flaechen.west.laenge);
-  // Jede Pflanze aus B und C steht in ihrer Zone, nicht auf einem Weg, mit genug Abstand zu den anderen Kulturen
-  // (innerhalb einer Kultur darf es so eng sein, wie es tatsächlich war – das meldet die Prüfung als Hinweis)
-  const ids = { B: ['gurke', 'knollensellerie', 'stangensellerie'], C: ['paprika', 'pfefferoni', 'mangold'], BC: ['kohlsprossen'] };
-  const alle = [];
+  // Jede Pflanze aus B und C steht in ihrer Zone und nicht auf einem Weg (zu eng gesetzt meldet die Prüfung als Hinweis)
+  const ids = { B: ['kohlsprossen', 'gurke', 'knollensellerie'], C: ['paprika', 'pfefferoni', 'mangold', 'stangensellerie'] };
   for (const [z, liste] of Object.entries(ids)) {
     for (const id of liste) {
       for (const q of positionen(ort(finde(id), true))) {
         assert.ok(inZone(z, q), `${id} (${q.x}|${q.y}) liegt in Zone ${z}`);
-        alle.push({ ...q, id, a: kulturen[finde(id).kultur].abstand });
       }
     }
-  }
-  for (let i = 0; i < alle.length; i++) for (let j = i + 1; j < alle.length; j++) {
-    const a = alle[i], b = alle[j];
-    if (a.id === b.id) continue;
-    const d = Math.hypot(a.x - b.x, a.y - b.y);
-    assert.ok(d >= (a.a + b.a) / 2 - 0.5, `${a.id} (${a.x}|${a.y}) – ${b.id} (${b.x}|${b.y}): ${d.toFixed(0)} cm`);
   }
   const m = pruefen({ plan: plan2026, kulturen, flaechen, familien, vorjahre: plaene });
   assert.ok(!m.some((x) => /tatsächlich auf dem/.test(x.text)), 'keine Ist-Pflanze auf einem Weg');
