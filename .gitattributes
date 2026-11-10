@@ -1,0 +1,7 @@
+# Alles mit LF ins Repo – Skripte und Hooks laufen so auf Linux, macOS und in der Cloud.
+* text=auto eol=lf
+*.woff2 binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.docx binary

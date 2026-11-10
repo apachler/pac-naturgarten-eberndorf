@@ -83,3 +83,5 @@ Beim Ablegen fiel auf, dass einige Anforderungen aus dem Planungsauftrag noch ni
 - 2026-11-10: Beetplaner im Design von naturgarten.bio. Positionen mit dem Positionsplan 2026 abgeglichen (Ringelblumen auf Y 20 korrigiert). Unit- und Browser-Tests eingerichtet, Pages veröffentlicht nur bei grünen Tests.
 - 2026-11-10: Zeitregler in Wochenschritten. Tatsächliche Lage 2026 (Feuerbohnen, Kohlrabi, Winterlauch, Endivie, Chinakohl, Zwiebeln, Knoblauch) als Ist-Positionen erfasst. Idee für 2027: 4 Bohnenstangen.
 - 2026-11-10: Datenquelle für alle Gemüsearten (`kulturen.yaml` mit Erfahrungen und Sorten, `familien.yaml` mit Anbaupausen); `Kulturwissen.md` wird daraus erzeugt. Flächen als Datenquelle, der Beetplaner zeigt „Über das Beet“.
+- 2026-11-10: Tomatenhaus genau beschrieben (Bauweise, Boden, 2 Reihen à 4 Paradeiser, Basilikum, Petersilie; Ollas für 2027 in der Merkliste).
+- 2026-11-10: Arbeitsweise für KI-Assistenten nach dem Vorbild von violetveinsmp: `AGENTS.md` als gemeinsame Grundlage, Skills `/rueckmeldung`, `/jahresplanung`, `/saison-notiz`, `/kultur-neu`, Bereichsregeln, Hook für Kulturwissen und Prüfung, keine Assistenten-Attribution in Commits.

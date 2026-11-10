@@ -1,0 +1,23 @@
+---
+paths:
+  - "Gemüsegarten/**"
+---
+
+# Gartendaten bearbeiten
+
+- **Erfahrungen** zu einer Art als `{ jahr, text, sicherheit }` unter `erfahrungen:` in `kulturen.yaml`.
+  `sicherheit`: `beobachtet` (einmal gesehen) | `hypothese` (Vermutung zur Ursache) | `bestaetigt` (erst, wenn es sich in
+  mindestens zwei Jahren gezeigt hat). Bestehende Einträge nicht umschreiben – ein späteres Jahr ergänzt oder bestätigt.
+- Erprobte Sorten unter `sorten:` mit `{ name, quelle, jahr, ergebnis }`. Unbekannte Namen offen als unbekannt notieren.
+- Weicht ein Faustwert (Abstand, Termin, Bedarf) bei uns dauerhaft ab: Wert anpassen **und** als Erfahrung notieren.
+- `Erfahrungen.md` nur für Artübergreifendes (Boden, Wetter, Wasser, Planung, Anzucht).
+- `Kulturwissen.md` nie von Hand ändern – der Hook bzw. `npm run kulturwissen` erzeugt sie.
+- In `plan.yaml`: Koordinaten in cm, Ursprung Südwest-Ecke. Abweichungen der Wirklichkeit unter `ist:`
+  (`status`: geplant | gepflanzt | im_beet | geerntet | nicht_gepflanzt | unbekannt, `anzahl`, `ernte`, `notiz`, ggf. eigene
+  `punkte`/`reihen`/`bereich` für die tatsächliche Lage). Den Plan selbst nach der Saison nicht umschreiben.
+- Warnungen der Prüfung beheben oder mit `begruendung:` in der Pflanzung erklären.
+- **Wetter-Regel:** Zu jeder Jahres-Rückmeldung das Wetter des Jahres für Eberndorf/Kärnten recherchieren (GeoSphere Austria
+  Klimamonitoring/Klimarückblick, BMLUK-Monatsberichte „Wasserhaushalt Österreich“ mit Grundwasser-Messstelle Eberndorf,
+  Klimarückblick Kärnten) und als `<Jahr>/Wetter.md` nach `Vorlagen/Wetter.md` mit Quellen ablegen.
+- Fotos oder Beobachtungen, um die Andreas gebeten hat, in die Merkliste aufnehmen und zur passenden Zeit ansprechen.
+- Neue Jahre nur aus `Gemüsegarten/Vorlagen/` anlegen und in `jahre.yaml` sowie `Gemüsegarten/README.md` eintragen.

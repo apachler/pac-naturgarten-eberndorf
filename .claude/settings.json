@@ -1,0 +1,66 @@
+{
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/tools/set-git-identity.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/nach-datenaenderung.mjs"
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(npm ci:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run pruefen:*)",
+      "Bash(npm run kulturwissen:*)",
+      "Bash(npm run test:e2e:*)",
+      "Bash(npx playwright test:*)",
+      "Bash(node beetplaner/pruefen.mjs:*)",
+      "Bash(node beetplaner/kulturwissen.mjs:*)",
+      "Bash(node tests/server.mjs:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "WebSearch",
+      "WebFetch(domain:geosphere.at)",
+      "WebFetch(domain:www.bmluk.gv.at)",
+      "WebFetch(domain:naturgarten.bio)"
+    ],
+    "ask": [
+      "Bash(git push:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(~/.ssh/**)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git push --delete:*)",
+      "Bash(git push * --force:*)",
+      "Bash(git push * -f:*)"
+    ]
+  }
+}
