@@ -32,3 +32,11 @@ Bestätigte, jahresübergreifende Erkenntnisse. Jeder Eintrag mit Quelle (Jahr o
 - **Vogerlsalat** ist trotz mehrfacher Saat nicht gut gekommen, Radieschen dagegen schon. *(2026 – Ursache offen)*
 - **Vor- und Nachkulturen:** 5 von 15 geplanten Vor-, Nach- und Beikulturen wurden nicht gepflanzt. Die Liste lieber kleiner halten. *(2026)*
 - **Paprika und Pfefferoni** gehen bei uns ab Anfang November wegen der Kälte ein. *(2026)*
+- **Erst nach den Eisheiligen pflanzen.** Eine Woche davor gesetzt, wurden Tomaten, Paprika, Pfefferoni und Gurken geschädigt, die Tomaten mussten neu gepflanzt werden. Findet der Pflanzenmarkt früher statt, die Jungpflanzen im ehemaligen Heizraum zwischenlagern. *(2026)*
+- **Gurken:** 2 Pflanzen vertikal am Gitter, Nord–Süd ausgerichtet, brachten gutes Wachstum und gute Ernte. Bewährt. *(2026)*
+- **Lauch** (Sommer und Winter) ist einfach: in ein Pflanzloch setzen und einschwemmen. Sehr gute Ernte. *(2026)*
+- **Rote Rüben** sind einfach und bringen eine gute Ernte, auch wenn die Jungpflanzen geschwächt wirken. *(2026)*
+- **Sellerie** brauchen wir nur in kleinen Mengen, hauptsächlich für die Suppenwürze (Sellerie, Karotten, Lauch, Petersilie). 10 Knollen und 4 Stangen waren zu viel. Wühlmäuse höhlen Knollen aus. *(2026)*
+- **Mangold, Paprika, Pfefferoni:** je 3 Pflanzen waren zu viel, alle wuchsen gut. Die Paprika wurden oft angefressen und brachten die schwächste Ernte der drei. *(2026)*
+- **Feuerbohnen** haben im Hitzesommer viel geblüht, aber kaum Schoten angesetzt. Der Hauptansatz kam erst im Spätsommer und Frühherbst, viele Schoten waren bei der Ernte Anfang November noch grün. 2025 war das nicht so. Vermutliche Ursache: Bei großer Hitze werden die Blüten der Feuerbohne steril. *(2026 – Hypothese)*
+- **Kohlsprossen:** 4 Pflanzen waren zu viel. Sie brauchen viel Licht, die Röschen waren anfangs locker und werden mit der Kälte fester. Wie lange sich über den Winter ernten lässt, wird noch beobachtet. *(2026)*
