@@ -75,10 +75,11 @@ Geplant laut Plan des Jahres. Tatsächlich = gesetzt bzw. gesät. Ernte: ++ / + 
 
 ## Platz und Anordnung
 
-- **Zone A (Feuerbohnen)** war nur ca. 50 cm tief, weil die Stangen ganz am Nordrand standen. Der gewonnene Platz ging vor allem an Zone B und C (im Beetplaner unter „Ist-Stand“).
+- **Zone A (Feuerbohnen)** war nur ca. 50 cm tief, weil die Stangen ganz am Nordrand standen; das Bohnenkraut stand in den Lücken zwischen den Stangen, etwas vom Rand weg. Der gewonnene Platz ging vor allem an Zone B und C (im Beetplaner unter „Ist-Stand“).
+- **Pflegepfade:** tatsächlich zwischen B und C sowie zwischen C und D – der zwischen C und D schmal, nur der Freiraum, der sich aus der Bepflanzung ergab. Zwischen A und B gab es keinen Pfad.
+- **Kohlsprossen** standen längs Nord–Süd und reichten durch Zone B und C; der **Mangold** stand in Zone C ab X 75.
 - **Zu eng:** Karotten (nach Gefühl gesät); 8 Kohlsprossen standen dort, wo 4 geplant waren (empfohlen 60 cm Abstand).
 - Welche Nachbarschaften haben sich bewährt bzw. nicht bewährt?
-- Haben die Pflegepfade gepasst?
 
 ## Krankheiten und Schädlinge
 

@@ -35,16 +35,17 @@ flaechen:
       - { id: C, name: "Zone C – Paprika, Pfefferoni, Mangold, Stangensellerie", y: 160, t: 100 }
       - { id: D, name: "Zone D – Karotten + Lauch + Dill", y: 80, t: 80 }
       - { id: E, name: "Zone E – Rote Rüben, Kohlrabi, Ringelblumen", y: 0, t: 80 }
-    # Tatsächliche Einteilung 2026: Die Feuerbohnen standen ganz am Nordrand, Zone A war daher nur ca. 50 cm tief.
-    # Die gewonnenen 50 cm gingen an Zone B (+30) und Zone C (+20); D und E blieben gleich.
+    # Tatsächliche Einteilung 2026 (Andreas): Die Feuerbohnen standen ganz am Nordrand, Zone A war nur ca. 50 cm tief.
+    # Zwischen A und B gab es keinen Pfad. Pflegepfade lagen zwischen B und C sowie – schmal, nur der Freiraum,
+    # der sich aus der Bepflanzung ergab – zwischen C und D. B und C sind dadurch deutlich breiter als geplant.
     ist:
       wege:
-        - { name: Pflegepfad 1, y: 420, t: 30 }
-        - { name: Pflegepfad 2, y: 280, t: 30 }
+        - { name: Pflegepfad B/C, y: 290, t: 30 }
+        - { name: Pfad C/D (schmal), y: 160, t: 15 }
       zonen:
-        - { id: A, name: "Zone A – Feuerbohnen", y: 450, t: 50 }
-        - { id: B, name: "Zone B – Kohlsprossen, Gurken, Sellerie", y: 310, t: 110 }
-        - { id: C, name: "Zone C – Paprika, Pfefferoni, Mangold, Stangensellerie", y: 160, t: 120 }
+        - { id: A, name: "Zone A – Feuerbohnen, Bohnenkraut", y: 450, t: 50 }
+        - { id: B, name: "Zone B – Kohlsprossen, Gurken, Sellerie", y: 320, t: 130 }
+        - { id: C, name: "Zone C – Kohlsprossen, Mangold, Paprika, Pfefferoni", y: 175, t: 115 }
         - { id: D, name: "Zone D – Karotten + Lauch + Dill", y: 80, t: 80 }
         - { id: E, name: "Zone E – Rote Rüben, Kohlrabi, Ringelblumen", y: 0, t: 80 }
   ost:
@@ -85,7 +86,12 @@ pflanzungen:
     von: 2026-05-15
     bis: 2026-09-30
     punkte: [[60, 420], [120, 420], [180, 420], [240, 420]]
-    ist: { status: im_beet, anzahl: 4, ernte: "o", notiz: Geht einigermaßen. }
+    ist:
+      status: im_beet
+      anzahl: 4
+      ernte: "o"
+      punkte: [[60, 470], [120, 470], [180, 470], [240, 470]]
+      notiz: Geht einigermaßen. Stand in den Lücken zwischen den Bohnenstangen, etwas vom Rand weg.
 
   # ---------------- Zone B ----------------
   - id: kohlsprossen
@@ -101,9 +107,9 @@ pflanzungen:
       status: im_beet
       anzahl: 8
       ernte: "o"
-      punkte: [[15, 400], [53, 400], [92, 400], [130, 400], [15, 345], [53, 345], [92, 345], [130, 345]]
+      punkte: [[15, 410], [50, 410], [15, 350], [50, 350], [15, 260], [50, 260], [15, 200], [50, 200]]
       notiz: >-
-        Lage in der breiteren Zone B (Y 310–420) neu verteilt – Annahme, genaue Positionen nicht notiert.
+        Zwei Reihen längs Nord–Süd am Westrand, durch Zone B und C (Andreas); genaue Abstände angenommen.
         Zu viel. Teilweise gut entwickelt, braucht viel Licht. Röschen anfangs locker,
         werden mit der Kälte fester. Köpfe abgeschlagen.
 
@@ -120,8 +126,8 @@ pflanzungen:
       status: geerntet
       anzahl: 2
       ernte: "++"
-      punkte: [[175, 400], [175, 345]]
-      notiz: Lage in der breiteren Zone B (Y 310–420) neu verteilt – Annahme, genaue Positionen nicht notiert. 2 Pflanzen vertikal am Gitter (Nord–Süd). Gutes Wachstum, gute Ernte – passt so.
+      punkte: [[105, 420], [105, 360]]
+      notiz: Lage in Zone B angenommen. 2 Pflanzen vertikal am Gitter (Nord–Süd). Gutes Wachstum, gute Ernte – passt so.
 
   - id: knollensellerie
     kultur: knollensellerie
@@ -136,8 +142,8 @@ pflanzungen:
       status: geerntet
       anzahl: 6
       ernte: "o"
-      punkte: [[215, 395], [250, 395], [285, 395], [215, 350], [250, 350], [285, 350]]
-      notiz: Lage in der breiteren Zone B (Y 310–420) neu verteilt – Annahme, genaue Positionen nicht notiert. Zu viel. Gut gewachsen, ein paar Ausfälle, einige Knollen von Wühlmäusen ausgehöhlt.
+      punkte: [[160, 420], [200, 420], [240, 420], [280, 420], [160, 380], [200, 380]]
+      notiz: Lage in Zone B angenommen. Zu viel. Gut gewachsen, ein paar Ausfälle, einige Knollen von Wühlmäusen ausgehöhlt.
 
   # ---------------- Zone C ----------------
   - id: paprika
@@ -152,9 +158,9 @@ pflanzungen:
       status: geerntet
       anzahl: 3
       ernte: "+"
-      punkte: [[20, 262], [110, 262], [65, 220]]
+      punkte: [[185, 280], [275, 280], [230, 238]]
       notiz: >-
-        Lage in der breiteren Zone C (Y 160–280) neu verteilt – Annahme, genaue Positionen nicht notiert. Im Wechsel mit den Pfefferoni.
+        Lage in Zone C Ost angenommen, im Wechsel mit den Pfefferoni.
         Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Früchte oft angefressen
         (vermutlich Raupen), schwächste Ernte der drei. Anfang November eingegangen.
 
@@ -170,8 +176,8 @@ pflanzungen:
       status: geerntet
       anzahl: 4
       ernte: "++"
-      punkte: [[65, 262], [20, 220], [110, 220], [65, 178]]
-      notiz: Lage in der breiteren Zone C (Y 160–280) neu verteilt – Annahme, genaue Positionen nicht notiert. Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Anfang November eingegangen.
+      punkte: [[230, 280], [185, 238], [275, 238], [230, 196]]
+      notiz: Lage in Zone C Ost angenommen. Zu viel. Vor den Eisheiligen gesetzt und angeschlagen. Anfang November eingegangen.
 
   - id: mangold
     kultur: mangold
@@ -185,8 +191,8 @@ pflanzungen:
       status: im_beet
       anzahl: 4
       ernte: "++"
-      punkte: [[160, 245], [200, 245], [160, 190], [200, 190]]
-      notiz: Lage in der breiteren Zone C (Y 160–280) neu verteilt – Annahme, genaue Positionen nicht notiert. Zu viel – sehr gut gewachsen.
+      punkte: [[100, 260], [140, 260], [100, 200], [140, 200]]
+      notiz: In Zone C ab X 75 (Andreas); genaue Lage angenommen. Zu viel – sehr gut gewachsen.
 
   - id: stangensellerie
     kultur: stangensellerie
@@ -200,8 +206,8 @@ pflanzungen:
       status: geerntet
       anzahl: 6
       ernte: "o"
-      punkte: [[240, 265], [280, 265], [240, 220], [280, 220], [240, 175], [280, 175]]
-      notiz: Lage in der breiteren Zone C (Y 160–280) neu verteilt – Annahme, genaue Positionen nicht notiert. Zu viel – gut gewachsen.
+      punkte: [[240, 380], [280, 380], [160, 340], [200, 340], [240, 340], [280, 340]]
+      notiz: Lage angenommen – in Zone B neben dem Knollensellerie, weil Zone C mit Kohlsprossen, Mangold, Paprika und Pfefferoni voll war. Zu viel – gut gewachsen.
 
   # ---------------- Zone D ----------------
   - id: karotte

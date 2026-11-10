@@ -215,7 +215,7 @@ test('Ist-Stand zeigt die tatsächliche Lage 2026', async ({ page }) => {
   // Feuerbohnen standen am Nordrand (Y 490), geplant waren Y 450
   expect(g.kreise.filter((k) => k.id === 'feuerbohne').every((k) => Math.round(k.y) === 490)).toBe(true);
   await page.locator('#beet text.bereich-text[data-id="winterlauch"]').click();
-  await expect(page.locator('#blatt-inhalt')).toContainText('X 0–150 · Y 0–80 cm');  // Tatsächliche Einteilung: Zone A schmaler, die Wege liegen weiter nördlich als geplant
+  await expect(page.locator('#blatt-inhalt')).toContainText('X 0–150 · Y 0–80 cm');  // Tatsächliche Einteilung: Zone A schmaler, die Pfade liegen anders als geplant
   await page.keyboard.press('Escape');
   const lagen = () => page.locator('#beet rect.weg').evaluateAll((r) => r.map((e) => Number(e.getAttribute('y'))));
   const zonenHoehen = () => page.locator('#beet rect.zone').evaluateAll((r) => r.map((e) => Math.round(Number(e.getAttribute('height')))));
@@ -225,7 +225,7 @@ test('Ist-Stand zeigt die tatsächliche Lage 2026', async ({ page }) => {
   const planWege = await lagen();
   const planZonen = await zonenHoehen();
   expect(istWege.length).toBe(2);
-  istWege.forEach((y, i) => expect(y, 'Weg liegt tatsächlich weiter nördlich').toBeLessThan(planWege[i]));
+  expect(istWege, 'tatsächliche Pfade liegen anders als geplant').not.toEqual(planWege);
   expect(istZonen[0], 'Zone A tatsächlich schmaler').toBeLessThan(planZonen[0]);
 });
 

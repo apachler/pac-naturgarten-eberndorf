@@ -209,8 +209,19 @@ test('Kulturwissen.md ist aus den YAML-Daten erzeugt und aktuell', async () => {
 test('Tatsächliche Einteilung 2026: Zone A schmaler, B und C breiter, Ist-Lage passt hinein', () => {
   const fp = plan2026.flaechen.west;
   const zone = (ist, id) => einteilung(fp, ist).zonen.find((z) => z.id === id);
+  const inZone = (z, q) => [...z].some((id) => { const { y, t } = zone(true, id); return q.y >= y && q.y <= y + t; });
   assert.equal(einteilung(fp, false).zonen, fp.zonen, 'Plan bleibt');
   assert.equal(zone(true, 'A').t, 50);
+  assert.deepEqual(einteilung(fp, true).wege.map((w) => w.name), ['Pflegepfad B/C', 'Pfad C/D (schmal)'], 'Pfade zwischen B/C und C/D, keiner zwischen A und B');
+  // Kohlsprossen in zwei Nord–Süd-Reihen durch B und C, Mangold in C ab X 75, Bohnenkraut zwischen den Bohnenstangen
+  const ks = positionen(ort(finde('kohlsprossen'), true));
+  assert.equal(new Set(ks.map((q) => q.x)).size, 2);
+  assert.ok(ks.some((q) => inZone('B', q)) && ks.some((q) => inZone('C', q)));
+  assert.ok(positionen(ort(finde('mangold'), true)).every((q) => q.x >= 75 && inZone('C', q)));
+  const stangen = positionen(ort(finde('feuerbohne'), true)).map((q) => q.x);
+  for (const q of positionen(ort(finde('bohnenkraut'), true))) {
+    assert.ok(inZone('A', q) && q.y < 490 && stangen.some((x) => x < q.x) && stangen.some((x) => x > q.x), `Bohnenkraut (${q.x}|${q.y}) zwischen den Stangen`);
+  }
   assert.ok(zone(true, 'B').t > zone(false, 'B').t && zone(true, 'C').t > zone(false, 'C').t, 'B und C gewinnen');
   // Zonen und Wege füllen das Beet lückenlos (0–500 cm)
   const { zonen, wege } = einteilung(fp, true);
@@ -219,13 +230,12 @@ test('Tatsächliche Einteilung 2026: Zone A schmaler, B und C breiter, Ist-Lage 
   assert.equal(teile.at(-1).y + teile.at(-1).t, flaechen.west.laenge);
   // Jede Pflanze aus B und C steht in ihrer Zone, nicht auf einem Weg, mit genug Abstand zu den anderen Kulturen
   // (innerhalb einer Kultur darf es so eng sein, wie es tatsächlich war – das meldet die Prüfung als Hinweis)
-  const ids = { B: ['kohlsprossen', 'gurke', 'knollensellerie'], C: ['paprika', 'pfefferoni', 'mangold', 'stangensellerie'] };
+  const ids = { B: ['gurke', 'knollensellerie', 'stangensellerie'], C: ['paprika', 'pfefferoni', 'mangold'], BC: ['kohlsprossen'] };
   const alle = [];
   for (const [z, liste] of Object.entries(ids)) {
-    const { y, t } = zone(true, z);
     for (const id of liste) {
       for (const q of positionen(ort(finde(id), true))) {
-        assert.ok(q.y >= y && q.y <= y + t, `${id} (${q.x}|${q.y}) liegt in Zone ${z}`);
+        assert.ok(inZone(z, q), `${id} (${q.x}|${q.y}) liegt in Zone ${z}`);
         alle.push({ ...q, id, a: kulturen[finde(id).kultur].abstand });
       }
     }
