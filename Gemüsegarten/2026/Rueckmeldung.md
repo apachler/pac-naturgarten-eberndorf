@@ -78,6 +78,8 @@ Geplant laut Plan des Jahres. Tatsächlich = gesetzt bzw. gesät. Ernte: ++ / + 
 - **Zone A (Feuerbohnen)** war nur ca. 50 cm tief, weil die Stangen ganz am Nordrand standen; das Bohnenkraut stand in den Lücken zwischen den Stangen, etwas vom Rand weg. Der gewonnene Platz ging vor allem an Zone B und C (im Beetplaner unter „Ist-Stand“).
 - **Pflegepfade:** tatsächlich zwischen B und C sowie zwischen C und D – der zwischen C und D schmal, nur der Freiraum, der sich aus der Bepflanzung ergab. Zwischen A und B gab es keinen Pfad.
 - **Tatsächliche Lage:** Kohlsprossen längs Nord–Süd in Zone B (X 0–100), Gurke B bei X 150, Knollensellerie B 200–300; Paprika und Pfefferoni C 0–100, Mangold dazwischen, Stangensellerie C 200–300.
+- **Zone E:** Rote Rüben zwischen dem Winterlauch (E 0–150); Kohlrabi früh und danach die Hauptkultur nacheinander auf E 200–300; Chinakohl und Endivie auf E 150–300; Ringelblumen am Südrand ausgesät, haben sich über die Zeit in ganz E verteilt.
+- **Ernte Knollensellerie und Kohlrabi:** verteilt ab Anfang/Mitte August, Ende September alles abgeerntet.
 - **Zu eng:** Karotten (nach Gefühl gesät); 8 Kohlsprossen standen dort, wo 4 geplant waren (empfohlen 60 cm Abstand).
 - Welche Nachbarschaften haben sich bewährt bzw. nicht bewährt?
 

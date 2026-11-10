@@ -235,7 +235,7 @@ test('Ist-Stand: nicht Gepflanztes ausgeblendet, „steht im Beet“ bleibt sich
   await setzeDatum(page, '2026-11-10');
   await expect(page.locator('#beet g.pflanzung[data-id="beinwell"]')).toHaveCount(0);
   await expect(page.locator('#beet g.bereich[data-id="wirsing"]')).toHaveCount(0);
-  await expect(page.locator('#beet g.pflanzung[data-id="rote_ruebe"]')).toHaveCount(1); // Plan bis Ende Oktober, laut Rückmeldung noch im Beet
+  await expect(page.locator('#beet g.bereich[data-id="rote_ruebe"]')).toHaveCount(1); // Plan bis Ende Oktober, laut Rückmeldung noch im Beet
   await expect(page.locator('#beet g.pflanzung[data-id="mangold"]')).toHaveCount(1);
   await expect(page.locator('#beet g.pflanzung[data-id="paprika"]')).toHaveCount(0); // abgeerntet
   // Chinakohl und Endivie teilen sich die Fläche – Beschriftungen dürfen sich nicht überdecken

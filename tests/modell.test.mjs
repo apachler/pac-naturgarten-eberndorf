@@ -266,9 +266,14 @@ test('Prüfung des Ist-Stands: tatsächliche Lage, Anzahl, Pfade und Termine', (
   assert.ok(!ist.some((x) => x.thema === 'Stückzahl'), 'im Ist zählt die erfasste Anzahl');
   assert.ok(plan.some((x) => x.thema === 'Nachbarn' && x.ids.includes('winterlauch')), 'im Plan: Winterlauch neben den Bohnen');
   assert.ok(!ist.some((x) => x.thema === 'Nachbarn' && x.ids.includes('winterlauch') && x.ids.includes('feuerbohne')), 'tatsächlich stand der Winterlauch in Zone E');
-  // Ein tatsächlicher Termin (ist.von/ist.bis) ersetzt den geplanten
-  const mitTermin = { ...plan2026, pflanzungen: plan2026.pflanzungen.map((p) => (p.id === 'knollensellerie' ? { ...p, ist: { ...p.ist, bis: '2026-10-10' } } : p)) };
-  const vorher = ist.filter((x) => x.thema === 'Platz' && x.ids.includes('knollensellerie')).length;
-  const nachher = pruefen({ plan: mitTermin, kulturen, flaechen, familien, vorjahre: plaene, ist: true }).filter((x) => x.thema === 'Platz' && x.ids.includes('knollensellerie')).length;
-  assert.ok(vorher > 0 && nachher === 0, 'Ernte vor dem Zwiebelstecken → kein Platzkonflikt');
+  // Ein tatsächlicher Termin (ist.von/ist.bis) ersetzt den geplanten: Knollensellerie Ende September abgeerntet
+  assert.equal(datum(finde('knollensellerie').ist.bis).getTime(), Date.UTC(2026, 8, 30));
+  const ohneTermin = { ...plan2026, pflanzungen: plan2026.pflanzungen.map((p) => (p.id === 'knollensellerie' ? { ...p, ist: { ...p.ist, bis: undefined } } : p)) };
+  const platz = (m) => m.filter((x) => x.thema === 'Platz' && x.ids.includes('knollensellerie')).length;
+  assert.ok(platz(pruefen({ plan: ohneTermin, kulturen, flaechen, familien, vorjahre: plaene, ist: true })) > 0, 'mit geplantem Ende (15.11.) Konflikt mit den Zwiebeln');
+  assert.equal(platz(ist), 0, 'Ernte vor dem Zwiebelstecken → kein Platzkonflikt');
+  // Zone E: Rote Rüben zwischen dem Winterlauch, Kohlrabi nach der Vorkultur, Ringelblumen am Südrand
+  assert.deepEqual(ort(finde('rote_ruebe'), true).bereich, ort(finde('winterlauch'), true).bereich);
+  assert.ok(datum(finde('kohlrabi').ist.von) >= datum(finde('kohlrabi_frueh').bis), 'Kohlrabi nacheinander');
+  assert.ok(!ist.some((x) => x.ids.includes('kohlrabi') && x.ids.includes('kohlrabi_frueh')));
 });

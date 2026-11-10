@@ -143,8 +143,9 @@ pflanzungen:
       status: geerntet
       anzahl: 6
       ernte: "o"
+      bis: 2026-09-30
       punkte: [[215, 405], [250, 405], [285, 405], [215, 350], [250, 350], [285, 350]]
-      notiz: In Zone B, X 200–300 (Andreas); Abstände angenommen. Zu viel. Gut gewachsen, ein paar Ausfälle, einige Knollen von Wühlmäusen ausgehöhlt.
+      notiz: In Zone B, X 200–300 (Andreas); Abstände angenommen. Ernte verteilt ab Anfang/Mitte August, Ende September alles abgeerntet. Zu viel. Gut gewachsen, ein paar Ausfälle, einige Knollen von Wühlmäusen ausgehöhlt.
 
   # ---------------- Zone C ----------------
   - id: paprika
@@ -266,7 +267,8 @@ pflanzungen:
       status: im_beet
       anzahl: 12
       ernte: "++"
-      notiz: Zweimal Jungpflanzen gesetzt, je etwa 6. Einfach, gute Ernte. Jungpflanzen wirkten geschwächt, entwickelten sich aber gut.
+      bereich: { x: 0, y: 0, b: 150, t: 80 }
+      notiz: In Zone E, X 0–150, zwischen dem Winterlauch (Andreas). Zweimal Jungpflanzen gesetzt, je etwa 6. Einfach, gute Ernte. Jungpflanzen wirkten geschwächt, entwickelten sich aber gut.
 
   - id: kohlrabi
     kultur: kohlrabi
@@ -278,7 +280,17 @@ pflanzungen:
     reihen:
       - { y: 70, x1: 170, x2: 270, anzahl: 3 }
       - { y: 40, x1: 170, x2: 270, anzahl: 3 }
-    ist: { status: geerntet, anzahl: 6 }
+    ist:
+      status: geerntet
+      anzahl: 6
+      von: 2026-06-30
+      bis: 2026-09-30
+      reihen:
+        - { y: 60, x1: 215, x2: 285, anzahl: 3 }
+        - { y: 25, x1: 215, x2: 285, anzahl: 3 }
+      notiz: >-
+        Nach den frühen Kohlrabi auf derselben Stelle, Zone E, X 200–300 (Andreas). Ernte verteilt ab Anfang/Mitte August,
+        Ende September alles abgeerntet. Pflanztermin aus dem Ende der Vorkultur angenommen, Reihen innerhalb des Bereichs angenommen.
 
   - id: ringelblume
     kultur: ringelblume
@@ -289,7 +301,10 @@ pflanzungen:
     bis: 2026-10-31
     punkte: [[80, 20], [220, 20], [10, 10], [290, 10]]
     notiz: 'Laut Positionsplan X 80 und 220 bei Y 20 sowie „Ecken“ – die beiden Ecken-Positionen sind angenommen.'
-    ist: { status: gepflanzt, notiz: Ausgesät – wuchert stark, Selbstaussaat beobachtet. }
+    ist:
+      status: gepflanzt
+      bereich: { x: 0, y: 0, b: 300, t: 15 }
+      notiz: Ausgesät am äußeren Südrand von Zone E, hat sich über die Zeit in ganz E verteilt (Andreas). Wuchert stark, Selbstaussaat beobachtet.
 
   - id: beinwell
     kultur: beinwell
@@ -340,7 +355,7 @@ pflanzungen:
       status: geerntet
       anzahl: 6
       bereich: { x: 200, y: 0, b: 100, t: 80 }
-      notiz: Tatsächlich in Zone E, X 200–300 – dort, wo auch die Kohlrabi-Hauptkultur stand.
+      notiz: Tatsächlich in Zone E, X 200–300; danach folgte dort die Kohlrabi-Hauptkultur (Andreas).
 
   # ---------------- Nachkulturen ----------------
   - id: flower_sprouts

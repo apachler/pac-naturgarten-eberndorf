@@ -189,9 +189,12 @@ export function istPlan(plan) {
   }));
   const pflanzungen = (plan.pflanzungen || [])
     .filter((p) => p.ist?.status !== 'nicht_gepflanzt')
-    .map((p) => ({ ...ort(p, true), wunsch: p.ist?.anzahl ?? p.wunsch, von: p.ist?.von ?? p.von, bis: p.ist?.bis ?? p.bis }));
+    .map((p) => ({ ...mitIstTermin(ort(p, true)), wunsch: p.ist?.anzahl ?? p.wunsch }));
   return { ...plan, flaechen, pflanzungen };
 }
+
+/** Pflanzung mit den tatsächlichen Terminen (ist.von/ist.bis), wo erfasst. */
+export const mitIstTermin = (p) => (p.ist?.von || p.ist?.bis ? { ...p, von: p.ist.von ?? p.von, bis: p.ist.bis ?? p.bis } : p);
 
 /** Hat ein Jahr einen erfassten Ist-Stand? */
 export const hatIstStand = (plan) => (plan.pflanzungen || []).some((p) => p.ist);

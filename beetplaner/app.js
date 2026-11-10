@@ -1,6 +1,6 @@
 import yaml from './vendor/js-yaml.mjs'; // js-yaml (MIT), lokal statt CDN
 import { naturjahr, saisonAm, GARTENJAHR, GEMUESE_JE_SAISON, KALENDER_ABOS, NATURJAHRESZEITEN } from './naturjahr.js';
-import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, hatIstStand, einteilung, pruefen, schlechteNachbarnVon } from './modell.js';
+import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, hatIstStand, mitIstTermin, einteilung, pruefen, schlechteNachbarnVon } from './modell.js';
 
 const BASIS = 'Gemüsegarten/';
 const TAG = 86400000;
@@ -95,8 +95,9 @@ const kalStart = () => new Date(Date.UTC(zustand.jahr, 0, 1));
  * Steht die Pflanzung in der gewählten Woche im Beet? Im Ist-Stand zählen nicht gepflanzte
  * Kulturen nicht, und was laut Rückmeldung noch im Beet steht, bleibt bis heute sichtbar.
  */
-const imPlan = (p) => {
-  if (!zustand.ist) return aktivInWoche(p, zustand.datum);
+const imPlan = (p0) => {
+  if (!zustand.ist) return aktivInWoche(p0, zustand.datum);
+  const p = mitIstTermin(p0);
   const st = p.ist?.status;
   if (st === 'nicht_gepflanzt') return false;
   if (st === 'im_beet') {
