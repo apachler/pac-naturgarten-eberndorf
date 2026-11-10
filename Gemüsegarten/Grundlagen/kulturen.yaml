@@ -112,9 +112,22 @@ basilikum:
   ernte: Juni–September, laufend Triebspitzen
   gut: [tomate, paprika, pfefferoni]
   hinweis: Am besten im Tomatenhaus – warm und regengeschützt.
+  sorten:
+    - name: Basilikum (normales)
+      quelle: Jungpflanzen
+      jahr: 2026
+      ergebnis: Tomatenhaus – sehr gut
+    - name: Zitronenbasilikum
+      quelle: Jungpflanzen
+      jahr: 2026
+      ergebnis: Tomatenhaus – sehr gut
+    - name: Thai-Basilikum
+      quelle: Jungpflanzen
+      jahr: 2026
+      ergebnis: Tomatenhaus – sehr gut
   erfahrungen:
     - jahr: 2026
-      text: Im Tomatenhaus zwischen den Tomaten sehr gute Ernte.
+      text: Im Tomatenhaus zwischen den beiden Tomatenreihen und an den Rändern – sehr gute Ernte, drei Sorten (normal, Zitronen, Thai).
       sicherheit: beobachtet
 
 # ============================================================ Kreuzblütler
@@ -583,9 +596,26 @@ tomate:
   gut: [basilikum, petersilie]
   krankheiten: [Kraut- und Braunfäule, Blütenendfäule]
   hinweis: Gehört ins Tomatenhaus, nicht ins Heubeet.
+  sorten:
+    - name: Fleischtomate (Sorte unbekannt)
+      quelle: Jungpflanzen vom Pflanzenmarkt, 2 Stück
+      jahr: 2026
+      ergebnis: Tomatenhaus – Gesamternte sehr gut
+    - name: Cocktailtomate (Sorte unbekannt)
+      quelle: Jungpflanzen vom Pflanzenmarkt, 2 Stück
+      jahr: 2026
+      ergebnis: Tomatenhaus – Gesamternte sehr gut
+    - name: „Ovalis“ (Name unsicher)
+      quelle: Jungpflanzen vom Pflanzenmarkt, 2 Stück
+      jahr: 2026
+      ergebnis: Tomatenhaus – Gesamternte sehr gut
+    - name: „Cookie“ (Name unsicher)
+      quelle: Jungpflanzen vom Pflanzenmarkt, 2 Stück
+      jahr: 2026
+      ergebnis: Tomatenhaus – Gesamternte sehr gut
   erfahrungen:
     - jahr: 2026
-      text: 8 Pflanzen im neuen Tomatenhaus – sehr gute Ernte. Vor den Eisheiligen gesetzt und geschädigt, komplett neu gepflanzt.
+      text: 8 Pflanzen im neuen Tomatenhaus in 2 Reihen zu je 4 – sehr gute Ernte. Vor den Eisheiligen gesetzt und geschädigt, komplett neu gepflanzt. Sortennamen beim Kauf notieren!
       sicherheit: beobachtet
 
 # ============================================================ Fuchsschwanzgewächse

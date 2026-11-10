@@ -424,8 +424,11 @@ pflanzungen:
     wunsch: 8
     von: 2026-05-15
     bis: 2026-10-15
-    bereich: { x: 0, y: 0, b: 300, t: 200 }
-    notiz: Positionen noch nicht erfasst.
+    reihen:
+      - { y: 145, x1: 40, x2: 260, anzahl: 4 }
+      - { y: 55, x1: 40, x2: 260, anzahl: 4 }
+    sorte: 2 Fleischtomaten, 2 Cocktailtomaten, 2 „Ovalis“, 2 „Cookie“ (Sortennamen nicht bekannt)
+    notiz: 2 Reihen zu je 4 entlang der Längsseite (Ost–West). Reihenabstand und Abstände in der Reihe angenommen, welche Sorte wo stand, ist nicht erfasst.
     ist:
       status: geerntet
       anzahl: 8
@@ -439,6 +442,8 @@ pflanzungen:
     von: 2026-05-15
     bis: 2026-10-15
     bereich: { x: 0, y: 0, b: 300, t: 200 }
+    sorte: Basilikum (normal), Zitronenbasilikum, Thai-Basilikum
+    notiz: Zwischen den beiden Tomatenreihen und an den vier Rändern.
     ist: { status: geerntet, ernte: "++" }
 
   - id: petersilie
@@ -448,4 +453,5 @@ pflanzungen:
     von: 2026-05-15
     bis: 2026-10-31
     bereich: { x: 0, y: 0, b: 300, t: 200 }
-    ist: { status: geerntet, ernte: "-", notiz: Die meisten von Wühlmäusen geholt. }
+    notiz: Zwischen Tomaten und Basilikum verteilt.
+    ist: { status: geerntet, ernte: "-", notiz: Die meisten von Wühlmäusen geholt (kein Wühlmausschutz im Tomatenhaus). }

@@ -194,7 +194,7 @@ function zeichneFlaechenInfo() {
   const dl = (rows) => el('dl', {}, ...rows.filter(([, v]) => v).flatMap(([a, b]) => [el('dt', { text: a }), el('dd', { text: b })]));
   box.append(dl([
     ['Größe', `${f.breite / 100} × ${f.laenge / 100} m (${(f.breite * f.laenge / 10000).toLocaleString('de-AT')} m²)`],
-    ['Art', f.art], ['Angelegt', f.angelegt], ['Ausrichtung', f.ausrichtung], ['Lage', f.lage], ['Boden', f.boden],
+    ['Art', f.art], ['Angelegt', f.angelegt], ['Ausrichtung', f.ausrichtung], ['Lage', f.lage], ['Bauweise', f.bauweise], ['Boden', f.boden],
     ['Aufbau', f.aufbau], ['Wasser', f.wasser], ['Rhythmus', f.rhythmus],
   ]));
   if (f.besonderheiten?.length) box.append(el('h3', { text: 'Besonderheiten' }), el('ul', {}, ...f.besonderheiten.map((b) => el('li', { text: b }))));

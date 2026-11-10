@@ -359,9 +359,16 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Krankheiten:** Kraut- und Braunfäule, Blütenendfäule
 - **Hinweis:** Gehört ins Tomatenhaus, nicht ins Heubeet.
 
+| Sorte | Bezug | Jahr | Ergebnis |
+|-------|-------|------|----------|
+| Fleischtomate (Sorte unbekannt) | Jungpflanzen vom Pflanzenmarkt, 2 Stück | 2026 | Tomatenhaus – Gesamternte sehr gut |
+| Cocktailtomate (Sorte unbekannt) | Jungpflanzen vom Pflanzenmarkt, 2 Stück | 2026 | Tomatenhaus – Gesamternte sehr gut |
+| „Ovalis“ (Name unsicher) | Jungpflanzen vom Pflanzenmarkt, 2 Stück | 2026 | Tomatenhaus – Gesamternte sehr gut |
+| „Cookie“ (Name unsicher) | Jungpflanzen vom Pflanzenmarkt, 2 Stück | 2026 | Tomatenhaus – Gesamternte sehr gut |
+
 **Erfahrungen:**
 
-- 2026 · beobachtet: 8 Pflanzen im neuen Tomatenhaus – sehr gute Ernte. Vor den Eisheiligen gesetzt und geschädigt, komplett neu gepflanzt.
+- 2026 · beobachtet: 8 Pflanzen im neuen Tomatenhaus in 2 Reihen zu je 4 – sehr gute Ernte. Vor den Eisheiligen gesetzt und geschädigt, komplett neu gepflanzt. Sortennamen beim Kauf notieren!
 
 ### Kürbisgewächse
 
@@ -580,9 +587,15 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Gute Nachbarn:** Paprika, Pfefferoni, Tomate
 - **Hinweis:** Am besten im Tomatenhaus – warm und regengeschützt.
 
+| Sorte | Bezug | Jahr | Ergebnis |
+|-------|-------|------|----------|
+| Basilikum (normales) | Jungpflanzen | 2026 | Tomatenhaus – sehr gut |
+| Zitronenbasilikum | Jungpflanzen | 2026 | Tomatenhaus – sehr gut |
+| Thai-Basilikum | Jungpflanzen | 2026 | Tomatenhaus – sehr gut |
+
 **Erfahrungen:**
 
-- 2026 · beobachtet: Im Tomatenhaus zwischen den Tomaten sehr gute Ernte.
+- 2026 · beobachtet: Im Tomatenhaus zwischen den beiden Tomatenreihen und an den Rändern – sehr gute Ernte, drei Sorten (normal, Zitronen, Thai).
 
 #### Bohnenkraut
 

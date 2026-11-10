@@ -41,18 +41,19 @@ ost:
 tomatenhaus:
   name: Tomatenhaus
   art: Tomatenhaus
-  breite: 300
+  breite: 300   # Längsseite Ost–West
   laenge: 200
   angelegt: 2026
-  lage: regengeschützt
-  wasser: Brunnenwasser
-  rhythmus: jedes Jahr bepflanzt – Fruchtfolge im Tomatenhaus kaum möglich, daher Boden jährlich mit Kompost auffrischen
+  ausrichtung: Längsseite Ost–West, nördlich von Beet Ost
+  lage: offen gebautes Haus mit Pultdach, nach Süden hin höher – regengeschützt, gut durchlüftet
+  bauweise: Kanthölzer, Seiten offen, Dach aus Wellglasplatten; Höhe vorne (Süd) ca. 2,3 m, hinten (Nord) ca. 2,2 m
+  boden: gewachsener Lehmboden, gelockert und mit Sand verbessert, darauf ca. 10 cm Sonnenerde Tomatenerde, Terra Preta und Gemüseerde
+  wasser: Schlauch mit Brunnenwasser aus dem Container
+  rhythmus: jedes Jahr bepflanzt – Fruchtfolge im Tomatenhaus kaum möglich, daher Boden jährlich mit Kompost bzw. Terra Preta auffrischen
   besonderheiten:
-    - Platz für 8 Tomaten, dazwischen Basilikum
-    - "2026: Wühlmäuse haben die meiste Petersilie geholt"
+    - "Bepflanzung 2026: 8 Tomaten in 2 Reihen zu je 4, dazwischen und an den Rändern Basilikum (normal, Zitronen, Thai) und Petersilie"
+    - Kein Wühlmausschutz – 2026 haben Wühlmäuse die meiste Petersilie geholt
+    - "Ab 2027: 3 Tongefäße (Ollas, je 1,5 L) zum Bewässern eingraben"
   offen:
-    - Ausrichtung (Längsseite Nord–Süd oder Ost–West?) und Lage im Garten
-    - Bauweise und Eindeckung (Folie, Doppelstegplatten, Glas?), Höhe, Lüftung (Türen, Klappen)
-    - Boden (gewachsener Boden oder Beete/Hochbeete im Haus?) und Wühlmausschutz
-    - Bewässerung (Gießkanne, Schlauch, Tropfschlauch?)
-    - Anordnung der 8 Tomaten (eine Reihe, zwei Reihen?) und die Sorten 2026
+    - Genauer Reihen- und Pflanzabstand der Tomaten (im Plan angenommen 90 cm bzw. ca. 73 cm)
+    - Welche Tomatensorten 2026 genau (Fleisch-, Cocktail-, „Ovalis“, „Cookie“?)

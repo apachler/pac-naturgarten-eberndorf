@@ -32,7 +32,12 @@ Jahresübergreifende Rahmenbedingungen des Gemüsegartens in Worten. Die Daten d
 | Parameter | Angabe |
 |-----------|--------|
 | Größe | ca. 3 × 2 m, gebaut 2026 |
-| Belegung 2026 | 8 Tomaten, mehrere Basilikum, Petersilie |
+| Lage | nördlich von Beet Ost, Längsseite Ost–West |
+| Bauweise | offen aus Kanthölzern, Pultdach aus Wellglasplatten, vorne (Süd) ca. 2,3 m, hinten (Nord) ca. 2,2 m hoch |
+| Boden | gewachsener Lehmboden, gelockert, Sand eingearbeitet, ca. 10 cm Auflage aus Sonnenerde Tomatenerde, Terra Preta und Gemüseerde |
+| Wasser | Schlauch aus dem Container; ab 2027 zusätzlich 3 Tongefäße (Ollas, je 1,5 L) |
+| Wühlmausschutz | keiner |
+| Belegung 2026 | 8 Tomaten in 2 Reihen zu je 4 (2 Fleisch-, 2 Cocktail-, 2 „Ovalis“, 2 „Cookie“), Basilikum (normal, Zitronen, Thai) dazwischen und an den Rändern, Petersilie |
 | Ergebnis 2026 | Tomaten- und Basilikumernte sehr gut; die meiste Petersilie haben Wühlmäuse geholt |
 
 ## Wasserverbrauch
