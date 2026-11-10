@@ -40,7 +40,7 @@ Die Steckbriefe sind unser Erfahrungsschatz: Allgemeine Werte sind Faustwerte au
 | [Pak Choi](#pak-choi) | Kreuzblütler | V N | 25 cm | sonnig bis halbschattig | hoch | mittel | Frühherbst | September–Oktober, etwa 6 Wochen nach der Saat | 1 |
 | [Radieschen](#radieschen) | Kreuzblütler | V N | 4 × 15 cm | sonnig bis halbschattig | mittel | schwach | Erstfrühling | 4–6 Wochen nach der Saat | 1 |
 | [Wirsing](#wirsing) | Kreuzblütler | H N | 50 cm | sonnig | hoch | stark | Hochsommer | September–Jänner, Winterwirsing verträgt Frost | 1 |
-| [Dill](#dill) | Doldenblütler | B | 20 cm | sonnig | mittel | schwach | Vollfrühling | Juni–August | 1 |
+| [Dill](#dill) | Doldenblütler | B | 20 cm | sonnig | mittel | schwach | Vollfrühling | Juni–August | 2 |
 | [Karotte](#karotte) | Doldenblütler | H | 5 × 20 cm | sonnig | mittel | mittel | Erstfrühling | Juli–Oktober | 1 |
 | [Knollensellerie](#knollensellerie) | Doldenblütler | H | 35 × 35 cm | sonnig bis halbschattig | hoch | stark | Frühsommer ❄ | Oktober–November, vor stärkerem Frost | 1 |
 | [Petersilie](#petersilie) | Doldenblütler | B H | 20 cm | sonnig bis halbschattig | mittel | mittel | Erstfrühling | Juni–November | 1 |
@@ -140,7 +140,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 
 **Erfahrungen:**
 
-- 2026 · beobachtet: 4 Pflanzen waren zu viel. Braucht viel Licht. Röschen anfangs locker, mit der Kälte fester; Köpfe abgeschlagen.
+- 2026 · beobachtet: Ca. 8 Pflanzen in zwei Nord–Süd-Reihen auf ca. 1 × 1,3 m (nur ca. 35 cm Abstand statt 60 cm) – zu viel und zu eng. Braucht viel Licht. Röschen anfangs locker, mit der Kälte fester; Köpfe abgeschlagen.
 
 #### Mairübchen
 
@@ -228,6 +228,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 **Erfahrungen:**
 
 - 2026 · beobachtet: Im heißen, trockenen Sommer sehr schnell in die Blüte – nur kleine Ernte. Folgesaaten oder Halbschatten prüfen.
+- 2026 · *Hypothese*: Stand direkt an den Enden der Lauchreihen (ca. 10 cm) – vielleicht zu eng, was das Schossen begünstigt haben könnte. 2027 mit mehr Abstand setzen.
 
 #### Karotte
 
