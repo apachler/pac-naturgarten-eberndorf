@@ -22,7 +22,7 @@ Referenzwerte für die Planung: Abstände, Termine und Nachbarschaften, angepass
 | Kohlrabi | 30 × 30 cm | Mitte März (früh) / Ende April (Jpfl.) | Mai–Aug | V/H | – |
 | Radieschen | Streifensaat | Anfang März (DS) | April–Mai | V | – |
 | Mairübchen | ca. 15 cm | Mitte März (DS) | Mai–Juni | V | – |
-| Flower Sprouts | ca. 50–60 cm | Juli (Jpfl.) | Okt–Dez | N | – |
+| Flower Sprouts | ca. 50–60 cm | Juli (Jpfl.) | Okt–Dez | N | 2025: geschossen, keine Röschen |
 | Chinakohl | ca. 35–40 cm | Ende Juli (DS) | Okt–Nov | N | – |
 | Endiviensalat | ca. 30–35 cm | Juli (Jpfl.) | Sept–Nov | N | – |
 | Winterlauch | 15 × 30 cm | Juli (Jpfl.) | Nov–März | N | – |

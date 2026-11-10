@@ -11,6 +11,7 @@ Bestätigte, jahresübergreifende Erkenntnisse. Jeder Eintrag mit Quelle (Jahr o
 ## Kulturen
 
 - Blütenendfäule (Paprika, Tomaten) entsteht durch einen gestörten Calciumtransport, nicht durch Calciummangel. Dagegen helfen gleichmäßiges, tiefes Gießen und Mulch. Blattdüngung mit Calcium bringt wenig. *(Gartenpraxis)*
+- Flower Sprouts im Beet Ost (südliches Viertel) sind 2025 geschossen und haben geblüht, statt Röschen zu bilden. Die Ursache ist noch offen. Zu prüfen sind Pflanztermin, Sorte, Hitze- bzw. Trockenstress und der Stickstoff im frischen Heubeet. *(2025)*
 - Ausgetriebene Speisezwiebeln bilden keine neuen Lagerzwiebeln mehr. *(Gartenpraxis)*
 
 ## Planung

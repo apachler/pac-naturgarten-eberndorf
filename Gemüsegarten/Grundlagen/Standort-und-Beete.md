@@ -35,9 +35,21 @@ Jahresübergreifende Rahmenbedingungen des Gemüsegartens. Bei Änderungen (neue
 
 | Jahr | Aktives Beet | Ruhebeet | Bemerkung |
 |------|--------------|----------|-----------|
-| 2026 | West | Ost | |
-| 2027 | Ost | West | |
+| 2025 | Ost | West | Flower Sprouts im südlichen Viertel, sind geschossen und haben geblüht |
+| 2026 | West | Ost | Ende Oktober 2026 Knoblauch und Zwiebeln gesteckt, sie stehen bis Sommer 2027 |
+| 2027 | Ost | West | Ruhejahr West beginnt erst nach der Knoblauch- und Zwiebelernte |
+
+## Anbauhistorie pro Beet
+
+Für die Fruchtfolge innerhalb eines Beetes: Was stand wo?
+
+### Beet Ost
+- **2025:** Flower Sprouts (Kohlgewächs) im südlichen Viertel. Bei der Planung 2027 im südlichen Viertel keine Kohlgewächse vorsehen.
+
+### Beet West
+- **2026:** Mischkultur laut [Planung 2026](../2026/Mischkultur-Beetplanung.md).
+- **Herbst 2026 bis Sommer 2027:** Knoblauch und Zwiebeln, gesteckt Ende Oktober 2026.
 
 ## Offene Fragen
 
-- Im Herbst 2026 ist Knoblauch in den Heubeeten geplant, und im Herbst 2025 wurden Flower Sprouts gepflanzt. In welchem Beet stehen sie, und blockieren sie im Folgejahr Fläche oder das Ruhejahr?
+- Wo genau und auf wie viel Fläche stehen Knoblauch und Zwiebeln im Beet West? Danach richtet sich, wann und wo das Ruhejahr 2027 dort beginnen kann.

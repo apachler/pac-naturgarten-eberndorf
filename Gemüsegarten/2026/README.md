@@ -72,3 +72,4 @@ Beim Ablegen fiel auf, dass einige Anforderungen aus dem Planungsauftrag noch ni
 ## Sessions
 
 - 2026-11-10: Planungsunterlagen ins Repo übernommen. Allgemeine Informationen nach `Grundlagen/` verschoben, Vorlagen für die Folgejahre angelegt, Rückmeldung 2026 vorbereitet.
+- 2026-11-10: Beete benannt (West = Anbau 2026, Ost = Ruhe 2026). Knoblauch und Zwiebeln Ende Oktober im Beet West gesteckt. Erfahrung mit den Flower Sprouts 2025 im Beet Ost festgehalten.
