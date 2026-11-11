@@ -76,6 +76,8 @@ GitHub Actions prüft jeden Push (`beetplan-pruefen`); Pages veröffentlicht `ma
   `Co-Authored-By`-Trailer, keine „Generated with …“-Fußzeilen, keine Session-Links, kein Assistent als
   Autor. Sie sind in `.claude/settings.json` abgeschaltet; der Workflow `attribution` lehnt sie zusätzlich ab.
 - Git-Identität ist die des Menschen, der arbeitet; ohne Identität setzt `tools/set-git-identity.sh` (SessionStart-Hook) die des Repo-Owners.
+- **Ohne Pull Requests:** Andreas will fertige, geprüfte Arbeit direkt auf `main` (11.11.2026). Arbeitsbranch zuerst mit
+  `origin/main` zusammenführen, Prüfung und Tests grün, dann `git push origin HEAD:main` (Fast-Forward, kein Force).
 - **Nie** `git push --force`, `git push --delete` oder Historie auf `main` umschreiben, außer Andreas sagt es ausdrücklich.
 - Nie Zugangsdaten, Schlüssel oder private Daten committen (das Repo ist öffentlich).
 
