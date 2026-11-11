@@ -20,4 +20,6 @@ paths:
 - Neue Funktionen bekommen einen Unit-Test (`tests/*.test.mjs`) bzw. einen E2E-Test (`tests/e2e/`). Vorher prüfen, dass
   der Test ohne die Änderung fehlschlägt.
 - Fertig erst, wenn `npm run pruefen`, `npm test` und `npm run test:e2e` grün sind.
-- Pages-Workflow kopiert nur `index.html`, `.nojekyll`, `beetplaner/` und `Gemüsegarten/`; neue Laufzeitdateien dort ergänzen.
+- Pages-Workflow kopiert nur `index.html`, `sw.js`, `.nojekyll`, `beetplaner/` und `Gemüsegarten/`; neue Laufzeitdateien dort ergänzen
+  und auch in `GRUNDGERUEST` von `sw.js`, damit sie ohne Verbindung da sind.
+- Service Worker: in den E2E-Tests standardmäßig blockiert (`serviceWorkers: 'block'`), nur der Test „ohne Verbindung“ lässt ihn zu.

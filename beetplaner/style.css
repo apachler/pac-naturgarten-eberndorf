@@ -322,3 +322,18 @@ main { max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 .wetter-tag { flex: 0 0 auto; min-width: 4.4rem; display: grid; gap: 0.1rem; text-align: center; font-size: 0.78rem; padding: 0.35rem 0.3rem; border: 1px solid var(--secondary-30); border-radius: 0.5rem; }
 .wt-tag { font-weight: 700; }
 .wt-regen { color: var(--notice-legal-fg); }
+
+/* Notiz vom Handy */
+.woche-kopf { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+.woche-kopf h2 { margin: 0; }
+.notiz-form { display: grid; gap: 0.7rem; margin-top: 0.8rem; }
+.notiz-feld { display: grid; gap: 0.2rem; font-size: 0.85rem; font-weight: 700; }
+.notiz-feld input, .notiz-feld select, .notiz-feld textarea { font: inherit; font-weight: 400; font-size: 1rem; width: 100%; box-sizing: border-box; border: 1px solid var(--input); border-radius: var(--radius-md); padding: 0.45rem 0.6rem; background: var(--background); color: var(--foreground); }
+.notiz-knoepfe { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.knopf-voll { border: 1px solid var(--primary); background: var(--primary); color: #fff; font-weight: 700; border-radius: var(--radius-md); padding: 0.35rem 0.9rem; font-size: 0.875rem; cursor: pointer; min-height: 2.25rem; }
+.knopf-voll:hover { filter: brightness(1.08); }
+.notiz-meldung:empty { display: none; }
+.notiz-meldung { color: var(--primary); font-weight: 700; margin: 0; }
+
+/* Ohne Verbindung */
+.offline-hinweis { margin: 0 0 0.6rem; padding: 0.4rem 0.7rem; border-radius: 0.5rem; font-size: 0.85rem; background: var(--notice-caution); border: 1px solid var(--notice-caution-border); color: var(--notice-caution-fg); }

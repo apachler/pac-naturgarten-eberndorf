@@ -541,3 +541,33 @@ export function pruefen({ plan, kulturen, flaechen, familien = null, vorjahre = 
   const rang = { fehler: 0, warnung: 1, hinweis: 2 };
   return meldungen.sort((a, b) => rang[a.stufe] - rang[b.stufe]);
 }
+
+// ---------------------------------------------------------------- Notiz vom Handy
+
+export const NOTIZ_ARTEN = ['Aussaat', 'Pflanzung', 'Ernte', 'Ausfall', 'Schädling oder Krankheit', 'Wetter', 'Beobachtung'];
+export const REPO = 'apachler/pac-naturgarten-eberndorf';
+
+/**
+ * Link auf ein vorausgefülltes GitHub-Issue für eine Saisonnotiz. Claude arbeitet offene Issues mit
+ * dem Titel „Saisonnotiz …“ per /saison-notiz ein.
+ * notiz: { datum: 'JJJJ-MM-TT', art, flaeche: {id, name}?, kultur: {id, name}?, pflanzung?, ernte?, text }
+ */
+export function notizIssueUrl(notiz, repo = REPO) {
+  const [j, m, t] = notiz.datum.split('-').map(Number);
+  const worum = [notiz.art, notiz.kultur?.name].filter(Boolean).join(' ');
+  const titel = `Saisonnotiz ${t}.${m}.${j}: ${worum}${notiz.flaeche ? ` (${notiz.flaeche.name})` : ''}`;
+  const zeilen = [
+    '<!-- saisonnotiz -->',
+    `- **Datum:** ${notiz.datum}`,
+    `- **Art:** ${notiz.art}`,
+    notiz.flaeche ? `- **Fläche:** ${notiz.flaeche.name} (\`${notiz.flaeche.id}\`)` : null,
+    notiz.kultur ? `- **Kultur:** ${notiz.kultur.name} (\`${notiz.kultur.id}\`${notiz.pflanzung ? `, Pflanzung \`${notiz.pflanzung}\`` : ''})` : null,
+    notiz.ernte ? `- **Ernte:** ${notiz.ernte}` : null,
+    '',
+    String(notiz.text || '').trim(),
+    '',
+    '_Aus dem Beetplaner – einarbeiten mit `/saison-notiz`._',
+  ].filter((z) => z !== null);
+  const q = new URLSearchParams({ title: titel, body: zeilen.join('\n') });
+  return `https://github.com/${repo}/issues/new?${q.toString()}`;
+}

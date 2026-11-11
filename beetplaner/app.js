@@ -1,6 +1,6 @@
 import yaml from './vendor/js-yaml.mjs'; // js-yaml (MIT), lokal statt CDN
 import { naturjahr, saisonAm, GARTENJAHR, GEMUESE_JE_SAISON, KALENDER_ABOS, NATURJAHRESZEITEN } from './naturjahr.js';
-import { TYPEN, STATUS, BEZUG, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, hatIstStand, mitIstTermin, einteilung, pruefen, schlechteNachbarnVon, schaedlingeVon, einkaufsliste, saatmengeFuer, ueberschriftAnker, bezugVon, wocheImGarten, folgesaatFaellig, merklisteFaellig, imBeetAm } from './modell.js';
+import { TYPEN, STATUS, BEZUG, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, hatIstStand, mitIstTermin, einteilung, pruefen, schlechteNachbarnVon, schaedlingeVon, einkaufsliste, saatmengeFuer, ueberschriftAnker, bezugVon, wocheImGarten, folgesaatFaellig, merklisteFaellig, imBeetAm, notizIssueUrl, NOTIZ_ARTEN } from './modell.js';
 import { vorhersageUrl, tageAusOpenMeteo, wetterHinweise, tagKurz, zahl } from './wetter.js';
 
 const BASIS = 'Gemüsegarten/';
@@ -87,6 +87,19 @@ async function start() {
   if ('ResizeObserver' in window) new ResizeObserver(setzeKopf).observe(kopf);
   waehleJahr(zustand.jahr, hFlaeche);
   ladeWetter();
+}
+
+// ---------------------------------------------------------------- Ohne Verbindung
+
+function zeigeVerbindung() {
+  const h = $('#offline');
+  if (h) h.hidden = navigator.onLine !== false;
+}
+window.addEventListener('online', zeigeVerbindung);
+window.addEventListener('offline', zeigeVerbindung);
+zeigeVerbindung();
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  navigator.serviceWorker.register('sw.js').catch(() => { /* ohne Service Worker geht es online weiter */ });
 }
 
 // ---------------------------------------------------------------- Hilfen
@@ -476,7 +489,9 @@ function zeichneWoche() {
   const w = plaene.map((p) => wocheImGarten(p, zustand.kulturen, montag)).reduce((a, b) => Object.fromEntries(Object.keys(a).map((k) => [k, [...a[k], ...b[k]]])), leer);
   const folge = plaene.flatMap((p) => folgesaatFaellig(p, zustand.kulturen, montag));
   const merk = merklisteFaellig(zustand.merkliste, montag);
-  box.append(el('h2', { class: 'heading-sub', text: dieseWoche ? 'Diese Woche im Garten' : 'In dieser Woche im Garten' }));
+  box.append(el('div', { class: 'woche-kopf' },
+    el('h2', { class: 'heading-sub', text: dieseWoche ? 'Diese Woche im Garten' : 'In dieser Woche im Garten' }),
+    el('button', { type: 'button', class: 'knopf-outline', id: 'notiz-knopf', onclick: () => zeigeNotiz() }, '✎ Notiz')));
   const liste = el('ul', { class: 'woche-liste' });
   const flName = (f) => zustand.flaechen[f]?.name || f;
   const namen = (eintraege) => eintraege.flatMap((e, i) => [i ? ', ' : '', el('button', { type: 'button', class: 'link-knopf', onclick: () => zeigeDetails(e.p) }, e.name), el('small', { class: 'leise', text: ` (${flName(e.flaeche)}, ${formatDatum(e.datum).replace(/ \d{4}$/, '')})` })]);
@@ -752,9 +767,87 @@ function zeigeDetails(p) {
     ${sorten.length ? `<h3>Erprobte Sorten</h3><ul class="erfahrungen">${sorten.map((s) => `<li><strong>${esc(s.name)}</strong> (${esc(s.quelle || '')}, ${s.jahr}): ${esc(s.ergebnis || '')}</li>`).join('')}</ul>` : ''}
     ${schutz.length ? `<h3>Pflanzenschutz</h3>${schutzHtml}` : ''}
     <h3>Kulturwissen</h3>${dl(wissen)}
-    <p class="klein"><a href="https://github.com/apachler/pac-naturgarten-eberndorf/blob/main/Gem%C3%BCsegarten/Grundlagen/Kulturwissen.md#${encodeURIComponent(anker)}">Steckbrief ${esc(k.name)} ↗</a></p>`;
+    <p class="klein"><a href="https://github.com/apachler/pac-naturgarten-eberndorf/blob/main/Gem%C3%BCsegarten/Grundlagen/Kulturwissen.md#${encodeURIComponent(anker)}">Steckbrief ${esc(k.name)} ↗</a></p>
+    <p><button type="button" class="knopf-outline" id="notiz-zu-kultur">✎ Notiz zu ${esc(k.name)}</button></p>`;
+  $('#notiz-zu-kultur').addEventListener('click', () => zeigeNotiz(p));
+  oeffneBlatt();
+}
+
+function oeffneBlatt() {
   $('#blatt-huelle').hidden = false;
   requestAnimationFrame(() => $('#blatt-huelle').classList.add('offen'));
+}
+
+// ---------------------------------------------------------------- Notiz vom Handy
+
+const NOTIZ_ENTWURF = 'beetplaner-notiz-entwurf';
+
+/** Formular für eine Saisonnotiz; „Auf GitHub öffnen“ legt ein vorausgefülltes Issue an, das Claude einarbeitet. */
+function zeigeNotiz(p = null) {
+  const heute = isoTag(heuteUtc());
+  const jahrPlan = zustand.plaene.find((x) => x.jahr === Number(heute.slice(0, 4))) || plan();
+  let entwurf = {};
+  try { entwurf = JSON.parse(localStorage.getItem(NOTIZ_ENTWURF) || '{}'); } catch { entwurf = {}; }
+  const flaecheStart = p?.flaeche || zustand.flaeche;
+  const box = $('#blatt-inhalt');
+  box.innerHTML = '';
+  const feld = (label, eingabe) => el('label', { class: 'notiz-feld' }, el('span', { text: label }), eingabe);
+  const datumFeld = el('input', { type: 'date', id: 'notiz-datum', value: heute, required: true });
+  const artFeld = el('select', { id: 'notiz-art' }, ...NOTIZ_ARTEN.map((a) => el('option', { value: a, text: a })));
+  const flaecheFeld = el('select', { id: 'notiz-flaeche' }, el('option', { value: '', text: 'ganzer Garten' }),
+    ...Object.entries(zustand.flaechen).map(([id, f]) => el('option', { value: id, text: f.name, selected: id === flaecheStart })));
+  const kulturFeld = el('select', { id: 'notiz-kultur' });
+  const ernteFeld = el('select', { id: 'notiz-ernte' }, el('option', { value: '', text: '–' }),
+    ...Object.entries(ERNTE_TEXT).map(([w, t]) => el('option', { value: w, text: `${w} ${t}` })));
+  const textFeld = el('textarea', { id: 'notiz-text', rows: 4, required: true, placeholder: 'z. B. 3 Kohlrabi geerntet, schön fest' });
+  textFeld.value = entwurf.text || '';
+  const fuelleKulturen = (vorwahl) => {
+    kulturFeld.innerHTML = '';
+    kulturFeld.append(el('option', { value: '', text: '–' }));
+    const liste = (jahrPlan?.pflanzungen || []).filter((q) => !flaecheFeld.value || q.flaeche === flaecheFeld.value);
+    for (const q of liste) kulturFeld.append(el('option', { value: q.id, text: `${zustand.kulturen[q.kultur]?.name || q.kultur}${q.id !== q.kultur ? ` (${q.id})` : ''}`, selected: q.id === vorwahl }));
+  };
+  fuelleKulturen(p?.id);
+  flaecheFeld.addEventListener('change', () => fuelleKulturen());
+  textFeld.addEventListener('input', () => { try { localStorage.setItem(NOTIZ_ENTWURF, JSON.stringify({ text: textFeld.value })); } catch { /* egal */ } });
+  const meldung = el('p', { class: 'notiz-meldung klein', 'aria-live': 'polite' });
+  const notiz = () => {
+    const q = (jahrPlan?.pflanzungen || []).find((x) => x.id === kulturFeld.value);
+    const f = flaecheFeld.value;
+    return {
+      datum: datumFeld.value || heute, art: artFeld.value, text: textFeld.value, ernte: ernteFeld.value || null,
+      flaeche: f ? { id: f, name: zustand.flaechen[f]?.name || f } : null,
+      kultur: q ? { id: q.kultur, name: zustand.kulturen[q.kultur]?.name || q.kultur } : null,
+      pflanzung: q && q.id !== q.kultur ? q.id : null,
+    };
+  };
+  const form = el('form', { class: 'notiz-form', id: 'notiz-form' },
+    feld('Datum', datumFeld), feld('Was', artFeld), feld('Fläche', flaecheFeld), feld('Kultur', kulturFeld),
+    feld('Ernte (optional)', ernteFeld), feld('Notiz', textFeld),
+    el('div', { class: 'notiz-knoepfe' },
+      el('button', { type: 'submit', class: 'knopf-voll', text: 'Auf GitHub öffnen' }),
+      el('button', { type: 'button', class: 'knopf-outline', id: 'notiz-kopieren', text: 'Text kopieren' })),
+    meldung,
+    el('p', { class: 'leise klein', text: 'Öffnet auf GitHub ein vorausgefülltes Issue – dort noch „Create“ tippen. Claude arbeitet offene Notizen mit /saison-notiz ein. Das Repo ist öffentlich: nichts Privates hineinschreiben.' }));
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!textFeld.value.trim()) { meldung.textContent = 'Bitte etwas notieren.'; return; }
+    const url = notizIssueUrl(notiz());
+    window.open(url, '_blank', 'noopener');
+    meldung.textContent = navigator.onLine === false
+      ? 'Ohne Verbindung: GitHub öffnet sich erst mit Netz – der Text bleibt bis dahin gespeichert, oder „Text kopieren“.'
+      : 'GitHub ist geöffnet. Dort „Create“ tippen, dann ist die Notiz gespeichert.';
+    if (navigator.onLine !== false) { try { localStorage.removeItem(NOTIZ_ENTWURF); } catch { /* egal */ } }
+  });
+  form.querySelector('#notiz-kopieren').addEventListener('click', async () => {
+    const u = new URL(notizIssueUrl(notiz()));
+    const text = `${u.searchParams.get('title')}\n\n${u.searchParams.get('body')}`;
+    try { await navigator.clipboard.writeText(text); meldung.textContent = 'Kopiert – z. B. in den Chat mit Claude einfügen.'; } catch { meldung.textContent = 'Kopieren hat nicht geklappt.'; }
+  });
+  box.append(el('div', { class: 'blatt-titel' }, el('div', {}, el('h2', { class: 'heading-sub', id: 'blatt-titel', text: 'Notiz aus dem Garten' }),
+    el('span', { class: 'leise', text: p ? `${zustand.kulturen[p.kultur]?.name || p.kultur} · ${zustand.flaechen[p.flaeche]?.name || ''}` : 'für /saison-notiz' }))), form);
+  oeffneBlatt();
+  textFeld.focus({ preventScroll: true });
 }
 
 function schliesseBlatt() {

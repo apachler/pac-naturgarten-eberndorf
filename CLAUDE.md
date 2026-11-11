@@ -91,7 +91,7 @@ Skills für die wiederkehrenden Abläufe (`.claude/skills/`):
 |---|---|
 | `/rueckmeldung` | Rückmeldung zu einem Gartenjahr: Ist-Stand in `plan.yaml`, Erfahrungen je Art, Wetter recherchieren, Merkliste |
 | `/jahresplanung` | neues Jahr aus den Vorlagen anlegen und den Beetplan mit Positionen erstellen und prüfen |
-| `/saison-notiz` | kurze Beobachtung während der Saison festhalten (Aussaat, Ernte, Schädling, Wetter) |
+| `/saison-notiz` | kurze Beobachtung während der Saison festhalten (Aussaat, Ernte, Schädling, Wetter); holt auch die Notizen vom Handy (GitHub-Issues „Saisonnotiz …“ aus dem Beetplaner) |
 | `/kultur-neu` | neue Gemüseart oder Sorte in `kulturen.yaml` anlegen |
 
 Regeln je Bereich (`.claude/rules/`, werden beim Arbeiten an passenden Dateien geladen):

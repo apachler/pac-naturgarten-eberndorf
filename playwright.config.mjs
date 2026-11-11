@@ -5,7 +5,7 @@ export default defineConfig({
   timeout: 30_000,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['list'], ['github']] : 'list',
-  use: { baseURL: 'http://localhost:4173', channel: 'chrome', trace: 'retain-on-failure' },
+  use: { baseURL: 'http://localhost:4173', channel: 'chrome', trace: 'retain-on-failure', serviceWorkers: 'block' },
   webServer: { command: 'node tests/server.mjs', url: 'http://localhost:4173/index.html', reuseExistingServer: !process.env.CI },
   projects: [
     { name: 'handy', use: { ...devices['Pixel 7'], channel: 'chrome' } },

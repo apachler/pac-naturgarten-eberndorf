@@ -400,3 +400,56 @@ test('Wetter: ohne Verbindung eine ruhige Meldung statt Warnungen', async ({ pag
   await page.goto('/index.html#2026/west');
   await expect(page.locator('#wetter')).toContainText('nicht abrufbar');
 });
+
+test('Notiz vom Handy: Formular öffnet ein vorausgefülltes GitHub-Issue', async ({ page }) => {
+  await page.addInitScript(() => { window.__geoeffnet = []; window.open = (u) => { window.__geoeffnet.push(u); return null; }; });
+  await oeffne(page);
+  await setzeDatum(page, '2026-06-15');
+  await page.locator('#beet circle.pflanze[data-id="paprika"]').first().click({ force: true });
+  await page.locator('#notiz-zu-kultur').click();
+  await expect(page.locator('#blatt-titel')).toHaveText('Notiz aus dem Garten');
+  await expect(page.locator('#notiz-flaeche')).toHaveValue('west');
+  await expect(page.locator('#notiz-kultur')).toHaveValue('paprika');
+  await page.locator('#notiz-art').selectOption('Schädling oder Krankheit');
+  await page.locator('#notiz-datum').fill('2026-08-03');
+  await page.locator('#notiz-text').fill('Löcher in 3 Früchten, Raupe fotografiert');
+  await page.getByRole('button', { name: 'Auf GitHub öffnen' }).click();
+  const [url] = await page.evaluate(() => window.__geoeffnet);
+  const u = new URL(url);
+  expect(u.pathname).toBe('/apachler/pac-naturgarten-eberndorf/issues/new');
+  expect(u.searchParams.get('title')).toBe('Saisonnotiz 3.8.2026: Schädling oder Krankheit Paprika (Beet West)');
+  expect(u.searchParams.get('body')).toContain('Löcher in 3 Früchten');
+  await expect(page.locator('.notiz-meldung')).toContainText('GitHub ist geöffnet');
+});
+
+test('Notiz: auch aus „Diese Woche“ erreichbar, leere Notiz wird nicht gesendet', async ({ page }) => {
+  await page.addInitScript(() => { window.__geoeffnet = []; window.open = (u) => { window.__geoeffnet.push(u); return null; }; });
+  await oeffne(page);
+  await page.locator('#notiz-knopf').click();
+  await expect(page.locator('#notiz-form')).toBeVisible();
+  await page.locator('#notiz-flaeche').selectOption('');
+  await expect(page.locator('#notiz-kultur option')).toHaveCount(1 + plaene.find((p) => p.jahr === 2026).pflanzungen.length);
+  await page.getByRole('button', { name: 'Auf GitHub öffnen' }).click();
+  expect(await page.evaluate(() => window.__geoeffnet.length)).toBe(0);
+});
+
+test.describe('ohne Verbindung', () => {
+  test.use({ serviceWorkers: 'allow' });
+  test('Service Worker hält Beetplaner und Daten bereit', async ({ page, context }) => {
+    await wetterSimulieren(page);
+    await page.goto('/index.html#2026/west');
+    await page.evaluate(() => navigator.serviceWorker.ready);
+    await page.reload();   // jetzt läuft alles über den Service Worker und landet im Speicher
+    await expect(page.locator('#beet .beet-rand')).toBeVisible();
+    await expect(page.locator('#offline')).toBeHidden();
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.locator('#beet .beet-rand')).toBeVisible();
+    await expect(page.locator('#beet circle.pflanze').first()).toBeAttached();
+    await expect(page.locator('#offline')).toBeVisible();
+    await page.getByRole('tab', { name: 'Einkauf' }).click();
+    await expect(page.locator('#einkauf tbody tr').first()).toBeVisible();
+    await context.setOffline(false);
+    await expect(page.locator('#offline')).toBeHidden();
+  });
+});

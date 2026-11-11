@@ -32,6 +32,7 @@ Gemüsegarten/
 └── <Jahr>/                Ein Ordner pro Gartenjahr (z. B. 2026), mit plan.yaml
 beetplaner/                Webansicht (GitHub Pages) und Prüf-Script
 index.html                 Startseite des Beetplaners
+sw.js                      Service Worker: Beetplaner auch ohne Verbindung
 tests/                     Unit- und Browser-Tests (npm test, npm run test:e2e)
 tools/                     Hilfsscripts: Wetterrückblick (npm run wetter -- <Jahr>), Einkaufsliste (npm run einkauf -- <Jahr>)
 Ausbauplan.md              Beschlossene Ideen für Beetplaner und Werkzeuge

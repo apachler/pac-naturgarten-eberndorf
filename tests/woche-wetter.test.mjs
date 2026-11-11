@@ -101,3 +101,21 @@ test('Im Beet: tatsächliche Termine, „steht im Beet“ bleibt', () => {
   assert.ok(!ids.includes('paprika'));
   assert.ok(imBeetAm(plan2026, datum('2026-06-15')).some((p) => p.id === 'paprika'));
 });
+
+test('Notiz vom Handy: vorausgefülltes GitHub-Issue mit Datum, Fläche und Kultur', async () => {
+  const { notizIssueUrl, NOTIZ_ARTEN } = await import('../beetplaner/modell.js');
+  const u = new URL(notizIssueUrl({
+    datum: '2027-05-12', art: 'Ernte', flaeche: { id: 'ost', name: 'Beet Ost' }, kultur: { id: 'kohlrabi', name: 'Kohlrabi' },
+    pflanzung: 'kohlrabi_frueh', ernte: '+', text: '  3 Stück geerntet  ',
+  }));
+  assert.equal(u.origin + u.pathname, 'https://github.com/apachler/pac-naturgarten-eberndorf/issues/new');
+  assert.equal(u.searchParams.get('title'), 'Saisonnotiz 12.5.2027: Ernte Kohlrabi (Beet Ost)');
+  const body = u.searchParams.get('body');
+  assert.match(body, /^<!-- saisonnotiz -->/);
+  assert.match(body, /- \*\*Kultur:\*\* Kohlrabi \(`kohlrabi`, Pflanzung `kohlrabi_frueh`\)/);
+  assert.match(body, /- \*\*Ernte:\*\* \+\n\n3 Stück geerntet\n/);
+  const ohne = new URL(notizIssueUrl({ datum: '2027-07-01', art: 'Wetter', text: 'Hagel' }));
+  assert.equal(ohne.searchParams.get('title'), 'Saisonnotiz 1.7.2027: Wetter');
+  assert.doesNotMatch(ohne.searchParams.get('body'), /Fläche|Kultur|Ernte:/);
+  assert.ok(NOTIZ_ARTEN.includes('Schädling oder Krankheit'));
+});

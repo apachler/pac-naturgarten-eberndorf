@@ -11,7 +11,7 @@ wird mit Claude Code (`/rueckmeldung`, `/jahresplanung`, `/saison-notiz`).
 
 1. **Jetzt:** A2 Wetterrückblick
 2. **Vor `/jahresplanung` 2027:** E4 Gründüngung, E2 Pflanzenschutz, C2 Einkaufsliste (erledigt)
-3. **Vor der Saison 2027 (bis März):** A1 Wetterwarnungen, D1 Diese Woche, D2 Folgesaat (erledigt), D3 Notiz vom Handy, F1 Offline
+3. **Vor der Saison 2027 (bis März):** A1 Wetterwarnungen, D1 Diese Woche, D2 Folgesaat, D3 Notiz vom Handy, F1 Offline (erledigt)
 4. **Danach:** B3 Sortensterne, E1 Unterschiedliche Angaben, E3 Jauchen und Brühen, E5 Küche, B2 Jahresbericht
 
 ## Beschlossen
@@ -25,8 +25,8 @@ wird mit Claude Code (`/rueckmeldung`, `/jahresplanung`, `/saison-notiz`).
 | A1 | Wetterwarnungen | Vorhersage für Eberndorf im Beetplaner (Open-Meteo, 7 Tage; GeoSphere sagt nur 61 Stunden voraus): Frost, Bodenfrost unter 4 °C, Hitze ab 30 °C, Trockenphase, mit Bezug auf die Kulturen, die gerade im Beet stehen. | erledigt |
 | D1 | Diese Woche im Garten | Startkarte: was laut Plan ansteht, Naturjahreszeit, passende Merklisten-Punkte, Wetterwarnung. | erledigt |
 | D2 | Folgesaat | Feld `folgesaat` in `kulturen.yaml`; der Beetplaner zeigt „Zeit zum Nachsäen“ ab dem Ist-Datum. | erledigt |
-| D3 | Notiz vom Handy | Knopf im Beetplaner legt ein GitHub-Issue an; Claude arbeitet es mit `/saison-notiz` ein. | offen |
-| F1 | Offline am Handy | Service Worker (zuerst Netz, ohne Netz der gespeicherte Stand). | offen |
+| D3 | Notiz vom Handy | Knopf im Beetplaner öffnet ein vorausgefülltes GitHub-Issue „Saisonnotiz …“ (ohne Token); Claude arbeitet es mit `/saison-notiz` ein. | erledigt |
+| F1 | Offline am Handy | Service Worker (zuerst Netz, ohne Netz der gespeicherte Stand). | erledigt |
 | B3 | Sortensterne | `bewertung: 1–5` bei `sorten` in `kulturen.yaml`, beste Sorten zuerst. | offen |
 | E1 | Unterschiedliche Angaben | wo Quellen sich widersprechen (Abstand, Termine, Nachbarn), steht das mit Quelle bei der Art. | offen |
 | E3 | Jauchen und Brühen | Brennnessel, Beinwell, Schachtelhalm mit Termin als Naturjahreszeit. | offen |
