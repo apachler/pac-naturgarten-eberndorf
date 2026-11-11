@@ -17,6 +17,7 @@ Gemüsegarten/
 │   ├── Merkliste.md
 │   ├── Naturgarten-bio.md  Was von naturgarten.bio in die Planung einfließt
 │   ├── standort.yaml       Koordinaten und Höhe für die Naturjahreszeiten
+│   ├── klima.yaml          Klimamittel 1991–2020 für Eberndorf (erzeugt)
 │   ├── kulturen.yaml       Datenquelle aller Gemüsearten inkl. Erfahrungen und Sorten
 │   ├── familien.yaml       Pflanzenfamilien und Anbaupausen
 │   └── flaechen.yaml       Beete und Tomatenhaus (Maße, Boden, Aufbau, Rhythmus)
@@ -31,6 +32,8 @@ Gemüsegarten/
 beetplaner/                Webansicht (GitHub Pages) und Prüf-Script
 index.html                 Startseite des Beetplaners
 tests/                     Unit- und Browser-Tests (npm test, npm run test:e2e)
+tools/                     Hilfsscripts, u. a. Wetterrückblick (npm run wetter -- <Jahr>)
+Ausbauplan.md              Beschlossene Ideen für Beetplaner und Werkzeuge
 CLAUDE.md                  Arbeitsweise für Claude Code
 .claude/                   Skills, Regeln und Hooks für Claude Code
 ```

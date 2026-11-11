@@ -31,6 +31,9 @@ zwischen Anbau und Ruhe ab) → Saison mit Notizen → wieder Rückmeldung. Deta
 | Pflanzenfamilien mit Anbaupause | `Gemüsegarten/Grundlagen/familien.yaml` |
 | Beete West/Ost und Tomatenhaus | `Gemüsegarten/Grundlagen/flaechen.yaml` |
 | Garten (Ort, Klima, Wasser, Anzucht) | `Gemüsegarten/Grundlagen/standort.yaml` |
+| Klimamittel 1991–2020 für Eberndorf (erzeugt mit `npm run wetter -- --klimamittel`) | `Gemüsegarten/Grundlagen/klima.yaml` |
+| Messwerte eines Jahres (erzeugt mit `npm run wetter -- <Jahr>`) | Abschnitt in `Gemüsegarten/<Jahr>/Wetter.md` |
+| beschlossene Ausbau-Ideen für Beetplaner und Werkzeuge | `Ausbauplan.md` |
 | was in einem Jahr wo geplant war und tatsächlich stand | `Gemüsegarten/<Jahr>/plan.yaml` |
 | Liste der Jahre | `Gemüsegarten/jahre.yaml` (+ Tabelle in `Gemüsegarten/README.md`) |
 | artübergreifende Erkenntnisse | `Gemüsegarten/Grundlagen/Erfahrungen.md` |

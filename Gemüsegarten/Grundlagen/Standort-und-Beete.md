@@ -8,7 +8,7 @@ Jahresübergreifende Rahmenbedingungen des Gemüsegartens in Worten. Die Daten d
 |-----------|--------|
 | Ort | Eberndorf, Südkärnten, Österreich (ca. 46,6° N) |
 | Klima | Mitteleuropäisch, pannonisch beeinflusst, relativ mild |
-| Frost | Pflanzung frostempfindlicher Kulturen nach den Eisheiligen (Mitte Mai) |
+| Frost | Pflanzung frostempfindlicher Kulturen nach den Eisheiligen (Mitte Mai). Letzter Frost im Mittel 1991–2020 am 15. April, spätestens am 7. Mai; letzte Nacht unter 4 °C im Mittel am 14. Mai; erster Herbstfrost im Mittel am 21. Oktober (`klima.yaml`) |
 | Vorgeschichte | Ehemalige Viehfutterwiese, seit wenigen Jahren naturnah bewirtschaftet |
 | Wasser | Eigener Brunnen, Zwischenspeicher 1000-L-Container, Ausbringung mit Gießkanne oder Schlauch |
 | Anzucht | **Keine eigene Vorkultur** – nur Direktsaat oder gekaufte Jungpflanzen |

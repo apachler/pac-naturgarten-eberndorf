@@ -17,6 +17,7 @@ Jahresübergreifende Erkenntnisse, **die nicht zu einer einzelnen Art gehören**
 ## Wetter
 
 - 2026 war der heißeste Sommer der Messgeschichte und folgte auf einen extrem trockenen Frühling. Hitzewellen sind schon ab Mitte Juni möglich, Trockenheit kann von Frühling bis Herbst anhalten. Details in den `Wetter.md` der einzelnen Jahre. *(2026)*
+- Eberndorf liegt im Jauntal mit kalten Nächten: Laut Klimaraster gibt es im Mittel 1991–2020 bis Mitte April Frost, in einzelnen Jahren bis Anfang Mai. 2026 fror es noch am 13. Mai. Die Eisheiligen-Regel gilt hier wirklich. Von April bis Oktober hatte 2026 47 Hitzetage ab 30 °C, im Mittel sind es 13. *(2026, Messwerte GeoSphere)*
 
 ## Wasser
 

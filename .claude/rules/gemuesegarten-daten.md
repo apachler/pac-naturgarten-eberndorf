@@ -17,7 +17,9 @@ paths:
   `punkte`/`reihen`/`bereich` für die tatsächliche Lage). Wich die Einteilung eines Beets ab, unter
   `flaechen.<id>.ist:` eigene `zonen`/`wege` eintragen. Den Plan selbst nach der Saison nicht umschreiben.
 - Warnungen der Prüfung beheben oder mit `begruendung:` in der Pflanzung erklären.
-- **Wetter-Regel:** Zu jeder Jahres-Rückmeldung das Wetter des Jahres für Eberndorf/Kärnten recherchieren (GeoSphere Austria
+- **Wetter-Regel:** Zu jeder Jahres-Rückmeldung zuerst `npm run wetter -- <Jahr>` ausführen (Messwerte Eberndorf aus dem
+  GeoSphere-Raster, erzeugter Abschnitt zwischen `<!-- wetter:start -->` und `<!-- wetter:ende -->` – nie von Hand ändern;
+  `Grundlagen/klima.yaml` ist ebenfalls erzeugt). Dann das Wetter des Jahres für Eberndorf/Kärnten recherchieren (GeoSphere Austria
   Klimamonitoring/Klimarückblick, BMLUK-Monatsberichte „Wasserhaushalt Österreich“ mit Grundwasser-Messstelle Eberndorf,
   Klimarückblick Kärnten) und als `<Jahr>/Wetter.md` nach `Vorlagen/Wetter.md` mit Quellen ablegen.
 - Fotos oder Beobachtungen, um die Andreas gebeten hat, in die Merkliste aufnehmen und zur passenden Zeit ansprechen.

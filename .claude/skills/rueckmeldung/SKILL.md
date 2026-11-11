@@ -15,7 +15,10 @@ Jahr = das ausgewertete Jahr (meist das laufende, im Herbst/Winter).
 3. **Ist-Stand in `plan.yaml`** unter `ist:` je Pflanzung (`status`, `anzahl`, `ernte`, `notiz`, abweichende Lage als eigene
    `punkte`/`reihen`/`bereich`). Den geplanten Teil nicht verändern.
 4. **`Rueckmeldung.md`** im Jahresordner nach der Vorlage schreiben (Andreas' Aussagen, nicht ausschmücken).
-5. **Wetter recherchieren** (Pflicht-Regel): GeoSphere Austria (Klimamonitoring, Jahres-/Monatsrückblick), BMLUK
+5. **Wetter** (Pflicht-Regel): zuerst `npm run wetter -- <Jahr>` – setzt die Messwerte für Eberndorf (Monate mit
+   Abweichung vom Klimamittel 1991–2020, Frosttermine, Hitzewellen, Trockenphasen, Starkregen) als erzeugten Abschnitt in
+   `<Jahr>/Wetter.md` ein (legt die Datei aus der Vorlage an, wenn sie fehlt). Den Abschnitt nicht von Hand ändern, sondern
+   in Kurzfassung und „Bedeutung für die Planung“ auswerten. Danach recherchieren: GeoSphere Austria (Klimamonitoring, Jahres-/Monatsrückblick), BMLUK
    „Wasserhaushalt Österreich“ (Grundwasser-Messstelle Eberndorf), Klimarückblick Kärnten. Als `<Jahr>/Wetter.md` nach
    `Vorlagen/Wetter.md`, mit Quellenliste und Bezug zu den Beobachtungen im Beet (Hitze, Trockenheit, Spätfrost).
 6. **Erfahrungsschatz:** je Art in `kulturen.yaml` unter `erfahrungen:` `{ jahr, text, sicherheit }` ergänzen

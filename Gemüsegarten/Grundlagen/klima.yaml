@@ -1,0 +1,38 @@
+# Klimamittel 1991–2020 für unseren Garten – ERZEUGT mit `npm run wetter -- --klimamittel`, nicht von Hand ändern.
+# Quelle: GeoSphere Austria, SPARTACUS v2 (Tageswerte im 1-km-Raster, CC BY 4.0), Rasterpunkt aus standort.yaml.
+# Werte je Monat sind Mittel über die Jahre: tm/tn/tx °C (tm = Mittel aus Minimum und Maximum), rr Niederschlag mm,
+# sonne Stunden, Kenntage als Anzahl (Frost: Minimum < 0 °C, Eis: Maximum < 0 °C, Sommer: Maximum ≥ 25 °C,
+# Hitze: Maximum ≥ 30 °C, Regen: ≥ 1 mm, Starkregen: ≥ 20 mm).
+# Termine als MM-TT: letzter Frost (Jänner–Juni), letzte Nacht unter 4 °C, erster Frost (ab Juli).
+quelle: GeoSphere Austria, SPARTACUS v2 1d 1km
+lat: 46.58
+lon: 14.64
+zeitraum: 1991–2020
+monate:
+  - {monat: 1, tm: -1.7, tn: -5.4, tx: 2, rr: 35.1, sonne: 91.7, frosttage: 28.1, eistage: 9.5, sommertage: 0, hitzetage: 0, regentage: 5, starkregentage: 0.3}
+  - {monat: 2, tm: 0.7, tn: -4.2, tx: 5.5, rr: 47.7, sonne: 126.4, frosttage: 24, eistage: 3.1, sommertage: 0, hitzetage: 0, regentage: 5.4, starkregentage: 0.4}
+  - {monat: 3, tm: 5.2, tn: -0.6, tx: 11.1, rr: 52.4, sonne: 182.9, frosttage: 16.8, eistage: 0.3, sommertage: 0, hitzetage: 0, regentage: 6.3, starkregentage: 0.5}
+  - {monat: 4, tm: 9.8, tn: 3.7, tx: 15.9, rr: 74.6, sonne: 198.5, frosttage: 4.2, eistage: 0, sommertage: 0.7, hitzetage: 0, regentage: 9.6, starkregentage: 0.6}
+  - {monat: 5, tm: 14.4, tn: 8.2, tx: 20.6, rr: 93.2, sonne: 238.5, frosttage: 0.1, eistage: 0, sommertage: 5.5, hitzetage: 0.4, regentage: 11.2, starkregentage: 1.1}
+  - {monat: 6, tm: 18.1, tn: 11.9, tx: 24.3, rr: 111.1, sonne: 254.2, frosttage: 0, eistage: 0, sommertage: 13.9, hitzetage: 3, regentage: 12.2, starkregentage: 1.5}
+  - {monat: 7, tm: 19.8, tn: 13.4, tx: 26.1, rr: 126.3, sonne: 274.9, frosttage: 0, eistage: 0, sommertage: 20, hitzetage: 5.1, regentage: 11.9, starkregentage: 1.8}
+  - {monat: 8, tm: 19.4, tn: 13.3, tx: 25.6, rr: 133.1, sonne: 264.5, frosttage: 0, eistage: 0, sommertage: 17.9, hitzetage: 4.6, regentage: 11.8, starkregentage: 2}
+  - {monat: 9, tm: 14.8, tn: 9.3, tx: 20.3, rr: 116.5, sonne: 194.4, frosttage: 0.1, eistage: 0, sommertage: 3.9, hitzetage: 0.1, regentage: 9.4, starkregentage: 1.9}
+  - {monat: 10, tm: 9.9, tn: 5.1, tx: 14.7, rr: 95.7, sonne: 135.2, frosttage: 2.9, eistage: 0, sommertage: 0, hitzetage: 0, regentage: 8.5, starkregentage: 1.6}
+  - {monat: 11, tm: 4.3, tn: 1, tx: 7.6, rr: 98.1, sonne: 55.4, frosttage: 11.7, eistage: 1.2, sommertage: 0, hitzetage: 0, regentage: 8.9, starkregentage: 1.6}
+  - {monat: 12, tm: -1.2, tn: -4.1, tx: 1.8, rr: 66.3, sonne: 56.9, frosttage: 25.5, eistage: 9, sommertage: 0, hitzetage: 0, regentage: 7.1, starkregentage: 1}
+letzter_frost:
+  mittel: 04-15
+  fruehestens: 03-25
+  spaetestens: 05-07
+  jahre: 30
+letzte_kuehle_nacht:
+  mittel: 05-14
+  fruehestens: 04-14
+  spaetestens: 06-08
+  jahre: 30
+erster_frost:
+  mittel: 10-21
+  fruehestens: 09-26
+  spaetestens: 12-01
+  jahre: 30
