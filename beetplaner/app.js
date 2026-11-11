@@ -1,6 +1,6 @@
 import yaml from './vendor/js-yaml.mjs'; // js-yaml (MIT), lokal statt CDN
 import { naturjahr, saisonAm, GARTENJAHR, GEMUESE_JE_SAISON, KALENDER_ABOS, NATURJAHRESZEITEN } from './naturjahr.js';
-import { TYPEN, STATUS, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, hatIstStand, mitIstTermin, einteilung, pruefen, schlechteNachbarnVon } from './modell.js';
+import { TYPEN, STATUS, BEZUG, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, hatIstStand, mitIstTermin, einteilung, pruefen, schlechteNachbarnVon, schaedlingeVon, einkaufsliste, saatmengeFuer, ueberschriftAnker } from './modell.js';
 
 const BASIS = 'Gemüsegarten/';
 const TAG = 86400000;
@@ -9,7 +9,8 @@ const STATUS_FARBE = {
   geplant: '#8a8f86', gepflanzt: '#3f7d3a', im_beet: '#2e7d32', geerntet: '#8d6e63',
   nicht_gepflanzt: '#b0aea8', unbekannt: '#c9a227',
 };
-const TYP_KURZ = { H: 'Haupt', V: 'Vor', N: 'Nach', B: 'Beikraut' };
+const TYP_KURZ = { H: 'Haupt', V: 'Vor', N: 'Nach', B: 'Beikraut', G: 'Gründüngung' };
+const TYP_REIHENFOLGE = 'VHNBG';
 const typBadge = (p) => el('span', { class: 'badge badge-typ', title: TYPEN[p.typ] || p.typ, text: TYP_KURZ[p.typ] || p.typ });
 const statusBadge = (st) => el('span', { class: `badge badge-status ${st}`, text: STATUS[st] || st });
 const ERNTE_TEXT = { '++': 'sehr gut', '+': 'gut', o: 'mittel', '-': 'schlecht', '--': 'sehr schlecht' };
@@ -31,7 +32,7 @@ const el = (tag, attrs = {}, ...kinder) => {
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 const zustand = {
-  kulturen: {}, flaechen: {}, familien: {}, standort: null, plaene: [], jahr: null, flaeche: 'west', datum: null,
+  kulturen: {}, flaechen: {}, familien: {}, schaedlinge: {}, standort: null, plaene: [], jahr: null, flaeche: 'west', datum: null,
   ist: false, alle: false, vorjahr: false, markiert: new Set(), meldungen: [], meldungenIst: null,
 };
 
@@ -45,12 +46,14 @@ async function ladeYaml(pfad) {
 
 async function start() {
   try {
-    const [kulturen, flaechen, index, standort, familien] = await Promise.all([
+    const [kulturen, flaechen, index, standort, familien, schaedlinge] = await Promise.all([
       ladeYaml('Grundlagen/kulturen.yaml'), ladeYaml('Grundlagen/flaechen.yaml'), ladeYaml('jahre.yaml'),
       ladeYaml('Grundlagen/standort.yaml').catch(() => null),
       ladeYaml('Grundlagen/familien.yaml').catch(() => ({})),
+      ladeYaml('Grundlagen/schaedlinge.yaml').catch(() => ({})),
     ]);
     zustand.standort = standort;
+    zustand.schaedlinge = schaedlinge || {};
     zustand.familien = familien;
     zustand.kulturen = kulturen;
     zustand.flaechen = flaechen;
@@ -155,6 +158,7 @@ function waehleJahr(jahr, flaecheWunsch) {
   }
   zeichneFlaechenWahl();
   zeichnePruefung();
+  zeichneEinkauf();
   setzeDatum(heuteOderSommer());
 }
 
@@ -385,7 +389,7 @@ function zeichneVerteilt(alle) {
 function zeichneLegende(alle) {
   const ul = $('#legende');
   ul.innerHTML = '';
-  const aktiv = alle.filter(imPlan).sort((a, b) => 'VHNB'.indexOf(a.typ) - 'VHNB'.indexOf(b.typ));
+  const aktiv = alle.filter(imPlan).sort((a, b) => TYP_REIHENFOLGE.indexOf(a.typ) - TYP_REIHENFOLGE.indexOf(b.typ));
   if (!aktiv.length) {
     ul.append(el('li', { class: 'leer', text: plan().flaechen?.[zustand.flaeche]?.rolle === 'ruhe' ? 'Ruhejahr – nichts gepflanzt.' : 'Zu diesem Datum steht laut Plan nichts im Beet.' }));
     return;
@@ -479,10 +483,10 @@ function zeichneListe() {
   box.innerHTML = '';
   const alle = pflanzungenHier();
   if (!alle.length) { box.append(el('p', { class: 'leer', text: 'Für diese Fläche ist in diesem Jahr nichts geplant.' })); return; }
-  for (const typ of ['H', 'V', 'N', 'B']) {
+  for (const typ of ['H', 'V', 'N', 'B', 'G']) {
     const gruppe = alle.filter((p) => p.typ === typ);
     if (!gruppe.length) continue;
-    box.append(el('h2', { class: 'heading-sub abschnitt', text: { H: 'Hauptkulturen', V: 'Vorkulturen', N: 'Nachkulturen', B: 'Beikräuter' }[typ] }));
+    box.append(el('h2', { class: 'heading-sub abschnitt', text: { H: 'Hauptkulturen', V: 'Vorkulturen', N: 'Nachkulturen', B: 'Beikräuter', G: 'Gründüngung' }[typ] }));
     const tab = el('table', { class: 'tabelle' },
       el('thead', {}, el('tr', {}, el('th', { text: 'Kultur' }), el('th', { text: 'Plan' }), el('th', { text: 'Ist' }), el('th', { text: 'Ernte' }))));
     const tb = el('tbody');
@@ -501,6 +505,47 @@ function zeichneListe() {
     box.append(el('div', { class: 'tabelle-huelle' }, tab));
   }
   box.append(el('p', { class: 'leise klein', text: 'Plan: positioniert / gewünscht · Ernte: ++ sehr gut, + gut, o mittel, - schlecht' }));
+}
+
+// ---------------------------------------------------------------- Einkauf
+
+function zeichneEinkauf() {
+  const box = $('#einkauf');
+  box.innerHTML = '';
+  const e = einkaufsliste(plan(), zustand.kulturen);
+  const flName = (ids) => ids.map((f) => zustand.flaechen[f]?.name || f).join(', ');
+  const wann = (d) => {
+    if (!d) return '–';
+    const s = saisonAm(d, zustand.standort);
+    return el('span', {}, formatDatum(d).replace(/ \d{4}$/, ''), el('br'), el('small', { class: 'leise', text: `${s.name} (${s.zeiger})` }));
+  };
+  const titel = { jungpflanze: 'Jungpflanzen kaufen', saatgut: 'Saatgut', steckgut: 'Steckzwiebeln, Zehen, Knollen' };
+  const spalte = { jungpflanze: 'Pflanzen ab', saatgut: 'Säen ab', steckgut: 'Stecken ab' };
+  let leer = true;
+  for (const b of ['jungpflanze', 'saatgut', 'steckgut']) {
+    if (!e[b].length) continue;
+    leer = false;
+    box.append(el('h2', { class: 'heading-sub abschnitt', text: `${titel[b]} (${e[b].length})` }));
+    const tb = el('tbody');
+    for (const x of e[b]) {
+      const k = zustand.kulturen[x.kultur];
+      const menge = x.ohneZahl && !x.anzahl ? 'offen' : `${x.anzahl}${x.ohneZahl ? '+' : ''} Stk.`;
+      const gramm = k.gruenduengung ? saatmengeFuer(k.gruenduengung.saatmenge, x.m2) : null;
+      tb.append(el('tr', { 'data-kultur': x.kultur },
+        el('td', {},
+          el('span', { class: 'kultur' }, el('span', { class: 'punkt klein', style: `background:${k.farbe}` }), k.name),
+          x.sorte ? el('div', { class: 'klein', text: x.sorte }) : null,
+          el('div', { class: 'klein leise', text: flName(x.flaechen) }),
+          x.unsicher ? el('div', { class: 'klein hinweis-bezug', text: `${k.anbau} – im Plan mit „bezug:“ festlegen` }) : null),
+        el('td', { text: gramm ? `${x.m2.toLocaleString('de-AT', { maximumFractionDigits: 1 })} m² · ${gramm}` : menge }),
+        el('td', {}, wann(x.ab))));
+    }
+    const tab = el('table', { class: 'tabelle' },
+      el('thead', {}, el('tr', {}, el('th', { text: 'Kultur' }), el('th', { text: 'Menge' }), el('th', { text: spalte[b] }))), tb);
+    box.append(el('div', { class: 'tabelle-huelle' }, tab));
+  }
+  if (leer) box.append(el('p', { class: 'leer', text: 'Für dieses Jahr ist noch nichts geplant.' }));
+  else if (zustand.standort?.anzucht) box.append(el('p', { class: 'leise klein', text: `Anzucht: ${zustand.standort.anzucht}.` }));
 }
 
 // ---------------------------------------------------------------- Prüfung
@@ -593,13 +638,21 @@ function zeigeDetails(p) {
     k.schaedlinge?.length ? ['Schädlinge', k.schaedlinge.join(', ')] : null,
     k.krankheiten?.length ? ['Krankheiten', k.krankheiten.join(', ')] : null,
     k.frost ? ['Frost', 'frostempfindlich – erst nach den Eisheiligen'] : null,
+    k.gruenduengung ? ['Gründüngung', `${k.gruenduengung.winter} · Saatmenge ${k.gruenduengung.saatmenge} · ${k.gruenduengung.ende}`] : null,
     k.bedarf ? ['Küche', k.bedarf] : null,
     k.hinweis ? ['Hinweis', k.hinweis] : null,
   ].filter(Boolean);
   const SICHER = { beobachtet: 'beobachtet', bestaetigt: 'bestätigt', hypothese: 'Hypothese' };
   const erfahrungen = [...(k.erfahrungen || [])].sort((a, b) => b.jahr - a.jahr);
   const sorten = k.sorten || [];
-  const anker = k.name.toLowerCase().replace(/[^a-zäöüß0-9]+/g, '-');
+  const anker = ueberschriftAnker(k.name);
+  const schutz = schaedlingeVon(p.kultur, zustand.schaedlinge);
+  const liste = (xs) => `<ul>${xs.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
+  const schutzHtml = schutz.map(([id, s]) => `<details class="box schutz" data-schaedling="${esc(id)}"><summary>${esc(s.name)}${s.bestimmt === false ? ' <span class="badge badge-status">nicht bestimmt</span>' : ''}</summary>
+      <p class="klein"><em>${esc(s.botanisch || '')}</em></p><p class="klein">${esc(s.erkennen)}</p>
+      <h4>Vorbeugen</h4>${liste(s.vorbeugen)}<h4>Handeln</h4>${liste(s.handeln)}
+      ${s.erfahrungen?.length ? `<h4>Unsere Erfahrungen</h4>${liste([...s.erfahrungen].sort((a, b) => b.jahr - a.jahr).map((e) => `${e.jahr} (${SICHER[e.sicherheit] || 'beobachtet'}): ${e.text}`))}` : ''}
+    </details>`).join('');
   const dl = (rows) => `<dl>${rows.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join('')}</dl>`;
   $('#blatt-inhalt').innerHTML = `
     <div class="blatt-titel"><span class="punkt gross" style="background:${k.farbe}">${k.symbol}</span>
@@ -609,6 +662,7 @@ function zeigeDetails(p) {
     ${meld.length ? `<h3>Prüfung</h3>${meld.map((m) => `<p class="meldung ${m.stufe}"><span class="thema">${esc(m.thema)}</span> ${esc(m.text)}</p>`).join('')}` : ''}
     ${erfahrungen.length ? `<h3>Unsere Erfahrungen</h3><ul class="erfahrungen">${erfahrungen.map((e) => `<li><span class="badge badge-status">${e.jahr} · ${esc(SICHER[e.sicherheit] || 'beobachtet')}</span> ${esc(e.text)}</li>`).join('')}</ul>` : ''}
     ${sorten.length ? `<h3>Erprobte Sorten</h3><ul class="erfahrungen">${sorten.map((s) => `<li><strong>${esc(s.name)}</strong> (${esc(s.quelle || '')}, ${s.jahr}): ${esc(s.ergebnis || '')}</li>`).join('')}</ul>` : ''}
+    ${schutz.length ? `<h3>Pflanzenschutz</h3>${schutzHtml}` : ''}
     <h3>Kulturwissen</h3>${dl(wissen)}
     <p class="klein"><a href="https://github.com/apachler/pac-naturgarten-eberndorf/blob/main/Gem%C3%BCsegarten/Grundlagen/Kulturwissen.md#${encodeURIComponent(anker)}">Steckbrief ${esc(k.name)} ↗</a></p>`;
   $('#blatt-huelle').hidden = false;

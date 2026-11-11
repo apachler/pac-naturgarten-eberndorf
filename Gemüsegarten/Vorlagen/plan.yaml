@@ -20,10 +20,11 @@ pflanzungen:
   - id: beispiel
     kultur: feuerbohne       # ID aus Grundlagen/kulturen.yaml
     flaeche: ost
-    typ: H                   # V / H / N / B
+    typ: H                   # V / H / N / B / G (Gründüngung)
     wunsch: 20               # gewünschte Stückzahl aus dem Planungsauftrag
     von: <JAHR>-05-20
     bis: <JAHR>-10-15
     punkte: [[30, 450], [90, 450]]
     je: 4
+    # bezug: saatgut         # nur nötig, wenn anbau der Kultur mehrere Wege nennt: jungpflanze | saatgut | steckgut | vorhanden
     # ist: { status: im_beet, anzahl: 18, ernte: "+", notiz: "…" }

@@ -10,7 +10,7 @@ wird mit Claude Code (`/rueckmeldung`, `/jahresplanung`, `/saison-notiz`).
 ## Reihenfolge
 
 1. **Jetzt:** A2 Wetterrückblick
-2. **Vor `/jahresplanung` 2027:** E4 Gründüngung, E2 Pflanzenschutz, C2 Einkaufsliste
+2. **Vor `/jahresplanung` 2027:** E4 Gründüngung, E2 Pflanzenschutz, C2 Einkaufsliste (erledigt)
 3. **Vor der Saison 2027 (bis März):** A1 Wetterwarnungen, D1 Diese Woche, D2 Folgesaat, D3 Notiz vom Handy, F1 Offline
 4. **Danach:** B3 Sortensterne, E1 Unterschiedliche Angaben, E3 Jauchen und Brühen, E5 Küche, B2 Jahresbericht
 
@@ -19,9 +19,9 @@ wird mit Claude Code (`/rueckmeldung`, `/jahresplanung`, `/saison-notiz`).
 | Nr. | Idee | Umfang | Stand |
 |---|---|---|---|
 | A2 | Wetterrückblick | `npm run wetter -- <Jahr>` schreibt Messwerte für Eberndorf mit Abweichung vom Klimamittel 1991–2020 in `<Jahr>/Wetter.md`. Die Einordnung (Kärnten, Grundwasser) bleibt Recherche. | erledigt |
-| E4 | Gründüngung im Ruhebeet | Arten (z. B. Phacelia, Inkarnatklee, Winterwicke) in `kulturen.yaml`; `/jahresplanung` wägt ab, ob und wo sie im Ruhebeet passen. No-Dig: abfrieren lassen oder abmähen und als Mulch liegen lassen, nicht einarbeiten. | offen |
-| E2 | Pflanzenschutz | eigene `Grundlagen/schaedlinge.yaml`: erkennen, vorbeugen, naturgemäß handeln, Erfahrungen nach Jahr, verknüpft mit den Arten; Anzeige im Detailblatt und in `Kulturwissen.md`. Zuerst Wühlmaus, Raupen an Paprika, Schnecken, Bohnenlaus. | offen |
-| C2 | Einkaufsliste | aus `plan.yaml`: Jungpflanzen mit Stückzahl und Kaufzeitpunkt (Naturjahreszeit), Saatgut für die Direktsaat; als Tab im Beetplaner und in `/jahresplanung`. Ohne Saatgutvorrat. | offen |
+| E4 | Gründüngung im Ruhebeet | Rolle `G` mit Feld `gruenduengung`; Phacelia, Buchweizen (abfrierend), Inkarnatklee, Zottelwicke (winterhart) in `kulturen.yaml`; Tabelle in `Kulturwissen.md`; `/jahresplanung` wägt ab, ob und wo sie im Ruhebeet passen. No-Dig: abfrieren lassen oder abmähen und als Mulch liegen lassen, nicht einarbeiten. | erledigt |
+| E2 | Pflanzenschutz | eigene `Grundlagen/schaedlinge.yaml`: erkennen, vorbeugen, naturgemäß handeln, Erfahrungen nach Jahr, verknüpft mit den Arten; Anzeige im Detailblatt und in `Kulturwissen.md`. Zuerst Wühlmaus, Raupen an Paprika, Schnecken, Bohnenlaus. | erledigt |
+| C2 | Einkaufsliste | aus `plan.yaml`: Jungpflanzen mit Stückzahl und Kaufzeitpunkt (Naturjahreszeit), Saatgut für die Direktsaat; als Tab im Beetplaner und mit `npm run einkauf -- <Jahr>` in `/jahresplanung`; `bezug:` je Pflanzung. Ohne Saatgutvorrat. | erledigt |
 | A1 | Wetterwarnungen | Vorhersage für Eberndorf im Beetplaner: Frost, Bodenfrost unter 4 °C, Hitze ab 30 °C, Trockenphase, mit Bezug auf die Kulturen, die gerade im Beet stehen. | offen |
 | D1 | Diese Woche im Garten | Startkarte: was laut Plan ansteht, Naturjahreszeit, passende Merklisten-Punkte, Wetterwarnung. | offen |
 | D2 | Folgesaat | Feld `folgesaat` in `kulturen.yaml`; der Beetplaner zeigt „Zeit zum Nachsäen“ ab dem Ist-Datum. | offen |

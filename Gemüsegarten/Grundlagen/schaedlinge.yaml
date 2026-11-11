@@ -1,0 +1,109 @@
+# Pflanzenschutz – die eine Datenquelle für Schädlinge und Krankheiten mit Steckbrief
+#
+# Naturgemäß: zuerst vorbeugen und Nützlinge fördern, dann mechanisch handeln, Mittel nur gezielt und als letzte Stufe.
+# Angezeigt im Detailblatt des Beetplaners (bei den betroffenen Kulturen) und in Kulturwissen.md (erzeugt).
+# Die Namen unter `schaedlinge:`/`krankheiten:` in kulturen.yaml bleiben die kurze Liste je Art;
+# hier steht der ausführliche Steckbrief für das, was uns wirklich beschäftigt.
+#
+# Felder:
+#   name         Name (österreichisch)
+#   botanisch    wissenschaftlicher Name (bei unbestimmten Schädlingen: Vermutung, siehe bestimmt)
+#   art          Tier | Insekt | Krankheit
+#   bestimmt     false = noch nicht sicher bestimmt (z. B. Raupe ohne Foto) – dann ist botanisch eine Vermutung
+#   betrifft     IDs aus kulturen.yaml
+#   erkennen     woran man es erkennt
+#   vorbeugen    [ … ] vorbeugen, Nützlinge fördern
+#   handeln      [ … ] was tun, wenn es da ist (mechanisch zuerst)
+#   erfahrungen  [{jahr, text, sicherheit}] wie in kulturen.yaml (beobachtet | bestaetigt | hypothese)
+#   quellen      [{titel, url}]
+
+wuehlmaus:
+  name: Wühlmaus (Schermaus)
+  botanisch: Arvicola terrestris
+  art: Tier
+  betrifft: [knollensellerie, stangensellerie, petersilie, karotte]
+  erkennen: >-
+    Knollen und Wurzeln von unten angefressen oder ausgehöhlt, Pflanzen welken plötzlich oder lassen sich ohne Widerstand
+    herausziehen. Flache, unregelmäßige Erdhaufen seitlich der Gänge (Maulwurfshügel liegen mittig über dem Gang).
+    Sicherheit gibt die Verwühlprobe: einen Gang morgens auf ca. 30 cm öffnen – die Wühlmaus verschließt ihn meist
+    innerhalb weniger Stunden, der Maulwurf gräbt darunter einen neuen. Der Maulwurf steht unter Naturschutz.
+  vorbeugen:
+    - Gefährdete Kulturen (Sellerie, Petersilie) in Drahtkörbe aus verzinktem Draht pflanzen, Maschenweite höchstens 13–16 mm, unten geschlossen und oben bis über die Erde reichend.
+    - Im Tomatenhaus, das ohne Schutz gebaut ist, die Petersilie in einen Drahtkorb setzen oder in Töpfe ausweichen.
+    - Natürliche Feinde fördern – Mauswiesel (Stein- und Asthaufen), Greifvögel (Sitzstangen am Beetrand), Katzen.
+    - Lieblingsspeisen (Sellerie, Petersilie, Karotte) nicht am Rand zur Wiese pflanzen, wo die Gänge herkommen (Annahme).
+  handeln:
+    - Verwühlprobe machen, dann gezielt Fallen in den bewohnten Gang stellen.
+    - Die meisten Hausmittel und Duftpflanzen haben keine gesicherte Wirkung.
+  erfahrungen:
+    - jahr: 2026
+      text: Im Beet West einige Sellerieknollen ausgehöhlt, im Tomatenhaus die meiste Petersilie geholt.
+      sicherheit: beobachtet
+    - jahr: 2026
+      text: Die dicke Heu-Mulchschicht bietet Deckung und könnte Wühlmäuse anziehen.
+      sicherheit: hypothese
+  quellen:
+    - titel: Natur im Garten Burgenland – Maulwurf und Wühlmaus
+      url: https://www.burgenland.at/fileadmin/user_upload/NiG_BGLD_Maulwurf_und_Wuehlmaus.pdf
+    - titel: Stadt Münster – Wühlmaus (Drahtkorb höchstens 16 mm)
+      url: https://stadt-muenster.de/fileadmin/user_upload/stadt-muenster/67_umwelt/pdf/tipps/gs_wuehlmaus.pdf
+
+raupen_paprika:
+  name: Raupen in Paprikafrüchten
+  botanisch: Helicoverpa armigera (Baumwollkapselwurm) – Vermutung
+  art: Insekt
+  bestimmt: false
+  betrifft: [paprika, pfefferoni, tomate]
+  erkennen: >-
+    Runde Bohrlöcher in den Früchten, innen Fraßgänge und Kot, oft die Raupe selbst in der Frucht. Der Baumwollkapselwurm
+    ist ein wärmeliebender Nachtfalter, der laut AGES in Österreich jedes Jahr vorkommt und in sehr heißen Jahren
+    massenhaft auftreten kann. Sicher bestimmen lässt er sich nur über die Raupe oder den Falter – Fotos machen.
+  vorbeugen:
+    - Ab dem Fruchtansatz (Juli) die Früchte wöchentlich kontrollieren, besonders in Hitzewellen.
+    - Nützlinge fördern (Vögel, Schlupfwespen, Florfliegen) – Blühpflanzen wie Ringelblume neben den Paprika.
+  handeln:
+    - Angebohrte Früchte mit der Raupe entfernen, nicht auf den Kompost, sondern in den Restmüll (Annahme, damit sich die Raupe nicht verpuppt).
+    - Raupen an Blättern abends absammeln.
+    - Als letzte Stufe Präparate mit Bacillus thuringiensis (im Bio-Landbau zugelassen) – nur gegen junge Raupen und erst, wenn der Schädling bestimmt ist.
+  erfahrungen:
+    - jahr: 2026
+      text: Paprika hatten im Hitzesommer oft Löcher in den Früchten, vermutlich von Raupen. Art nicht bestimmt – 2027 Fotos machen.
+      sicherheit: beobachtet
+    - jahr: 2026
+      text: Der Baumwollkapselwurm passt zum heißen Sommer (47 Hitzetage) und zum Schadbild.
+      sicherheit: hypothese
+  quellen:
+    - titel: AGES – Baumwollkapselwurm
+      url: https://www.ages.at/pflanze/pflanzengesundheit/schaderreger-von-a-bis-z/baumwollkapselwurm
+
+nacktschnecken:
+  name: Nacktschnecken (Spanische Wegschnecke)
+  botanisch: Arion vulgaris
+  art: Tier
+  betrifft: [feuerbohne, chinakohl, pak_choi, gurke, endivie, kohlrabi]
+  erkennen: Große Fraßlöcher und Schleimspuren, Keimlinge und Jungpflanzen über Nacht verschwunden; aktiv nachts und bei feuchtem Wetter.
+  vorbeugen:
+    - Morgens gießen statt abends, damit der Boden über Nacht abtrocknet.
+    - Igel, Laufkäfer, Blindschleichen und Kröten fördern (Laub- und Steinhaufen, keine Gifte).
+    - Jungpflanzen kräftig setzen; Keimlinge (Feuerbohnen, Salate) in den ersten Wochen besonders schützen.
+    - Mulch bietet Schnecken Verstecke – in nassen Phasen um empfindliche Jungpflanzen etwas Abstand halten (Annahme, beobachten).
+  handeln:
+    - Abends und früh morgens absammeln; Bretter oder Rhabarberblätter als Versteck auslegen und morgens kontrollieren.
+    - Schneckenkorn mit Eisen-III-Phosphat nur sparsam und nur um gefährdete Jungpflanzen.
+  quellen: []
+
+schwarze_bohnenlaus:
+  name: Schwarze Bohnenlaus
+  botanisch: Aphis fabae
+  art: Insekt
+  betrifft: [feuerbohne, mangold, rote_ruebe]
+  erkennen: Dichte schwarze Kolonien an Triebspitzen und Blattunterseiten, oft mit Ameisen; Triebe verkrüppeln, Honigtau klebt.
+  vorbeugen:
+    - Nützlinge fördern – Marienkäfer, Florfliegen und Schwebfliegen; dafür Dill, Ringelblume und andere Blühpflanzen im Beet.
+    - Nicht mit Stickstoff überdüngen (weiches Gewebe lockt Läuse).
+    - Bohnenkraut als Nachbar soll Läuse fernhalten (überliefert, Wirkung nicht gesichert).
+  handeln:
+    - Befallene Triebspitzen auskneifen.
+    - Kolonien mit einem kräftigen Wasserstrahl abspritzen.
+    - Ein paar Läuse stehen lassen – sie sind Futter für die Nützlinge.
+  quellen: []

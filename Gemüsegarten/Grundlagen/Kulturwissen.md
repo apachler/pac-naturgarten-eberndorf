@@ -1,6 +1,6 @@
 # Kulturwissen
 
-> **Erzeugt aus [`kulturen.yaml`](kulturen.yaml) und [`familien.yaml`](familien.yaml) – nicht von Hand bearbeiten.**
+> **Erzeugt aus [`kulturen.yaml`](kulturen.yaml), [`familien.yaml`](familien.yaml) und [`schaedlinge.yaml`](schaedlinge.yaml) – nicht von Hand bearbeiten.**
 > Änderungen und neue Erfahrungen gehören in die YAML-Dateien, danach `npm run kulturwissen`. CI prüft, ob diese Datei aktuell ist.
 
 Die Steckbriefe sind unser Erfahrungsschatz: Allgemeine Werte sind Faustwerte aus der gängigen Gartenpraxis für Kärnten. Was wir selbst beobachten, steht je Art unter **Erfahrungen**, mit Jahr und Sicherheit (beobachtet → bestätigt ab zwei Jahren, oder Hypothese). Eigene Erfahrungen gehen vor.
@@ -16,17 +16,18 @@ Die Steckbriefe sind unser Erfahrungsschatz: Allgemeine Werte sind Faustwerte au
 
 | Familie | Botanisch | Anbaupause | Grund | Kulturen |
 |---------|-----------|------------|-------|----------|
-| Kreuzblütler | *Brassicaceae* | 4 Jahre | Kohlhernie bleibt viele Jahre im Boden; Kohlfliege und Erdflöhe. Gilt auch für Radieschen, Mairübchen, Pak Choi und Chinakohl. Kreuzblütler auf einem Beet nicht häufen. | Chinakohl, Flower Sprouts, Kohlrabi, Kohlsprossen, Mairübchen, Pak Choi, Radieschen, Wirsing |
+| Kreuzblütler | *Brassicaceae* | 4 Jahre | Kohlhernie bleibt viele Jahre im Boden; Kohlfliege und Erdflöhe. Gilt auch für Radieschen, Mairübchen, Pak Choi und Chinakohl. Kreuzblütler auf einem Beet nicht häufen. Gelbsenf, Ölrettich und Winterraps als Gründüngung zählen mit – bei uns deshalb keine Kreuzblütler-Gründüngung (Natur im Garten, Merkblatt Gründüngung). | Chinakohl, Flower Sprouts, Kohlrabi, Kohlsprossen, Mairübchen, Pak Choi, Radieschen, Wirsing |
 | Doldenblütler | *Apiaceae* | 4 Jahre | Möhrenfliege, Sellerie-Blattflecken, Bodenmüdigkeit. Karotte, Sellerie, Petersilie und Dill zählen gemeinsam. Wühlmäuse mögen die Wurzeln. | Dill, Karotte, Knollensellerie, Petersilie, Stangensellerie |
 | Nachtschattengewächse | *Solanaceae* | 3 Jahre | Kraut- und Braunfäule, Nematoden, Bodenmüdigkeit. | Paprika, Pfefferoni, Tomate |
 | Kürbisgewächse | *Cucurbitaceae* | 3 Jahre | Bodenbürtige Welkekrankheiten. | Gurke |
-| Hülsenfrüchtler | *Fabaceae* | 3 Jahre | Leguminosenmüdigkeit, Fußkrankheiten. Hinterlassen Stickstoff – gute Vorkultur für Starkzehrer. | Feuerbohne |
+| Hülsenfrüchtler | *Fabaceae* | 3 Jahre | Leguminosenmüdigkeit, Fußkrankheiten. Hinterlassen Stickstoff – gute Vorkultur für Starkzehrer. | Feuerbohne, Inkarnatklee, Zottelwicke (Winterwicke) |
 | Fuchsschwanzgewächse | *Amaranthaceae* | 3 Jahre | Rübenmüdigkeit (Nematoden), Blattfleckenkrankheiten. Mangold und Rote Rübe sind dieselbe Art. | Mangold, Rote Rübe |
 | Lauchgewächse | *Amaryllidaceae* | 3 Jahre | Weißfäule, Zwiebelfliege, Lauchmotte. Lauch, Zwiebel und Knoblauch zählen gemeinsam. | Knoblauch, Sommerlauch, Winterlauch, Zwiebel |
 | Korbblütler | *Asteraceae* | 2 Jahre | Salatfäulen, Mehltau. | Endiviensalat, Ringelblume |
 | Lippenblütler | *Lamiaceae* | 2 Jahre | Kaum Probleme, Abwechslung schadet nicht. | Basilikum, Bohnenkraut |
 | Baldriangewächse | *Caprifoliaceae (Valerianoideae)* | 1 Jahr | Kaum Fruchtfolgeprobleme. | Vogerlsalat |
-| Raublattgewächse | *Boraginaceae* | 0 Jahre | Beinwell ist mehrjährig und steht dauerhaft am Rand. | Beinwell |
+| Raublattgewächse | *Boraginaceae* | 0 Jahre | Beinwell ist mehrjährig und steht dauerhaft am Rand. Phacelia ist mit keinem unserer Gemüse verwandt. | Beinwell, Phacelia (Bienenfreund) |
+| Knöterichgewächse | *Polygonaceae* | 2 Jahre | Bei uns nur Buchweizen als Gründüngung; Fruchtfolgeprobleme sind kaum bekannt (Anbaupause als Annahme). | Buchweizen |
 
 ## Übersicht
 
@@ -50,6 +51,8 @@ Die Steckbriefe sind unser Erfahrungsschatz: Allgemeine Werte sind Faustwerte au
 | [Tomate](#tomate) | Nachtschattengewächse | H | 60 cm | sonnig, regengeschützt | hoch | stark | Frühsommer ❄ | Juli–Oktober | 1 |
 | [Gurke](#gurke) | Kürbisgewächse | H | 30 cm | sonnig, warm, windgeschützt | hoch | stark | Frühsommer ❄ | Juli–September | 2 |
 | [Feuerbohne](#feuerbohne) | Hülsenfrüchtler | H | 15 × 60 cm | sonnig | mittel | schwach | Frühsommer ❄ | grün Juli–Oktober, Trockenbohnen ab September | 3 |
+| [Inkarnatklee](#inkarnatklee) | Hülsenfrüchtler | G | 5 cm | sonnig | mittel | schwach | Frühherbst | keine – blüht im späten Frühjahr (rot), Bienenweide | 0 |
+| [Zottelwicke (Winterwicke)](#zottelwicke-winterwicke) | Hülsenfrüchtler | G | 5 cm | sonnig | mittel | schwach | Frühherbst | keine – blüht Ende Mai violett | 0 |
 | [Mangold](#mangold) | Fuchsschwanzgewächse | H | 40 cm | sonnig bis halbschattig | mittel | mittel | Vollfrühling | Juni–November, laufend außen pflücken | 1 |
 | [Rote Rübe](#rote-rübe) | Fuchsschwanzgewächse | H | 15 × 30 cm | sonnig bis halbschattig | mittel | mittel | Vollfrühling | August–November, vor stärkerem Frost | 1 |
 | [Knoblauch](#knoblauch) | Lauchgewächse | H N | 12 × 25 cm | sonnig | niedrig | schwach | Vollherbst | Juni–Juli | 1 |
@@ -62,8 +65,21 @@ Die Steckbriefe sind unser Erfahrungsschatz: Allgemeine Werte sind Faustwerte au
 | [Bohnenkraut](#bohnenkraut) | Lippenblütler | B | 25 cm | sonnig | niedrig | schwach | Frühsommer | Juni–September, vor der Blüte am aromatischsten | 1 |
 | [Vogerlsalat](#vogerlsalat) | Baldriangewächse | N | 8 cm | sonnig bis halbschattig | mittel | schwach | Frühherbst | Oktober–März | 1 |
 | [Beinwell](#beinwell) | Raublattgewächse | B | 60 cm | sonnig bis halbschattig | mittel | stark | Erstfrühling | Blätter 3–4 Schnitte pro Jahr für Mulch und Jauche | 1 |
+| [Phacelia (Bienenfreund)](#phacelia-bienenfreund) | Raublattgewächse | G | 5 cm | sonnig | niedrig | schwach | Hochsommer | keine – blüht etwa 6–8 Wochen nach der Saat, starke Bienenweide | 0 |
+| [Buchweizen](#buchweizen) | Knöterichgewächse | G | 5 cm | sonnig | mittel | schwach | Hochsommer ❄ | keine – blüht nach etwa 5–6 Wochen, Bienenweide | 0 |
 
-Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Naturjahreszeit für Aussaat bzw. Pflanzung. ❄ = frostempfindlich.
+Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut · G Gründüngung. Start = Naturjahreszeit für Aussaat bzw. Pflanzung. ❄ = frostempfindlich.
+
+## Gründüngung
+
+Option für das Ruhejahr und für Lücken nach der Ernte. Im Heubeet ohne Umgraben: abfrierende Arten bleiben als Mulch liegen, winterharte werden im Frühjahr abgemäht. Kreuzblütler (Gelbsenf, Ölrettich) verwenden wir nicht, sie zählen in der Fruchtfolge wie Kohl.
+
+| Art | Familie | Winter | Aussaat | Saatmenge | Wie sie endet |
+|-----|---------|--------|---------|-----------|---------------|
+| [Inkarnatklee](#inkarnatklee) | Hülsenfrüchtler | winterhart | April bis Mitte September; als Winterbegrünung August bis Anfang September | ca. 2–3 g/m² (Faustwert, Angabe auf der Packung beachten) | im Frühjahr zur Blüte bodennah abmähen und als Mulch liegen lassen; einjährig, treibt danach kaum wieder aus (Annahme – beobachten) |
+| [Zottelwicke (Winterwicke)](#zottelwicke-winterwicke) | Hülsenfrüchtler | winterhart | August bis Mitte September | ca. 10–15 g/m² allein, im Gemenge etwa die Hälfte (Faustwert, Angabe auf der Packung beachten) | im Frühjahr abmähen und als Mulch liegen lassen; rankt und kann wieder austreiben, ohne Umgraben also früh genug mähen (Annahme – beobachten) |
+| [Phacelia (Bienenfreund)](#phacelia-bienenfreund) | Raublattgewächse | abfrierend | März bis Anfang September; nach einer Ernte im Juli/August | ca. 1–2 g/m² (Faustwert, Angabe auf der Packung beachten) | friert im Winter ab und bleibt als Mulch liegen; im Frühjahr durch die Reste hindurch pflanzen – kein Umgraben nötig. Vor der Samenreife mähen, sonst sät sie sich aus. |
+| [Buchweizen](#buchweizen) | Knöterichgewächse | abfrierend | Mai bis August (wärmeliebend, erst nach den Eisheiligen) | ca. 5–10 g/m² (Faustwert; Dreschflegel nennt 5 g/m², BUND 10–15 g/m²) | friert beim ersten Frost ab und bleibt als Mulch liegen; vor der Samenreife mähen |
 
 ## Steckbriefe
 
@@ -80,6 +96,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Wann:** Spätsommer (Frühäpfel reif; in Eberndorf ab ca. 22. Juli)
 - **Ernte:** Oktober–November
 - **Schädlinge:** Erdflöhe, Kohlfliege, Schnecken
+- **Pflanzenschutz:** [Nacktschnecken (Spanische Wegschnecke)](#nacktschnecken-spanische-wegschnecke)
 - **Krankheiten:** Kohlhernie
 
 **Erfahrungen:**
@@ -116,6 +133,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Ernte:** Mai–Oktober, etwa 8–12 Wochen nach der Pflanzung
 - **Gute Nachbarn:** Feuerbohne, Knollensellerie, Rote Rübe, Stangensellerie
 - **Schädlinge:** Kohlfliege, Erdflöhe
+- **Pflanzenschutz:** [Nacktschnecken (Spanische Wegschnecke)](#nacktschnecken-spanische-wegschnecke)
 - **Krankheiten:** Kohlhernie
 - **Hinweis:** Ungleichmäßig gegossen platzen die Knollen.
 
@@ -169,6 +187,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Wann:** Frühherbst (Holunderbeeren reif; in Eberndorf ab ca. 13. August)
 - **Ernte:** September–Oktober, etwa 6 Wochen nach der Saat
 - **Schädlinge:** Erdflöhe, Schnecken
+- **Pflanzenschutz:** [Nacktschnecken (Spanische Wegschnecke)](#nacktschnecken-spanische-wegschnecke)
 - **Krankheiten:** Kohlhernie
 
 **Erfahrungen:**
@@ -241,6 +260,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Ernte:** Juli–Oktober
 - **Gute Nachbarn:** Dill, Radieschen, Sommerlauch, Winterlauch, Zwiebel
 - **Schädlinge:** Möhrenfliege, Wühlmäuse
+- **Pflanzenschutz:** [Wühlmaus (Schermaus)](#wühlmaus-schermaus)
 - **Küche:** auch für die Suppenwürze
 - **Hinweis:** Mischkultur mit Lauch schützt beide vor Möhrenfliege und Lauchmotte.
 
@@ -260,6 +280,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Ernte:** Oktober–November, vor stärkerem Frost
 - **Gute Nachbarn:** Kohlrabi, Kohlsprossen, Sommerlauch, Wirsing
 - **Schädlinge:** Wühlmäuse, Selleriefliege
+- **Pflanzenschutz:** [Wühlmaus (Schermaus)](#wühlmaus-schermaus)
 - **Krankheiten:** Septoria-Blattflecken
 - **Küche:** nur wenig – hauptsächlich für die Suppenwürze (Sellerie, Karotten, Lauch, Petersilie)
 
@@ -279,6 +300,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Ernte:** Juni–November
 - **Gute Nachbarn:** Tomate
 - **Schädlinge:** Wühlmäuse
+- **Pflanzenschutz:** [Wühlmaus (Schermaus)](#wühlmaus-schermaus)
 - **Küche:** für die Suppenwürze
 
 **Erfahrungen:**
@@ -297,6 +319,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Ernte:** August–Oktober
 - **Gute Nachbarn:** Kohlrabi, Kohlsprossen, Sommerlauch, Wirsing
 - **Schädlinge:** Wühlmäuse, Selleriefliege
+- **Pflanzenschutz:** [Wühlmaus (Schermaus)](#wühlmaus-schermaus)
 - **Krankheiten:** Septoria-Blattflecken
 - **Küche:** nur wenig – Suppenwürze
 
@@ -318,6 +341,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Ernte:** August–Oktober
 - **Gute Nachbarn:** Basilikum, Ringelblume
 - **Schädlinge:** Raupen (Fraßlöcher in den Früchten, 2026 vermutet), Blattläuse
+- **Pflanzenschutz:** [Raupen in Paprikafrüchten](#raupen-in-paprikafrüchten)
 - **Krankheiten:** Blütenendfäule
 - **Küche:** weniger als 3 Pflanzen
 - **Hinweis:** Blütenendfäule kommt von gestörtem Calciumtransport, nicht von Calciummangel – gleichmäßig tief gießen und mulchen.
@@ -338,6 +362,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Wann:** Frühsommer (Schwarzer Holunder blüht; in Eberndorf ab ca. 16. Mai)
 - **Ernte:** August–Oktober
 - **Gute Nachbarn:** Basilikum, Ringelblume
+- **Pflanzenschutz:** [Raupen in Paprikafrüchten](#raupen-in-paprikafrüchten)
 - **Krankheiten:** Blütenendfäule
 - **Küche:** weniger als 3 Pflanzen
 
@@ -356,6 +381,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Wann:** Frühsommer (Schwarzer Holunder blüht; in Eberndorf ab ca. 16. Mai)
 - **Ernte:** Juli–Oktober
 - **Gute Nachbarn:** Basilikum, Petersilie
+- **Pflanzenschutz:** [Raupen in Paprikafrüchten](#raupen-in-paprikafrüchten)
 - **Krankheiten:** Kraut- und Braunfäule, Blütenendfäule
 - **Hinweis:** Gehört ins Tomatenhaus, nicht ins Heubeet.
 
@@ -384,6 +410,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Ernte:** Juli–September
 - **Gute Nachbarn:** Dill, Feuerbohne
 - **Schädlinge:** Schnecken, Spinnmilben bei Hitze
+- **Pflanzenschutz:** [Nacktschnecken (Spanische Wegschnecke)](#nacktschnecken-spanische-wegschnecke)
 - **Krankheiten:** Echter Mehltau, Falscher Mehltau
 - **Küche:** 2 Pflanzen reichen
 
@@ -407,6 +434,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Gute Nachbarn:** Bohnenkraut, Gurke, Kohlrabi, Rote Rübe
 - **Schlechte Nachbarn:** Knoblauch, Sommerlauch, Winterlauch, Zwiebel
 - **Schädlinge:** Schwarze Bohnenlaus, Schnecken an Keimlingen
+- **Pflanzenschutz:** [Nacktschnecken (Spanische Wegschnecke)](#nacktschnecken-spanische-wegschnecke), [Schwarze Bohnenlaus](#schwarze-bohnenlaus)
 - **Krankheiten:** Brennfleckenkrankheit
 - **Hinweis:** Hohe Kultur – an die Nordseite des Beetes, sonst beschattet sie alles.
 
@@ -415,6 +443,36 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - 2026 · beobachtet: 5 Stangen ganz am Nordrand brauchten viel Platz – 2027 mit 4 Stangen probieren.
 - 2026 · beobachtet: Mit der Stangenreihe direkt am Nordrand reicht für die Bohnen ein ca. 50 cm tiefer Streifen (geplant waren 100 cm); der gewonnene Platz kam den Zonen B und C zugute.
 - 2026 · *Hypothese*: Im Hitzesommer viele Blüten, aber kaum Schoten; Hauptansatz erst im Spätsommer, Ernte Anfang November teils noch grün. Vermutlich werden die Blüten bei großer Hitze steril. 2025 war das nicht so.
+
+#### Inkarnatklee
+
+*Trifolium incarnatum* · Hülsenfrüchtler (Anbaupause 3 Jahre) · Gründüngung · ID `inkarnatklee`
+
+- **Platz:** 5 cm in der Reihe, Höhe ca. 50 cm
+- **Standort:** sonnig; Boden anspruchslos, nicht zu nass; Wurzel mittel
+- **Bedarf:** Nährstoffe schwach (Schwachzehrer), Wasser mittel
+- **Anbau:** Breitsaat, flach einharken und andrücken; Aussaat April bis Mitte September; als Winterbegrünung August bis Anfang September
+- **Wann:** Frühherbst (Holunderbeeren reif; in Eberndorf ab ca. 13. August)
+- **Ernte:** keine – blüht im späten Frühjahr (rot), Bienenweide
+- **Gründüngung:** winterhart; Saatmenge ca. 2–3 g/m² (Faustwert, Angabe auf der Packung beachten); im Frühjahr zur Blüte bodennah abmähen und als Mulch liegen lassen; einjährig, treibt danach kaum wieder aus (Annahme – beobachten). Wirkung: sammelt Stickstoff, viel Grünmasse, gute Bodengare
+- **Hinweis:** Hülsenfrüchtler – zählt in der Fruchtfolge wie Feuerbohnen (Anbaupause 3 Jahre). Saatzeit und Winterhärte nach Natur im Garten (Merkblatt Gründüngung).
+
+*Noch keine eigenen Erfahrungen.*
+
+#### Zottelwicke (Winterwicke)
+
+*Vicia villosa* · Hülsenfrüchtler (Anbaupause 3 Jahre) · Gründüngung · ID `zottelwicke`
+
+- **Platz:** 5 cm in der Reihe, Höhe ca. 60 cm
+- **Standort:** sonnig; Boden anspruchslos; Wurzel mittel
+- **Bedarf:** Nährstoffe schwach (Schwachzehrer), Wasser mittel
+- **Anbau:** Breitsaat, 2–3 cm tief einharken; meist im Gemenge (z. B. mit Inkarnatklee oder Phacelia); Aussaat August bis Mitte September
+- **Wann:** Frühherbst (Holunderbeeren reif; in Eberndorf ab ca. 13. August)
+- **Ernte:** keine – blüht Ende Mai violett
+- **Gründüngung:** winterhart; Saatmenge ca. 10–15 g/m² allein, im Gemenge etwa die Hälfte (Faustwert, Angabe auf der Packung beachten); im Frühjahr abmähen und als Mulch liegen lassen; rankt und kann wieder austreiben, ohne Umgraben also früh genug mähen (Annahme – beobachten). Wirkung: sammelt Stickstoff, Feinwurzler, anspruchslos
+- **Hinweis:** Hülsenfrüchtler – zählt in der Fruchtfolge wie Feuerbohnen. Saatzeit und Winterhärte nach Natur im Garten (Merkblatt Gründüngung); dort heißt es, Winterwicke müsse im Frühjahr umgebrochen werden – mit No-Dig noch nicht erprobt.
+
+*Noch keine eigenen Erfahrungen.*
 
 ### Fuchsschwanzgewächse
 
@@ -429,6 +487,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Wann:** Vollfrühling (Apfel blüht; in Eberndorf ab ca. 15. April)
 - **Ernte:** Juni–November, laufend außen pflücken
 - **Schlechte Nachbarn:** Rote Rübe
+- **Pflanzenschutz:** [Schwarze Bohnenlaus](#schwarze-bohnenlaus)
 - **Küche:** weniger als 3 Pflanzen
 
 **Erfahrungen:**
@@ -447,6 +506,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Ernte:** August–November, vor stärkerem Frost
 - **Gute Nachbarn:** Feuerbohne, Kohlrabi, Zwiebel
 - **Schlechte Nachbarn:** Mangold
+- **Pflanzenschutz:** [Schwarze Bohnenlaus](#schwarze-bohnenlaus)
 
 **Erfahrungen:**
 
@@ -551,6 +611,7 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 - **Wann:** Spätsommer (Frühäpfel reif; in Eberndorf ab ca. 22. Juli)
 - **Ernte:** September–November, verträgt leichten Frost
 - **Schädlinge:** Schnecken
+- **Pflanzenschutz:** [Nacktschnecken (Spanische Wegschnecke)](#nacktschnecken-spanische-wegschnecke)
 
 **Erfahrungen:**
 
@@ -649,3 +710,108 @@ Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Natur
 **Erfahrungen:**
 
 - 2026 · beobachtet: Nicht gepflanzt.
+
+#### Phacelia (Bienenfreund)
+
+*Phacelia tanacetifolia* · Raublattgewächse (Anbaupause 0 Jahre) · Gründüngung · ID `phacelia`
+
+- **Platz:** 5 cm in der Reihe, Höhe ca. 70 cm
+- **Standort:** sonnig; Boden anspruchslos, auch trocken; Wurzel mittel
+- **Bedarf:** Nährstoffe schwach (Schwachzehrer), Wasser niedrig
+- **Anbau:** Breitsaat, dünn säen, leicht einharken (Dunkelkeimer) und feucht halten; Aussaat März bis Anfang September; nach einer Ernte im Juli/August
+- **Wann:** Hochsommer (Sommer-Linde blüht; in Eberndorf ab ca. 7. Juni)
+- **Ernte:** keine – blüht etwa 6–8 Wochen nach der Saat, starke Bienenweide
+- **Gründüngung:** abfrierend; Saatmenge ca. 1–2 g/m² (Faustwert, Angabe auf der Packung beachten); friert im Winter ab und bleibt als Mulch liegen; im Frühjahr durch die Reste hindurch pflanzen – kein Umgraben nötig. Vor der Samenreife mähen, sonst sät sie sich aus.. Wirkung: Feinwurzler für krümeligen Boden, schnell, trockenverträglich, Bienenweide
+- **Hinweis:** Mit keinem unserer Gemüse verwandt, passt deshalb in jede Fruchtfolge. Saatzeit und Abfrieren nach Natur im Garten (Merkblatt Gründüngung).
+
+*Noch keine eigenen Erfahrungen.*
+
+### Knöterichgewächse
+
+#### Buchweizen
+
+*Fagopyrum esculentum* · Knöterichgewächse (Anbaupause 2 Jahre) · Gründüngung · ID `buchweizen`
+
+- **Platz:** 5 cm in der Reihe, Höhe ca. 80 cm
+- **Standort:** sonnig; Boden anspruchslos, auch mager; Wurzel mittel
+- **Bedarf:** Nährstoffe schwach (Schwachzehrer), Wasser mittel, **frostempfindlich**
+- **Anbau:** Breitsaat, 2–3 cm tief einharken; Aussaat Mai bis August (wärmeliebend, erst nach den Eisheiligen)
+- **Wann:** Hochsommer (Sommer-Linde blüht; in Eberndorf ab ca. 7. Juni)
+- **Ernte:** keine – blüht nach etwa 5–6 Wochen, Bienenweide
+- **Gründüngung:** abfrierend; Saatmenge ca. 5–10 g/m² (Faustwert; Dreschflegel nennt 5 g/m², BUND 10–15 g/m²); friert beim ersten Frost ab und bleibt als Mulch liegen; vor der Samenreife mähen. Wirkung: wächst sehr schnell, deckt den Boden und unterdrückt Beikraut, Bienenweide
+- **Hinweis:** Saatzeit und Abfrieren nach Natur im Garten (Merkblatt Gründüngung).
+
+*Noch keine eigenen Erfahrungen.*
+
+## Pflanzenschutz
+
+Naturgemäß: zuerst vorbeugen und Nützlinge fördern, dann mechanisch handeln, Mittel nur gezielt und als letzte Stufe.
+
+### Wühlmaus (Schermaus)
+
+*Arvicola terrestris* · Tier · betrifft Karotte, Knollensellerie, Petersilie, Stangensellerie
+
+- **Erkennen:** Knollen und Wurzeln von unten angefressen oder ausgehöhlt, Pflanzen welken plötzlich oder lassen sich ohne Widerstand herausziehen. Flache, unregelmäßige Erdhaufen seitlich der Gänge (Maulwurfshügel liegen mittig über dem Gang). Sicherheit gibt die Verwühlprobe: einen Gang morgens auf ca. 30 cm öffnen – die Wühlmaus verschließt ihn meist innerhalb weniger Stunden, der Maulwurf gräbt darunter einen neuen. Der Maulwurf steht unter Naturschutz.
+- **Vorbeugen:**
+  - Gefährdete Kulturen (Sellerie, Petersilie) in Drahtkörbe aus verzinktem Draht pflanzen, Maschenweite höchstens 13–16 mm, unten geschlossen und oben bis über die Erde reichend.
+  - Im Tomatenhaus, das ohne Schutz gebaut ist, die Petersilie in einen Drahtkorb setzen oder in Töpfe ausweichen.
+  - Natürliche Feinde fördern – Mauswiesel (Stein- und Asthaufen), Greifvögel (Sitzstangen am Beetrand), Katzen.
+  - Lieblingsspeisen (Sellerie, Petersilie, Karotte) nicht am Rand zur Wiese pflanzen, wo die Gänge herkommen (Annahme).
+- **Handeln:**
+  - Verwühlprobe machen, dann gezielt Fallen in den bewohnten Gang stellen.
+  - Die meisten Hausmittel und Duftpflanzen haben keine gesicherte Wirkung.
+
+**Erfahrungen:**
+
+- 2026 · beobachtet: Im Beet West einige Sellerieknollen ausgehöhlt, im Tomatenhaus die meiste Petersilie geholt.
+- 2026 · *Hypothese*: Die dicke Heu-Mulchschicht bietet Deckung und könnte Wühlmäuse anziehen.
+
+Quellen: [Natur im Garten Burgenland – Maulwurf und Wühlmaus](https://www.burgenland.at/fileadmin/user_upload/NiG_BGLD_Maulwurf_und_Wuehlmaus.pdf) · [Stadt Münster – Wühlmaus (Drahtkorb höchstens 16 mm)](https://stadt-muenster.de/fileadmin/user_upload/stadt-muenster/67_umwelt/pdf/tipps/gs_wuehlmaus.pdf)
+
+### Raupen in Paprikafrüchten
+
+*Helicoverpa armigera (Baumwollkapselwurm) – Vermutung* · Insekt · **noch nicht sicher bestimmt** · betrifft Paprika, Pfefferoni, Tomate
+
+- **Erkennen:** Runde Bohrlöcher in den Früchten, innen Fraßgänge und Kot, oft die Raupe selbst in der Frucht. Der Baumwollkapselwurm ist ein wärmeliebender Nachtfalter, der laut AGES in Österreich jedes Jahr vorkommt und in sehr heißen Jahren massenhaft auftreten kann. Sicher bestimmen lässt er sich nur über die Raupe oder den Falter – Fotos machen.
+- **Vorbeugen:**
+  - Ab dem Fruchtansatz (Juli) die Früchte wöchentlich kontrollieren, besonders in Hitzewellen.
+  - Nützlinge fördern (Vögel, Schlupfwespen, Florfliegen) – Blühpflanzen wie Ringelblume neben den Paprika.
+- **Handeln:**
+  - Angebohrte Früchte mit der Raupe entfernen, nicht auf den Kompost, sondern in den Restmüll (Annahme, damit sich die Raupe nicht verpuppt).
+  - Raupen an Blättern abends absammeln.
+  - Als letzte Stufe Präparate mit Bacillus thuringiensis (im Bio-Landbau zugelassen) – nur gegen junge Raupen und erst, wenn der Schädling bestimmt ist.
+
+**Erfahrungen:**
+
+- 2026 · beobachtet: Paprika hatten im Hitzesommer oft Löcher in den Früchten, vermutlich von Raupen. Art nicht bestimmt – 2027 Fotos machen.
+- 2026 · *Hypothese*: Der Baumwollkapselwurm passt zum heißen Sommer (47 Hitzetage) und zum Schadbild.
+
+Quellen: [AGES – Baumwollkapselwurm](https://www.ages.at/pflanze/pflanzengesundheit/schaderreger-von-a-bis-z/baumwollkapselwurm)
+
+### Nacktschnecken (Spanische Wegschnecke)
+
+*Arion vulgaris* · Tier · betrifft Chinakohl, Endiviensalat, Feuerbohne, Gurke, Kohlrabi, Pak Choi
+
+- **Erkennen:** Große Fraßlöcher und Schleimspuren, Keimlinge und Jungpflanzen über Nacht verschwunden; aktiv nachts und bei feuchtem Wetter.
+- **Vorbeugen:**
+  - Morgens gießen statt abends, damit der Boden über Nacht abtrocknet.
+  - Igel, Laufkäfer, Blindschleichen und Kröten fördern (Laub- und Steinhaufen, keine Gifte).
+  - Jungpflanzen kräftig setzen; Keimlinge (Feuerbohnen, Salate) in den ersten Wochen besonders schützen.
+  - Mulch bietet Schnecken Verstecke – in nassen Phasen um empfindliche Jungpflanzen etwas Abstand halten (Annahme, beobachten).
+- **Handeln:**
+  - Abends und früh morgens absammeln; Bretter oder Rhabarberblätter als Versteck auslegen und morgens kontrollieren.
+  - Schneckenkorn mit Eisen-III-Phosphat nur sparsam und nur um gefährdete Jungpflanzen.
+
+### Schwarze Bohnenlaus
+
+*Aphis fabae* · Insekt · betrifft Feuerbohne, Mangold, Rote Rübe
+
+- **Erkennen:** Dichte schwarze Kolonien an Triebspitzen und Blattunterseiten, oft mit Ameisen; Triebe verkrüppeln, Honigtau klebt.
+- **Vorbeugen:**
+  - Nützlinge fördern – Marienkäfer, Florfliegen und Schwebfliegen; dafür Dill, Ringelblume und andere Blühpflanzen im Beet.
+  - Nicht mit Stickstoff überdüngen (weiches Gewebe lockt Läuse).
+  - Bohnenkraut als Nachbar soll Läuse fernhalten (überliefert, Wirkung nicht gesichert).
+- **Handeln:**
+  - Befallene Triebspitzen auskneifen.
+  - Kolonien mit einem kräftigen Wasserstrahl abspritzen.
+  - Ein paar Läuse stehen lassen – sie sind Futter für die Nützlinge.

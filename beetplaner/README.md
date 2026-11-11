@@ -19,6 +19,8 @@ Veröffentlicht wird bei jedem Push auf `main` vom Workflow `.github/workflows/p
 - **Detailblatt:** Steckbrief der Art aus `kulturen.yaml` mit unseren Erfahrungen und erprobten Sorten
 - **Kalender:** Gantt-Ansicht aller Kulturen über das Jahr bis März des Folgejahres
 - **Liste:** Stückzahlen Plan, Wunsch und Ist sowie die Ernte
+- **Einkauf:** was für das Jahr gekauft werden muss, über alle Flächen: Jungpflanzen, Saatgut, Steckzwiebeln mit Stückzahl und frühestem Termin samt Naturjahreszeit; bei Gründüngung die Saatmenge für die Fläche. Der Bezug kommt aus `bezug:` in der Pflanzung, sonst aus `anbau` der Kultur. Dieselbe Liste als Markdown: `npm run einkauf -- <Jahr>`
+- **Pflanzenschutz:** im Detailblatt die Steckbriefe aus `schaedlinge.yaml` zu der Kultur (erkennen, vorbeugen, handeln, unsere Erfahrungen)
 - **Naturjahreszeit:** zu jedem Datum die Naturjahreszeit in Eberndorf mit Zeigerpflanze, dazu die Aufgaben aus dem Gartenjahr von naturgarten.bio und unsere eigenen. Der Kalender hat ein Band mit den Naturjahreszeiten. Daten in `naturjahr.js`, Standort in `Gemüsegarten/Grundlagen/standort.yaml`.
 - **Prüfung:** automatische Kontrolle des Plans. Antippen springt zu den betroffenen Pflanzen.
 
@@ -32,6 +34,7 @@ Alle Daten liegen als YAML unter `Gemüsegarten/`. Der Beetplaner zeigt sie nur 
 | `Gemüsegarten/<Jahr>/plan.yaml` | Plan eines Jahres: Flächen, Zonen, Wege, Pflanzungen, Ist-Stand |
 | `Gemüsegarten/Grundlagen/kulturen.yaml` | **Datenquelle aller Gemüsearten**: Platz, Licht, Boden, Wurzel, Nährstoffe, Wasser, Frost, Termine, Nachbarn, Schädlinge, Küchenbedarf, Sorten, Erfahrungen |
 | `Gemüsegarten/Grundlagen/familien.yaml` | Pflanzenfamilien mit Anbaupause (Fruchtfolge-Prüfung) |
+| `Gemüsegarten/Grundlagen/schaedlinge.yaml` | Pflanzenschutz-Steckbriefe, verknüpft mit den Kulturen |
 | `Gemüsegarten/Grundlagen/flaechen.yaml` | Beete und Tomatenhaus: Maße, Ausrichtung, Boden, Aufbau, Rhythmus, Besonderheiten, offene Fragen |
 | `Gemüsegarten/Grundlagen/standort.yaml` | Garten: Ort, Höhe, Klima, Wasser, Anzucht |
 | `Gemüsegarten/Vorlagen/plan.yaml` | Vorlage für ein neues Jahr |

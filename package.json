@@ -8,7 +8,8 @@
     "test:e2e": "playwright test",
     "start": "node tests/server.mjs",
     "kulturwissen": "node beetplaner/kulturwissen.mjs",
-    "wetter": "node tools/wetter.mjs"
+    "wetter": "node tools/wetter.mjs",
+    "einkauf": "node tools/einkauf.mjs"
   },
   "dependencies": {
     "js-yaml": "^4.1.0"

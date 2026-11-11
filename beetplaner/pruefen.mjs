@@ -6,7 +6,7 @@ import { readFileSync, appendFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
-import { pruefen, validiereKulturen, hatIstStand } from './modell.js';
+import { pruefen, validiereKulturen, validiereSchaedlinge, hatIstStand } from './modell.js';
 import { NATURJAHRESZEITEN } from './naturjahr.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'Gemüsegarten');
@@ -15,6 +15,7 @@ const lade = (p) => yaml.load(readFileSync(join(root, p), 'utf8'));
 const kulturen = lade('Grundlagen/kulturen.yaml');
 const flaechen = lade('Grundlagen/flaechen.yaml');
 const familien = lade('Grundlagen/familien.yaml');
+const schaedlinge = lade('Grundlagen/schaedlinge.yaml');
 const { jahre } = lade('jahre.yaml');
 const plaene = jahre.map((j) => lade(j.plan));
 const nurJahr = process.argv[2] ? Number(process.argv[2]) : null;
@@ -23,7 +24,7 @@ const symbol = { fehler: '❌', warnung: '⚠️ ', hinweis: 'ℹ️ ' };
 let fehler = 0;
 let summary = '# Prüfung der Beetpläne\n\n';
 
-const kulturFehler = validiereKulturen(kulturen, familien, NATURJAHRESZEITEN.map((s) => s.id));
+const kulturFehler = [...validiereKulturen(kulturen, familien, NATURJAHRESZEITEN.map((s) => s.id)), ...validiereSchaedlinge(schaedlinge, kulturen)];
 console.log(`\n== Kulturdaten: ${kulturFehler.length} Fehler ==`);
 for (const f of kulturFehler) console.log(`❌ [Kulturen] ${f}`);
 summary += `## Kulturdaten: ${kulturFehler.length} Fehler\n\n${kulturFehler.map((f) => `- ❌ ${f}`).join('\n')}\n\n`;

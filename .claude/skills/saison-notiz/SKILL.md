@@ -15,4 +15,6 @@ Kurz halten – Andreas schreibt oft vom Handy.
    er fehlt). Wetterereignisse (Hagel, Spätfrost, Hitze, Starkregen) ebenfalls dort – sie fließen später in `Wetter.md`.
 5. Passt es zu einem Merklisten-Punkt (z. B. „Fotos von den Raupen machen“)? Darauf hinweisen und den Punkt aktualisieren.
 6. Neue Erkenntnis zu einer Art? Nur wenn eindeutig, als `beobachtet` in `kulturen.yaml` – sonst bis zur Rückmeldung warten.
+   Schädling oder Krankheit: Gibt es einen Steckbrief in `Grundlagen/schaedlinge.yaml`, die passenden Tipps (erkennen,
+   vorbeugen, handeln) kurz nennen und die Beobachtung dort unter `erfahrungen:` als `beobachtet` ergänzen.
 7. Der Hook prüft automatisch; Commit „Saison <Jahr>: …“ ohne Attribution.

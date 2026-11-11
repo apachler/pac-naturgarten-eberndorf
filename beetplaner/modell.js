@@ -6,6 +6,7 @@ export const TYPEN = {
   H: 'Hauptkultur',
   N: 'Nachkultur',
   B: 'Beikraut',
+  G: 'Gründüngung',
 };
 
 export const STATUS = {
@@ -23,6 +24,7 @@ const ERLAUBT = {
   zehrer: ['stark', 'mittel', 'schwach'],
   wasser: ['hoch', 'mittel', 'niedrig'],
   sicherheit: ['beobachtet', 'bestaetigt', 'hypothese'],
+  winter: ['abfrierend', 'winterhart'],
 };
 
 /**
@@ -35,7 +37,15 @@ export function validiereKulturen(kulturen, familien, naturjahreszeitIds = []) {
     for (const feld of PFLICHTFELDER) if (k[feld] == null || k[feld] === '') f.push(`${id}: Pflichtfeld „${feld}“ fehlt`);
     if (k.familie && familien && !familien[k.familie]) f.push(`${id}: Familie „${k.familie}“ fehlt in familien.yaml`);
     for (const feld of ['wurzel', 'zehrer', 'wasser']) if (k[feld] && !ERLAUBT[feld].includes(k[feld])) f.push(`${id}: ${feld} „${k[feld]}“ ungültig (${ERLAUBT[feld].join(' | ')})`);
-    if (k.rollen && (!Array.isArray(k.rollen) || k.rollen.some((r) => !['V', 'H', 'N', 'B'].includes(r)))) f.push(`${id}: rollen nur V, H, N, B`);
+    if (k.rollen && (!Array.isArray(k.rollen) || k.rollen.some((r) => !TYPEN[r]))) f.push(`${id}: rollen nur ${Object.keys(TYPEN).join(', ')}`);
+    if (k.rollen?.includes('G')) {
+      const g = k.gruenduengung;
+      if (!g) f.push(`${id}: Gründüngung braucht das Feld „gruenduengung“ (winter, saatmenge, ende)`);
+      else {
+        if (!ERLAUBT.winter.includes(g.winter)) f.push(`${id}: gruenduengung.winter „${g.winter}“ ungültig (${ERLAUBT.winter.join(' | ')})`);
+        for (const feld of ['saatmenge', 'ende']) if (!g[feld]) f.push(`${id}: gruenduengung.${feld} fehlt`);
+      }
+    }
     if (naturjahreszeitIds.length && k.naturjahreszeit && !naturjahreszeitIds.includes(k.naturjahreszeit)) f.push(`${id}: naturjahreszeit „${k.naturjahreszeit}“ unbekannt`);
     if (!(Number(k.abstand) > 0)) f.push(`${id}: abstand muss eine Zahl > 0 sein`);
     for (const feld of ['gut', 'schlecht']) for (const n of k[feld] || []) if (!kulturen[n]) f.push(`${id}: ${feld}-Nachbar „${n}“ gibt es nicht`);
@@ -48,6 +58,32 @@ export function validiereKulturen(kulturen, familien, naturjahreszeitIds = []) {
   }
   return f;
 }
+
+/**
+ * Prüft die Pflanzenschutz-Steckbriefe (schaedlinge.yaml).
+ * @returns {string[]} Fehlermeldungen
+ */
+export function validiereSchaedlinge(schaedlinge, kulturen) {
+  const f = [];
+  for (const [id, s] of Object.entries(schaedlinge || {})) {
+    for (const feld of ['name', 'art', 'betrifft', 'erkennen', 'vorbeugen', 'handeln']) if (s[feld] == null || s[feld] === '') f.push(`Pflanzenschutz ${id}: Pflichtfeld „${feld}“ fehlt`);
+    if (s.art && !['Tier', 'Insekt', 'Krankheit'].includes(s.art)) f.push(`Pflanzenschutz ${id}: art „${s.art}“ ungültig (Tier | Insekt | Krankheit)`);
+    for (const k of s.betrifft || []) if (!kulturen[k]) f.push(`Pflanzenschutz ${id}: betroffene Kultur „${k}“ gibt es nicht`);
+    for (const feld of ['vorbeugen', 'handeln']) if (s[feld] != null && !Array.isArray(s[feld])) f.push(`Pflanzenschutz ${id}: ${feld} muss eine Liste sein`);
+    for (const e of s.erfahrungen || []) {
+      if (!Number.isInteger(e.jahr) || !e.text) f.push(`Pflanzenschutz ${id}: Erfahrung braucht jahr und text`);
+      if (e.sicherheit && !ERLAUBT.sicherheit.includes(e.sicherheit)) f.push(`Pflanzenschutz ${id}: sicherheit „${e.sicherheit}“ ungültig`);
+    }
+    for (const q of s.quellen || []) if (!q.titel || !/^https:\/\//.test(q.url || '')) f.push(`Pflanzenschutz ${id}: Quelle braucht titel und https-url`);
+  }
+  return f;
+}
+
+/** Pflanzenschutz-Steckbriefe, die eine Kultur betreffen: [[id, steckbrief]] */
+export const schaedlingeVon = (kulturId, schaedlinge) => Object.entries(schaedlinge || {}).filter(([, s]) => (s.betrifft || []).includes(kulturId));
+
+/** Anker einer Markdown-Überschrift wie auf GitHub: klein, Satzzeichen weg, Leerzeichen → „-“. */
+export const ueberschriftAnker = (text) => String(text).toLowerCase().trim().replace(/[^\p{L}\p{N}\s_-]/gu, '').replace(/\s/g, '-');
 
 /** Schlechte Nachbarn in beide Richtungen. */
 export function schlechteNachbarnVon(id, kulturen) {
@@ -139,6 +175,62 @@ export function positionen(p) {
 export function anzahlGeplant(p) {
   if (p.punkte || p.reihen) return positionen(p).reduce((s, q) => s + q.n, 0);
   return p.anzahl ?? p.wunsch ?? null;
+}
+
+// ---------------------------------------------------------------- Einkaufsliste
+
+export const BEZUG = { jungpflanze: 'Jungpflanzen', saatgut: 'Saatgut', steckgut: 'Steckzwiebeln, Zehen, Knollen', vorhanden: 'vorhanden' };
+
+/**
+ * Wie eine Pflanzung bezogen wird: `bezug:` in der Pflanzung, sonst aus `anbau` der Kultur
+ * (erster Teil vor „oder“). sicher = false, wenn die Kultur mehrere Wege kennt und der Plan nichts festlegt.
+ */
+export function bezugVon(p, k) {
+  if (p.bezug) return { bezug: p.bezug, sicher: true };
+  const anbau = String(k?.anbau || '').toLowerCase();
+  const erster = anbau.split(' oder ')[0];
+  const bezug = /jungpflanze/.test(erster) ? 'jungpflanze'
+    : /steckzwiebel|zehe|knolle|wurzelstück/.test(erster) ? 'steckgut'
+      : 'saatgut';
+  return { bezug, sicher: !anbau.includes(' oder ') };
+}
+
+/**
+ * Was für ein Jahr gekauft werden muss, aus dem Plan: je Bezug (jungpflanze, saatgut, steckgut) eine Liste
+ * { bezug, kultur, name, sorte, anzahl, ohneZahl, m2, ab, flaechen, ids, unsicher }, sortiert nach dem ersten Termin.
+ * Pflanzungen mit bezug: vorhanden fehlen.
+ */
+export function einkaufsliste(plan, kulturen) {
+  const gruppen = new Map();
+  for (const p of plan.pflanzungen || []) {
+    const k = kulturen[p.kultur];
+    if (!k) continue;
+    const { bezug, sicher } = bezugVon(p, k);
+    if (bezug === 'vorhanden') continue;
+    const sorte = p.sorte || '';
+    const key = `${bezug}|${p.kultur}|${sorte}`;
+    const g = gruppen.get(key) || { bezug, kultur: p.kultur, name: k.name, sorte, anzahl: 0, ohneZahl: false, m2: 0, ab: null, flaechen: [], ids: [], unsicher: false };
+    const n = p.bereich ? (p.anzahl ?? p.wunsch ?? null) : anzahlGeplant(p);
+    if (n == null) g.ohneZahl = true; else g.anzahl += n;
+    if (p.bereich) g.m2 += (p.bereich.b * p.bereich.t) / 10000;
+    const von = datum(p.von);
+    if (von && (!g.ab || von < g.ab)) g.ab = von;
+    if (!g.flaechen.includes(p.flaeche)) g.flaechen.push(p.flaeche);
+    g.ids.push(p.id);
+    if (!sicher) g.unsicher = true;
+    gruppen.set(key, g);
+  }
+  const liste = [...gruppen.values()].sort((a, b) => (a.ab ?? 0) - (b.ab ?? 0) || a.name.localeCompare(b.name, 'de'));
+  return Object.fromEntries(['jungpflanze', 'saatgut', 'steckgut'].map((b) => [b, liste.filter((x) => x.bezug === b)]));
+}
+
+/** Saatmenge für eine Fläche aus einer Angabe wie „ca. 1–2 g/m²“: „2–4 g“ (null, wenn nicht lesbar). */
+export function saatmengeFuer(angabe, m2) {
+  const m = String(angabe || '').match(/(\d+(?:,\d+)?)\s*(?:–|-|bis)\s*(\d+(?:,\d+)?)\s*g\/m²/) || String(angabe || '').match(/(\d+(?:,\d+)?)()\s*g\/m²/);
+  if (!m || !(m2 > 0)) return null;
+  const z = (s) => Number(s.replace(',', '.'));
+  const f = (v) => String(Math.round(v * m2 * 10) / 10).replace('.', ',');
+  return m[2] ? `${f(z(m[1]))}–${f(z(m[2]))} g` : `${f(z(m[1]))} g`;
 }
 
 export function zeitraum(p) {

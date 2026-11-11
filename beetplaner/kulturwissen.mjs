@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Erzeugt Gemüsegarten/Grundlagen/Kulturwissen.md aus kulturen.yaml und familien.yaml.
+// Erzeugt Gemüsegarten/Grundlagen/Kulturwissen.md aus kulturen.yaml, familien.yaml und schaedlinge.yaml.
 //   node beetplaner/kulturwissen.mjs          → Datei schreiben
 //   node beetplaner/kulturwissen.mjs --check  → Exit 1, wenn die Datei nicht aktuell ist (CI)
 
@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
-import { validiereKulturen, schlechteNachbarnVon } from './modell.js';
+import { validiereKulturen, validiereSchaedlinge, schlechteNachbarnVon, schaedlingeVon, ueberschriftAnker as anker } from './modell.js';
 import { NATURJAHRESZEITEN, naturjahr } from './naturjahr.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'Gemüsegarten', 'Grundlagen');
@@ -15,15 +15,16 @@ const lade = (p) => yaml.load(readFileSync(join(root, p), 'utf8'));
 const kulturen = lade('kulturen.yaml');
 const familien = lade('familien.yaml');
 const standort = lade('standort.yaml');
+const schaedlinge = lade('schaedlinge.yaml') || {};
 const ziel = join(root, 'Kulturwissen.md');
 
-const fehler = validiereKulturen(kulturen, familien, NATURJAHRESZEITEN.map((s) => s.id));
+const fehler = [...validiereKulturen(kulturen, familien, NATURJAHRESZEITEN.map((s) => s.id)), ...validiereSchaedlinge(schaedlinge, kulturen)];
 if (fehler.length) {
   console.error('kulturen.yaml ist nicht gültig:\n- ' + fehler.join('\n- '));
   process.exit(1);
 }
 
-const ROLLE = { V: 'Vorkultur', H: 'Hauptkultur', N: 'Nachkultur', B: 'Beikraut' };
+const ROLLE = { V: 'Vorkultur', H: 'Hauptkultur', N: 'Nachkultur', B: 'Beikraut', G: 'Gründüngung' };
 const SICHER = { beobachtet: 'beobachtet', bestaetigt: '**bestätigt**', hypothese: '*Hypothese*' };
 const MONATE = ['Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 // Jahresunabhängiger Beginn in Eberndorf (Bezugsjahr ohne Schalttag)
@@ -41,7 +42,7 @@ const ids = Object.keys(kulturen).sort(nachFamilie);
 const z = [];
 z.push('# Kulturwissen');
 z.push('');
-z.push('> **Erzeugt aus [`kulturen.yaml`](kulturen.yaml) und [`familien.yaml`](familien.yaml) – nicht von Hand bearbeiten.**');
+z.push('> **Erzeugt aus [`kulturen.yaml`](kulturen.yaml), [`familien.yaml`](familien.yaml) und [`schaedlinge.yaml`](schaedlinge.yaml) – nicht von Hand bearbeiten.**');
 z.push('> Änderungen und neue Erfahrungen gehören in die YAML-Dateien, danach `npm run kulturwissen`. CI prüft, ob diese Datei aktuell ist.');
 z.push('');
 z.push('Die Steckbriefe sind unser Erfahrungsschatz: Allgemeine Werte sind Faustwerte aus der gängigen Gartenpraxis für Kärnten. Was wir selbst beobachten, steht je Art unter **Erfahrungen**, mit Jahr und Sicherheit (beobachtet → bestätigt ab zwei Jahren, oder Hypothese). Eigene Erfahrungen gehen vor.');
@@ -68,11 +69,24 @@ z.push('| Kultur | Familie | Rolle | Abstand | Licht | Wasser | Nährstoffe | St
 z.push('|--------|---------|-------|---------|-------|--------|------------|-------|-------|-------------|');
 for (const id of ids) {
   const k = kulturen[id];
-  const anker = k.name.toLowerCase().replace(/[^a-zäöüß0-9]+/g, '-');
-  z.push(`| [${k.name}](#${anker}) | ${k.familie} | ${k.rollen.join(' ')} | ${k.abstand}${k.reihe ? ` × ${k.reihe}` : ''} cm | ${zelle(k.licht)} | ${k.wasser} | ${k.zehrer} | ${nj[k.naturjahreszeit].name}${k.frost ? ' ❄' : ''} | ${zelle(k.ernte)} | ${(k.erfahrungen || []).length} |`);
+  z.push(`| [${k.name}](#${anker(k.name)}) | ${k.familie} | ${k.rollen.join(' ')} | ${k.abstand}${k.reihe ? ` × ${k.reihe}` : ''} cm | ${zelle(k.licht)} | ${k.wasser} | ${k.zehrer} | ${nj[k.naturjahreszeit].name}${k.frost ? ' ❄' : ''} | ${zelle(k.ernte)} | ${(k.erfahrungen || []).length} |`);
 }
 z.push('');
-z.push('Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut. Start = Naturjahreszeit für Aussaat bzw. Pflanzung. ❄ = frostempfindlich.');
+z.push('Rolle: V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut · G Gründüngung. Start = Naturjahreszeit für Aussaat bzw. Pflanzung. ❄ = frostempfindlich.');
+const gd = ids.filter((i) => kulturen[i].rollen.includes('G'));
+if (gd.length) {
+  z.push('');
+  z.push('## Gründüngung');
+  z.push('');
+  z.push('Option für das Ruhejahr und für Lücken nach der Ernte. Im Heubeet ohne Umgraben: abfrierende Arten bleiben als Mulch liegen, winterharte werden im Frühjahr abgemäht. Kreuzblütler (Gelbsenf, Ölrettich) verwenden wir nicht, sie zählen in der Fruchtfolge wie Kohl.');
+  z.push('');
+  z.push('| Art | Familie | Winter | Aussaat | Saatmenge | Wie sie endet |');
+  z.push('|-----|---------|--------|---------|-----------|---------------|');
+  for (const id of gd) {
+    const k = kulturen[id], g = k.gruenduengung;
+    z.push(`| [${k.name}](#${anker(k.name)}) | ${k.familie} | ${g.winter} | ${zelle(k.aussaat)} | ${zelle(g.saatmenge)} | ${zelle(g.ende)} |`);
+  }
+}
 z.push('');
 z.push('## Steckbriefe');
 let familie = null;
@@ -98,7 +112,13 @@ for (const id of ids) {
   if (k.gut?.length) z.push(`- **Gute Nachbarn:** ${namen(k.gut)}`);
   const schlecht = schlechteNachbarnVon(id, kulturen);
   if (schlecht.length) z.push(`- **Schlechte Nachbarn:** ${namen(schlecht)}`);
+  if (k.gruenduengung) {
+    const g = k.gruenduengung;
+    z.push(`- **Gründüngung:** ${g.winter}; Saatmenge ${g.saatmenge}; ${g.ende}${g.wirkung ? `. Wirkung: ${g.wirkung}` : ''}`);
+  }
   if (k.schaedlinge?.length) z.push(`- **Schädlinge:** ${k.schaedlinge.join(', ')}`);
+  const schutz = schaedlingeVon(id, schaedlinge);
+  if (schutz.length) z.push(`- **Pflanzenschutz:** ${schutz.map(([, s]) => `[${s.name}](#${anker(s.name)})`).join(', ')}`);
   if (k.krankheiten?.length) z.push(`- **Krankheiten:** ${k.krankheiten.join(', ')}`);
   if (k.bedarf) z.push(`- **Küche:** ${k.bedarf}`);
   if (k.hinweis) z.push(`- **Hinweis:** ${k.hinweis}`);
@@ -115,6 +135,34 @@ for (const id of ids) {
     for (const e of [...k.erfahrungen].sort((a, b) => b.jahr - a.jahr)) z.push(`- ${e.jahr} · ${SICHER[e.sicherheit] || e.sicherheit || 'beobachtet'}: ${e.text}`);
   } else {
     z.push('*Noch keine eigenen Erfahrungen.*');
+  }
+}
+if (Object.keys(schaedlinge).length) {
+  z.push('');
+  z.push('## Pflanzenschutz');
+  z.push('');
+  z.push('Naturgemäß: zuerst vorbeugen und Nützlinge fördern, dann mechanisch handeln, Mittel nur gezielt und als letzte Stufe.');
+  for (const [, s] of Object.entries(schaedlinge)) {
+    z.push('');
+    z.push(`### ${s.name}`);
+    z.push('');
+    z.push(`*${s.botanisch || '?'}* · ${s.art}${s.bestimmt === false ? ' · **noch nicht sicher bestimmt**' : ''} · betrifft ${namen(s.betrifft)}`);
+    z.push('');
+    z.push(`- **Erkennen:** ${s.erkennen}`);
+    z.push(`- **Vorbeugen:**`);
+    for (const v of s.vorbeugen) z.push(`  - ${v}`);
+    z.push(`- **Handeln:**`);
+    for (const v of s.handeln) z.push(`  - ${v}`);
+    if (s.erfahrungen?.length) {
+      z.push('');
+      z.push('**Erfahrungen:**');
+      z.push('');
+      for (const e of [...s.erfahrungen].sort((a, b) => b.jahr - a.jahr)) z.push(`- ${e.jahr} · ${SICHER[e.sicherheit] || e.sicherheit || 'beobachtet'}: ${e.text}`);
+    }
+    if (s.quellen?.length) {
+      z.push('');
+      z.push(`Quellen: ${s.quellen.map((q) => `[${q.titel}](${q.url})`).join(' · ')}`);
+    }
   }
 }
 z.push('');

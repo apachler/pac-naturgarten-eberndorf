@@ -12,7 +12,7 @@ Kreuzblütler:
   botanisch: Brassicaceae
   anbaupause: 4
   grund: Kohlhernie bleibt viele Jahre im Boden; Kohlfliege und Erdflöhe.
-  hinweis: Gilt auch für Radieschen, Mairübchen, Pak Choi und Chinakohl. Kreuzblütler auf einem Beet nicht häufen.
+  hinweis: Gilt auch für Radieschen, Mairübchen, Pak Choi und Chinakohl. Kreuzblütler auf einem Beet nicht häufen. Gelbsenf, Ölrettich und Winterraps als Gründüngung zählen mit – bei uns deshalb keine Kreuzblütler-Gründüngung (Natur im Garten, Merkblatt Gründüngung).
 
 Doldenblütler:
   botanisch: Apiaceae
@@ -66,4 +66,9 @@ Baldriangewächse:
 Raublattgewächse:
   botanisch: Boraginaceae
   anbaupause: 0
-  grund: Beinwell ist mehrjährig und steht dauerhaft am Rand.
+  grund: Beinwell ist mehrjährig und steht dauerhaft am Rand. Phacelia ist mit keinem unserer Gemüse verwandt.
+
+Knöterichgewächse:
+  botanisch: Polygonaceae
+  anbaupause: 2
+  grund: Bei uns nur Buchweizen als Gründüngung; Fruchtfolgeprobleme sind kaum bekannt (Anbaupause als Annahme).

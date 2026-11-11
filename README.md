@@ -20,6 +20,7 @@ Gemüsegarten/
 │   ├── klima.yaml          Klimamittel 1991–2020 für Eberndorf (erzeugt)
 │   ├── kulturen.yaml       Datenquelle aller Gemüsearten inkl. Erfahrungen und Sorten
 │   ├── familien.yaml       Pflanzenfamilien und Anbaupausen
+│   ├── schaedlinge.yaml    Pflanzenschutz: Steckbriefe zu Schädlingen und Krankheiten
 │   └── flaechen.yaml       Beete und Tomatenhaus (Maße, Boden, Aufbau, Rhythmus)
 ├── jahre.yaml             Verzeichnis der Jahrespläne
 ├── Vorlagen/              Kopiervorlagen für jedes neue Jahr
@@ -32,7 +33,7 @@ Gemüsegarten/
 beetplaner/                Webansicht (GitHub Pages) und Prüf-Script
 index.html                 Startseite des Beetplaners
 tests/                     Unit- und Browser-Tests (npm test, npm run test:e2e)
-tools/                     Hilfsscripts, u. a. Wetterrückblick (npm run wetter -- <Jahr>)
+tools/                     Hilfsscripts: Wetterrückblick (npm run wetter -- <Jahr>), Einkaufsliste (npm run einkauf -- <Jahr>)
 Ausbauplan.md              Beschlossene Ideen für Beetplaner und Werkzeuge
 CLAUDE.md                  Arbeitsweise für Claude Code
 .claude/                   Skills, Regeln und Hooks für Claude Code

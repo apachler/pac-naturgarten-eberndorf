@@ -9,6 +9,13 @@ paths:
   `sicherheit`: `beobachtet` (einmal gesehen) | `hypothese` (Vermutung zur Ursache) | `bestaetigt` (erst, wenn es sich in
   mindestens zwei Jahren gezeigt hat). Bestehende Einträge nicht umschreiben – ein späteres Jahr ergänzt oder bestätigt.
 - Erprobte Sorten unter `sorten:` mit `{ name, quelle, jahr, ergebnis }`. Unbekannte Namen offen als unbekannt notieren.
+- **Gründüngung** ist eine Kultur mit Rolle `G` und Feld `gruenduengung: { winter, saatmenge, ende, wirkung }`.
+  Keine Kreuzblütler-Gründüngung (Senf, Ölrettich) – sie zählen wie Kohl.
+- **Pflanzenschutz:** ausführliche Steckbriefe in `Grundlagen/schaedlinge.yaml` (`betrifft:` mit Kultur-IDs, `erkennen`,
+  `vorbeugen`, `handeln`, `erfahrungen`, `quellen`); die Namen in `kulturen.yaml` (`schaedlinge`/`krankheiten`) bleiben die
+  kurze Liste. Naturgemäß: vorbeugen und Nützlinge zuerst, Mittel nur gezielt.
+- **Bezug** einer Pflanzung für die Einkaufsliste: `bezug: jungpflanze | saatgut | steckgut | vorhanden` in `plan.yaml`,
+  nötig, wenn `anbau` der Kultur mehrere Wege nennt („Jungpflanze oder Direktsaat“).
 - Weicht ein Faustwert (Abstand, Termin, Bedarf) bei uns dauerhaft ab: Wert anpassen **und** als Erfahrung notieren.
 - `Erfahrungen.md` nur für Artübergreifendes (Boden, Wetter, Wasser, Planung, Anzucht).
 - `Kulturwissen.md` nie von Hand ändern – der Hook bzw. `npm run kulturwissen` erzeugt sie.

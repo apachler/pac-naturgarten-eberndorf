@@ -13,12 +13,18 @@ description: Neues Gartenjahr anlegen und den Mischkultur-Beetplan erstellen –
    (`bedarf` in `kulturen.yaml`), was weggelassen oder reduziert wird (Erfahrungen der Vorjahre!), Sorten, Anzucht im Heizraum.
    Fehlende Arten zuerst mit `/kultur-neu` anlegen.
 4. **Fruchtfolge:** welches Beet trug im Vorjahr was (inkl. `ist:`-Lage)? Familien mit Anbaupause aus `familien.yaml` meiden;
-   Starkzehrer dorthin, wo vorher Gründüngung/Ruhe war.
+   Starkzehrer dorthin, wo vorher Gründüngung/Ruhe war. **Ruhebeet:** Gründüngung (Rolle `G` in `kulturen.yaml`) als Option
+   ansprechen, z. B. nach einer Ernte im Juli: abfrierende Arten (Phacelia, Buchweizen) passen ohne Umgraben am besten;
+   Hülsenfrüchtler-Gründüngung zählt in der Fruchtfolge wie Bohnen. Wenn gewünscht, als Pflanzung mit `typ: G` und
+   `bereich:` auf der Ruhefläche planen. Pflanzenschutz aus `schaedlinge.yaml` mitplanen (z. B. Drahtkörbe gegen Wühlmäuse).
 5. **Plan erstellen** in `<Jahr>/plan.yaml`: Haupt-, Vor- und Nachkulturen mit Zeitraum (`von`/`bis`), Position als
    `punkte`/`reihen` (cm, Ursprung SW), `je` bei Horsten, Wege freihalten. Gute Nachbarn nebeneinander, schlechte trennen,
    Hohes nach Norden, Beikräuter/Blühpflanzen für Nützlinge. Termine auch als Naturjahreszeit mit Zeigerpflanze
    (Eberndorf ≈ 10 Tage früher als DWD-Mittel; `beetplaner/naturjahr.js`).
 6. **Prüfen:** `npm run pruefen` – jeden Fehler beheben; jede Warnung beheben oder mit `begruendung:` erklären. Konflikte
    Andreas begründet zur Entscheidung vorlegen, nichts still weglassen.
-7. **Ansehen:** `npm start` → http://localhost:4173 (Plan, Kalender, Wochenregler, Prüfung) – oder nach dem Push auf Pages.
-8. **Abschluss:** `npm test`, Zusammenfassung in `<Jahr>/README.md`, Commit „Planung <Jahr>: …“ ohne Attribution.
+7. **Einkaufsliste:** `npm run einkauf -- <Jahr>` ausgeben und mit Andreas durchgehen (Jungpflanzen mit Kaufzeitpunkt,
+   Saatgut, Steckzwiebeln). „Bezug offen“ mit `bezug:` (jungpflanze | saatgut | steckgut | vorhanden) in der Pflanzung
+   festlegen. Im Beetplaner steht dieselbe Liste im Tab „Einkauf“.
+8. **Ansehen:** `npm start` → http://localhost:4173 (Plan, Kalender, Wochenregler, Prüfung) – oder nach dem Push auf Pages.
+9. **Abschluss:** `npm test`, Zusammenfassung in `<Jahr>/README.md`, Commit „Planung <Jahr>: …“ ohne Attribution.

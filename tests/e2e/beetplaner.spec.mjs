@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
-import { positionen, pruefen, ort } from '../../beetplaner/modell.js';
+import { positionen, pruefen, ort, einkaufsliste } from '../../beetplaner/modell.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'Gemüsegarten');
 const lade = (p) => yaml.load(readFileSync(join(root, p), 'utf8'));
@@ -284,7 +284,7 @@ test('Jahr wechseln und Direktlink', async ({ page }) => {
 
 test('kein waagrechtes Scrollen', async ({ page }) => {
   await oeffne(page);
-  for (const tab of ['Plan', 'Kalender', 'Liste', 'Prüfung']) {
+  for (const tab of ['Plan', 'Kalender', 'Liste', 'Einkauf', 'Prüfung']) {
     await page.getByRole('tab', { name: new RegExp(tab) }).click();
     const [sw, cw, zuBreit] = await page.evaluate(() => {
       const w = document.documentElement.clientWidth;
@@ -317,4 +317,32 @@ test('Prüfung: Plan und Ist-Stand umschaltbar', async ({ page }) => {
   await expect(page.locator('#opt-ist')).toBeChecked();
   await box.locator('.pruef-ansicht .link-knopf').click();
   await expect(page.locator('#opt-ist')).not.toBeChecked();
+});
+
+test('Einkauf: Jungpflanzen, Saatgut und Steckgut aus dem Plan über alle Flächen', async ({ page }) => {
+  await oeffne(page);
+  const e = einkaufsliste(plaene.find((p) => p.jahr === 2026), kulturen);
+  await page.getByRole('tab', { name: 'Einkauf' }).click();
+  await expect(page.locator('#tab-einkauf')).toBeVisible();
+  await expect(page.locator('#einkauf tbody tr')).toHaveCount(e.jungpflanze.length + e.saatgut.length + e.steckgut.length);
+  await expect(page.locator('#einkauf h2').first()).toHaveText(`Jungpflanzen kaufen (${e.jungpflanze.length})`);
+  const tomate = page.locator('#einkauf tr[data-kultur="tomate"]');
+  await expect(tomate).toContainText('8 Stk.');
+  await expect(tomate).toContainText('Tomatenhaus');
+  await expect(tomate).toContainText('15. Mai');
+  await expect(page.locator('#einkauf tr[data-kultur="kohlrabi"]')).toContainText('im Plan mit „bezug:“ festlegen');
+});
+
+test('Detailblatt zeigt Pflanzenschutz-Steckbriefe der Kultur', async ({ page }) => {
+  await oeffne(page);
+  await setzeDatum(page, '2026-06-17');
+  await page.locator('#beet circle.pflanze[data-id="paprika"]').first().click({ force: true });
+  const b = page.locator('#blatt-inhalt');
+  await expect(b).toContainText('Pflanzenschutz');
+  const raupe = b.locator('details[data-schaedling="raupen_paprika"]');
+  await expect(raupe).toContainText('nicht bestimmt');
+  await raupe.locator('summary').click();
+  await expect(raupe).toContainText('Helicoverpa armigera');
+  await expect(raupe).toContainText('Unsere Erfahrungen');
+  await expect(b.locator('a[href*="Kulturwissen.md#paprika"]')).toBeAttached();
 });

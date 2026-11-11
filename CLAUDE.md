@@ -29,6 +29,7 @@ zwischen Anbau und Ruhe ab) → Saison mit Notizen → wieder Rückmeldung. Deta
 |---|---|
 | alles zu einer Gemüseart (Platz, Licht, Boden, Wasser, Frost, Termine, Nachbarn, Schädlinge, Sorten, **Erfahrungen nach Jahr**) | `Gemüsegarten/Grundlagen/kulturen.yaml` |
 | Pflanzenfamilien mit Anbaupause | `Gemüsegarten/Grundlagen/familien.yaml` |
+| Schädlinge und Krankheiten mit Steckbrief (erkennen, vorbeugen, handeln, Erfahrungen) | `Gemüsegarten/Grundlagen/schaedlinge.yaml` |
 | Beete West/Ost und Tomatenhaus | `Gemüsegarten/Grundlagen/flaechen.yaml` |
 | Garten (Ort, Klima, Wasser, Anzucht) | `Gemüsegarten/Grundlagen/standort.yaml` |
 | Klimamittel 1991–2020 für Eberndorf (erzeugt mit `npm run wetter -- --klimamittel`) | `Gemüsegarten/Grundlagen/klima.yaml` |

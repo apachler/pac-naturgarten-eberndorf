@@ -12,7 +12,9 @@
 #   sorten, erfahrungen, quellen
 #
 # Werte:
-#   rollen          V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut (wofür die Art bei uns taugt)
+#   rollen          V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut · G Gründüngung (wofür die Art bei uns taugt)
+#   gruenduengung   nur bei Rolle G: {winter: abfrierend | winterhart, saatmenge, ende (wie sie No-Dig-gerecht endet), wirkung}
+#                   Bei Breitsaat ist abstand nur ein Richtwert für die Darstellung.
 #   abstand / reihe Pflanzabstand in der Reihe / Reihenabstand in cm; hoehe in cm
 #   licht           sonnig | sonnig bis halbschattig | halbschattig
 #   wurzel          flach | mittel | tief
@@ -66,6 +68,56 @@ feuerbohne:
     - jahr: 2026
       text: Im Hitzesommer viele Blüten, aber kaum Schoten; Hauptansatz erst im Spätsommer, Ernte Anfang November teils noch grün. Vermutlich werden die Blüten bei großer Hitze steril. 2025 war das nicht so.
       sicherheit: hypothese
+
+inkarnatklee:
+  name: Inkarnatklee
+  botanisch: Trifolium incarnatum
+  familie: Hülsenfrüchtler
+  symbol: "☘️"
+  farbe: "#c62828"
+  rollen: [G]
+  abstand: 5
+  hoehe: 50
+  licht: sonnig
+  boden: anspruchslos, nicht zu nass
+  wurzel: mittel
+  zehrer: schwach
+  wasser: mittel
+  anbau: Breitsaat, flach einharken und andrücken
+  aussaat: April bis Mitte September; als Winterbegrünung August bis Anfang September
+  naturjahreszeit: earlyAutumn
+  ernte: keine – blüht im späten Frühjahr (rot), Bienenweide
+  gruenduengung:
+    winter: winterhart
+    saatmenge: ca. 2–3 g/m² (Faustwert, Angabe auf der Packung beachten)
+    ende: im Frühjahr zur Blüte bodennah abmähen und als Mulch liegen lassen; einjährig, treibt danach kaum wieder aus (Annahme – beobachten)
+    wirkung: sammelt Stickstoff, viel Grünmasse, gute Bodengare
+  hinweis: Hülsenfrüchtler – zählt in der Fruchtfolge wie Feuerbohnen (Anbaupause 3 Jahre). Saatzeit und Winterhärte nach Natur im Garten (Merkblatt Gründüngung).
+
+zottelwicke:
+  name: Zottelwicke (Winterwicke)
+  botanisch: Vicia villosa
+  familie: Hülsenfrüchtler
+  symbol: "🌱"
+  farbe: "#7e57c2"
+  rollen: [G]
+  abstand: 5
+  hoehe: 60
+  licht: sonnig
+  boden: anspruchslos
+  wurzel: mittel
+  zehrer: schwach
+  wasser: mittel
+  anbau: Breitsaat, 2–3 cm tief einharken; meist im Gemenge (z. B. mit Inkarnatklee oder Phacelia)
+  aussaat: August bis Mitte September
+  naturjahreszeit: earlyAutumn
+  ernte: keine – blüht Ende Mai violett
+  gruenduengung:
+    winter: winterhart
+    saatmenge: ca. 10–15 g/m² allein, im Gemenge etwa die Hälfte (Faustwert, Angabe auf der Packung beachten)
+    ende: im Frühjahr abmähen und als Mulch liegen lassen; rankt und kann wieder austreiben, ohne Umgraben also früh genug mähen (Annahme – beobachten)
+    wirkung: sammelt Stickstoff, Feinwurzler, anspruchslos
+  hinweis: Hülsenfrüchtler – zählt in der Fruchtfolge wie Feuerbohnen. Saatzeit und Winterhärte nach Natur im Garten (Merkblatt Gründüngung); dort heißt es, Winterwicke müsse im Frühjahr umgebrochen werden – mit No-Dig noch nicht erprobt.
 
 # ============================================================ Lippenblütler
 
@@ -899,3 +951,56 @@ beinwell:
     - jahr: 2026
       text: Nicht gepflanzt.
       sicherheit: beobachtet
+
+phacelia:
+  name: Phacelia (Bienenfreund)
+  botanisch: Phacelia tanacetifolia
+  familie: Raublattgewächse
+  symbol: "🌸"
+  farbe: "#8e7cc3"
+  rollen: [G]
+  abstand: 5
+  hoehe: 70
+  licht: sonnig
+  boden: anspruchslos, auch trocken
+  wurzel: mittel
+  zehrer: schwach
+  wasser: niedrig
+  anbau: Breitsaat, dünn säen, leicht einharken (Dunkelkeimer) und feucht halten
+  aussaat: März bis Anfang September; nach einer Ernte im Juli/August
+  naturjahreszeit: highSummer
+  ernte: keine – blüht etwa 6–8 Wochen nach der Saat, starke Bienenweide
+  gruenduengung:
+    winter: abfrierend
+    saatmenge: ca. 1–2 g/m² (Faustwert, Angabe auf der Packung beachten)
+    ende: friert im Winter ab und bleibt als Mulch liegen; im Frühjahr durch die Reste hindurch pflanzen – kein Umgraben nötig. Vor der Samenreife mähen, sonst sät sie sich aus.
+    wirkung: Feinwurzler für krümeligen Boden, schnell, trockenverträglich, Bienenweide
+  hinweis: Mit keinem unserer Gemüse verwandt, passt deshalb in jede Fruchtfolge. Saatzeit und Abfrieren nach Natur im Garten (Merkblatt Gründüngung).
+
+# ============================================================ Knöterichgewächse
+
+buchweizen:
+  name: Buchweizen
+  botanisch: Fagopyrum esculentum
+  familie: Knöterichgewächse
+  symbol: "🌾"
+  farbe: "#d7a86e"
+  rollen: [G]
+  abstand: 5
+  hoehe: 80
+  licht: sonnig
+  boden: anspruchslos, auch mager
+  wurzel: mittel
+  zehrer: schwach
+  wasser: mittel
+  frost: true
+  anbau: Breitsaat, 2–3 cm tief einharken
+  aussaat: Mai bis August (wärmeliebend, erst nach den Eisheiligen)
+  naturjahreszeit: highSummer
+  ernte: keine – blüht nach etwa 5–6 Wochen, Bienenweide
+  gruenduengung:
+    winter: abfrierend
+    saatmenge: ca. 5–10 g/m² (Faustwert; Dreschflegel nennt 5 g/m², BUND 10–15 g/m²)
+    ende: friert beim ersten Frost ab und bleibt als Mulch liegen; vor der Samenreife mähen
+    wirkung: wächst sehr schnell, deckt den Boden und unterdrückt Beikraut, Bienenweide
+  hinweis: Saatzeit und Abfrieren nach Natur im Garten (Merkblatt Gründüngung).
