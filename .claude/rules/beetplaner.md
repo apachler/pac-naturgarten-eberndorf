@@ -10,7 +10,8 @@ paths:
 # Beetplaner (Viewer auf GitHub Pages)
 
 - Reines HTML/CSS/JS-Modul ohne Build-Schritt; einzige Laufzeit-Abhängigkeit ist das mitgelieferte
-  `beetplaner/vendor/js-yaml.mjs`. Keine CDNs, keine externen Fonts, kein Tracking.
+  `beetplaner/vendor/js-yaml.mjs`. Keine CDNs, keine externen Fonts, kein Tracking. Einzige externe Anfrage ist die
+  Wettervorhersage von Open-Meteo (ohne Schlüssel und Cookies); E2E-Tests simulieren sie (`wetterSimulieren`).
 - Gemeinsame Logik (Positionen, Datum, Prüfung) steht in `beetplaner/modell.js` und läuft im Browser und in Node –
   dort ändern, nicht doppelt im Viewer oder in `pruefen.mjs`.
 - Design nach naturgarten.bio (`docs/DESIGN.md` in `apachler/pacnaturgarten`): nur die Farb-Tokens aus `style.css`,

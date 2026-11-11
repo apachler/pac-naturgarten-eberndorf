@@ -1,6 +1,7 @@
 import yaml from './vendor/js-yaml.mjs'; // js-yaml (MIT), lokal statt CDN
 import { naturjahr, saisonAm, GARTENJAHR, GEMUESE_JE_SAISON, KALENDER_ABOS, NATURJAHRESZEITEN } from './naturjahr.js';
-import { TYPEN, STATUS, BEZUG, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, hatIstStand, mitIstTermin, einteilung, pruefen, schlechteNachbarnVon, schaedlingeVon, einkaufsliste, saatmengeFuer, ueberschriftAnker } from './modell.js';
+import { TYPEN, STATUS, BEZUG, datum, formatDatum, positionen, anzahlGeplant, zeitraum, aktivInWoche, montagVon, kalenderwoche, huelle, ort, hatIstLage, hatIstStand, mitIstTermin, einteilung, pruefen, schlechteNachbarnVon, schaedlingeVon, einkaufsliste, saatmengeFuer, ueberschriftAnker, bezugVon, wocheImGarten, folgesaatFaellig, merklisteFaellig, imBeetAm } from './modell.js';
+import { vorhersageUrl, tageAusOpenMeteo, wetterHinweise, tagKurz, zahl } from './wetter.js';
 
 const BASIS = 'Gemüsegarten/';
 const TAG = 86400000;
@@ -32,7 +33,7 @@ const el = (tag, attrs = {}, ...kinder) => {
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 const zustand = {
-  kulturen: {}, flaechen: {}, familien: {}, schaedlinge: {}, standort: null, plaene: [], jahr: null, flaeche: 'west', datum: null,
+  kulturen: {}, flaechen: {}, familien: {}, schaedlinge: {}, merkliste: '', wetter: null, standort: null, plaene: [], jahr: null, flaeche: 'west', datum: null,
   ist: false, alle: false, vorjahr: false, markiert: new Set(), meldungen: [], meldungenIst: null,
 };
 
@@ -58,6 +59,7 @@ async function start() {
     zustand.kulturen = kulturen;
     zustand.flaechen = flaechen;
     zustand.plaene = await Promise.all(index.jahre.map((j) => ladeYaml(j.plan)));
+    zustand.merkliste = await fetch(`${BASIS}Grundlagen/Merkliste.md`, { cache: 'no-cache' }).then((r) => (r.ok ? r.text() : '')).catch(() => '');
   } catch (e) {
     $('main').innerHTML = `<p class="fehler-box">Die Daten konnten nicht geladen werden (${esc(e.message)}).<br>
       Der Beetplaner muss über GitHub Pages oder einen lokalen Webserver geöffnet werden, nicht direkt als Datei.</p>`;
@@ -84,6 +86,7 @@ async function start() {
   setzeKopf();
   if ('ResizeObserver' in window) new ResizeObserver(setzeKopf).observe(kopf);
   waehleJahr(zustand.jahr, hFlaeche);
+  ladeWetter();
 }
 
 // ---------------------------------------------------------------- Hilfen
@@ -229,6 +232,7 @@ function zeichneAlles() {
 function zeichneZeitabhaengig() {
   $('#datum-text').textContent = wochenText(zustand.datum);
   zeichneSaison();
+  zeichneWoche();
   zeichneAlles();
 }
 
@@ -428,6 +432,90 @@ function zeichneSaison() {
   box.append(el('p', { class: 'leise klein' }, `${s.name} in ${zustand.standort?.ort?.split(' (')[0] || 'Eberndorf'}: erkennbar an „${s.zeiger}“ oder „${s.auch}“. Tatsächlich zeigt die Natur, wann es so weit ist.`), liste);
   box.append(el('p', { class: 'leise klein' }, 'Quelle: ', el('a', { href: 'https://naturgarten.bio/naturgarten', text: 'naturgarten.bio' }), ' – Gartenjahr und Naturjahreszeiten (DWD-Mittel, Hopkins-Regel). Als Kalender abonnieren: ',
     ...KALENDER_ABOS.flatMap((k, i) => [i ? ' · ' : '', el('a', { href: k.url.replace('https://', 'webcal://'), text: k.name })])));
+}
+
+// ---------------------------------------------------------------- Diese Woche im Garten
+
+const heuteUtc = () => { const h = new Date(); return new Date(Date.UTC(h.getFullYear(), h.getMonth(), h.getDate())); };
+const isoTag = (d) => d.toISOString().slice(0, 10);
+const WETTER_SPEICHER = 'beetplaner-wetter-v1';
+
+/** Vorhersage für den Garten laden (höchstens alle 3 Stunden; ohne Netz der zuletzt gespeicherte Stand). */
+async function ladeWetter() {
+  const s = zustand.standort;
+  if (!s?.lat || !s?.lon) return;
+  const url = vorhersageUrl(s);
+  let alt = null;
+  try { alt = JSON.parse(localStorage.getItem(WETTER_SPEICHER) || 'null'); } catch { alt = null; }
+  if (alt?.url === url && Date.now() - alt.zeit < 3 * 3600000) {
+    zustand.wetter = alt;
+  } else {
+    try {
+      const r = await fetch(url);
+      if (!r.ok) throw new Error(String(r.status));
+      zustand.wetter = { url, zeit: Date.now(), tage: tageAusOpenMeteo(await r.json()) };
+      try { localStorage.setItem(WETTER_SPEICHER, JSON.stringify(zustand.wetter)); } catch { /* ohne Speicher geht es auch */ }
+    } catch {
+      zustand.wetter = alt?.url === url ? { ...alt, alt: true } : { fehler: true };
+    }
+  }
+  zeichneWoche();
+}
+
+function zeichneWoche() {
+  const box = $('#woche');
+  if (!box) return;
+  box.innerHTML = '';
+  const montag = zustand.datum;
+  const heute = heuteUtc();
+  const dieseWoche = montag.getTime() === montagVon(heute).getTime();
+  // Pläne, die in diese Woche reichen: das gewählte Jahr und – im Jänner bis März – das Folgejahr
+  const jahrWoche = new Date(montag.getTime() + 3 * TAG).getUTCFullYear();
+  const plaene = zustand.plaene.filter((p) => p.jahr === zustand.jahr || p.jahr === jahrWoche);
+  const leer = { saen: [], pflanzen: [], stecken: [], ende: [] };
+  const w = plaene.map((p) => wocheImGarten(p, zustand.kulturen, montag)).reduce((a, b) => Object.fromEntries(Object.keys(a).map((k) => [k, [...a[k], ...b[k]]])), leer);
+  const folge = plaene.flatMap((p) => folgesaatFaellig(p, zustand.kulturen, montag));
+  const merk = merklisteFaellig(zustand.merkliste, montag);
+  box.append(el('h2', { class: 'heading-sub', text: dieseWoche ? 'Diese Woche im Garten' : 'In dieser Woche im Garten' }));
+  const liste = el('ul', { class: 'woche-liste' });
+  const flName = (f) => zustand.flaechen[f]?.name || f;
+  const namen = (eintraege) => eintraege.flatMap((e, i) => [i ? ', ' : '', el('button', { type: 'button', class: 'link-knopf', onclick: () => zeigeDetails(e.p) }, e.name), el('small', { class: 'leise', text: ` (${flName(e.flaeche)}, ${formatDatum(e.datum).replace(/ \d{4}$/, '')})` })]);
+  const zeile = (art, label, ...inhalt) => liste.append(el('li', { 'data-art': art }, el('span', { class: `badge badge-woche ${art}`, text: label }), ' ', ...inhalt));
+  if (w.saen.length) zeile('saen', 'Säen', ...namen(w.saen));
+  if (w.pflanzen.length) zeile('pflanzen', 'Pflanzen', ...namen(w.pflanzen));
+  if (w.stecken.length) zeile('stecken', 'Stecken', ...namen(w.stecken));
+  if (folge.length) zeile('folgesaat', 'Nachsäen', folge.map((f) => `${f.name} (${f.wochen} Wochen nach der ersten Saat)`).join(', '));
+  if (w.ende.length) zeile('ende', 'Ernte endet', ...namen(w.ende));
+  for (const m of merk) zeile('merkliste', 'Merkliste', el('strong', { text: m.titel }), m.text ? el('small', { class: 'leise', text: ` – ${m.text}` }) : null);
+  if (!liste.children.length) liste.append(el('li', { class: 'leer', text: 'Laut Plan steht diese Woche nichts an.' }));
+  box.append(liste);
+  if (dieseWoche) zeichneWetter(box, heute);
+}
+
+function zeichneWetter(box, heute) {
+  const wt = zustand.wetter;
+  const teil = el('div', { class: 'wetter', id: 'wetter' }, el('h3', { text: 'Wetter in Eberndorf' }));
+  box.append(teil);
+  if (!wt) { teil.append(el('p', { class: 'leise klein', text: 'Vorhersage wird geladen …' })); return; }
+  if (wt.fehler) { teil.append(el('p', { class: 'leise klein', text: 'Die Vorhersage ist gerade nicht abrufbar.' })); return; }
+  const heuteIso = isoTag(heute);
+  const jahrPlan = zustand.plaene.find((p) => p.jahr === heute.getUTCFullYear());
+  const info = (p, neu) => { const k = zustand.kulturen[p.kultur] || {}; return { name: k.name || p.kultur, frost: Boolean(k.frost), wasser: k.wasser, neu }; };
+  const vor14 = new Date(heute.getTime() - 14 * TAG), in7 = new Date(heute.getTime() + 7 * TAG);
+  const imBeet = jahrPlan ? imBeetAm(jahrPlan, heute).map((p) => info(p, datum(mitIstTermin(p).von) >= vor14)) : [];
+  const bald = jahrPlan ? (jahrPlan.pflanzungen || []).filter((p) => p.ist?.status !== 'nicht_gepflanzt')
+    .filter((p) => { const v = datum(mitIstTermin(p).von); return v > heute && v <= in7; }).map((p) => info(p, false)) : [];
+  for (const h of wetterHinweise({ tage: wt.tage, heute: heuteIso, imBeet, bald })) {
+    teil.append(el('p', { class: `wetter-hinweis ${h.art}`, 'data-art': h.art }, el('strong', { text: `${h.titel}: ` }), h.text));
+  }
+  const kommend = wt.tage.filter((t) => t.datum >= heuteIso).slice(0, 7);
+  teil.append(el('div', { class: 'wetter-tage' }, ...kommend.map((t) => el('div', { class: 'wetter-tag' },
+    el('span', { class: 'wt-tag', text: tagKurz(t.datum) }),
+    el('span', { class: 'wt-temp', text: `${zahl(t.tn, 0)}° / ${zahl(t.tx, 0)}°` }),
+    el('span', { class: 'wt-regen', text: `${zahl(t.rr, 0)} mm` })))));
+  const stand = new Date(wt.zeit).toLocaleString('de-AT', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' });
+  teil.append(el('p', { class: 'leise klein' }, `${wt.alt ? 'Ohne Verbindung – gespeicherter Stand' : 'Stand'} ${stand}. Vorhersage: `,
+    el('a', { href: 'https://open-meteo.com/', text: 'Open-Meteo.com' }), ' (CC BY 4.0). Am Boden kann es nachts kälter sein.'));
 }
 
 // ---------------------------------------------------------------- Kalender

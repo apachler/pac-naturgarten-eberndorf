@@ -55,6 +55,11 @@ export function validiereKulturen(kulturen, familien, naturjahreszeitIds = []) {
       if (e.sicherheit && !ERLAUBT.sicherheit.includes(e.sicherheit)) f.push(`${id}: sicherheit „${e.sicherheit}“ ungültig`);
     }
     for (const s of k.sorten || []) if (!s.name || !Number.isInteger(s.jahr)) f.push(`${id}: Sorte braucht name und jahr`);
+    if (k.folgesaat) {
+      const fs = k.folgesaat;
+      if (!(Number.isInteger(fs.alle) && fs.alle > 0)) f.push(`${id}: folgesaat.alle muss eine ganze Zahl (Wochen) sein`);
+      if (!Array.isArray(fs.monate) || !fs.monate.length || fs.monate.some((m) => !(Number.isInteger(m) && m >= 1 && m <= 12))) f.push(`${id}: folgesaat.monate muss eine Liste von Monaten 1–12 sein`);
+    }
   }
   return f;
 }
@@ -231,6 +236,99 @@ export function saatmengeFuer(angabe, m2) {
   const z = (s) => Number(s.replace(',', '.'));
   const f = (v) => String(Math.round(v * m2 * 10) / 10).replace('.', ',');
   return m[2] ? `${f(z(m[1]))}–${f(z(m[2]))} g` : `${f(z(m[1]))} g`;
+}
+
+// ---------------------------------------------------------------- Diese Woche im Garten
+
+const TAG_MS = 86400000;
+const gilt = (p) => p.ist?.status !== 'nicht_gepflanzt';
+
+/**
+ * Was in der Woche ab `montag` laut Plan ansteht (über alle Flächen, tatsächliche Termine wo erfasst):
+ * { saen, pflanzen, stecken, ende } – je [{ p, kultur, name, flaeche, datum }].
+ */
+export function wocheImGarten(plan, kulturen, montag) {
+  const sonntag = new Date(montag.getTime() + 6 * TAG_MS);
+  const erg = { saen: [], pflanzen: [], stecken: [], ende: [] };
+  const art = { saatgut: 'saen', jungpflanze: 'pflanzen', steckgut: 'stecken' };
+  for (const p0 of (plan.pflanzungen || []).filter(gilt)) {
+    const k = kulturen[p0.kultur];
+    if (!k) continue;
+    const p = mitIstTermin(p0);
+    const { von, bis } = zeitraum(p);
+    const eintrag = (d) => ({ p: p0, kultur: p0.kultur, name: k.name, flaeche: p0.flaeche, datum: d });
+    if (von && von >= montag && von <= sonntag) {
+      const { bezug } = bezugVon(p0, k);
+      if (art[bezug]) erg[art[bezug]].push(eintrag(von));
+    }
+    if (bis && bis >= montag && bis <= sonntag && p.typ !== 'B') erg.ende.push(eintrag(bis));
+  }
+  for (const l of Object.values(erg)) l.sort((a, b) => a.datum - b.datum || a.name.localeCompare(b.name, 'de'));
+  return erg;
+}
+
+/**
+ * Folgesaat: Kulturen mit `folgesaat: { alle, monate }`, deren Pflanzung in dieser Woche läuft und seit der ersten Saat
+ * genau ein Vielfaches von `alle` Wochen zurückliegt – solange danach noch Zeit bis zum Ende bleibt.
+ * @returns [{ kultur, name, wochen, flaeche }]
+ */
+export function folgesaatFaellig(plan, kulturen, montag) {
+  const sonntag = new Date(montag.getTime() + 6 * TAG_MS);
+  const monat = montag.getUTCMonth() + 1;
+  const erg = new Map();
+  for (const p0 of (plan.pflanzungen || []).filter(gilt)) {
+    const k = kulturen[p0.kultur];
+    const fs = k?.folgesaat;
+    if (!fs || !fs.monate.includes(monat)) continue;
+    const { von, bis } = zeitraum(mitIstTermin(p0));
+    if (!von || !bis || von > sonntag) continue;
+    const wochen = Math.floor((montag - montagVon(von)) / (7 * TAG_MS));
+    if (wochen < fs.alle || wochen % fs.alle !== 0) continue;
+    if (montag.getTime() + fs.alle * 7 * TAG_MS > bis.getTime()) continue;
+    if (!erg.has(p0.kultur)) erg.set(p0.kultur, { kultur: p0.kultur, name: k.name, wochen, flaeche: p0.flaeche });
+  }
+  return [...erg.values()].sort((a, b) => a.name.localeCompare(b.name, 'de'));
+}
+
+const MONATSNAMEN = ['jänner', 'februar', 'märz', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'dezember'];
+const MONAT_RE = `(${MONATSNAMEN.join('|')})`;
+
+/**
+ * Offene Merklisten-Punkte („- [ ] **Titel (Juli 2027):** Text“), deren Zeitraum die Woche ab `montag` berührt.
+ * Zeitraum im Titel: „(Monat Jahr)“, „(Monat–Monat Jahr)“ oder „(Monat Jahr–Monat Jahr)“.
+ * @returns [{ titel, text }]
+ */
+export function merklisteFaellig(markdown, montag) {
+  const sonntag = new Date(montag.getTime() + 6 * TAG_MS);
+  const re = new RegExp(`\\(${MONAT_RE}(?:\\s+(\\d{4}))?(?:\\s*[–-]\\s*${MONAT_RE})?\\s+(\\d{4})\\)`, 'i');
+  const erg = [];
+  for (const zeile of String(markdown || '').split('\n')) {
+    const z = zeile.match(/^\s*-\s*\[ \]\s*(.*)$/);
+    if (!z) continue;
+    const m = z[1].match(re);
+    if (!m) continue;
+    const [, m1, j1, m2, j2] = m;
+    const bisJahr = Number(j2), vonJahr = Number(j1 || (m2 && MONATSNAMEN.indexOf(m1.toLowerCase()) > MONATSNAMEN.indexOf(m2.toLowerCase()) ? bisJahr - 1 : bisJahr));
+    const beginn = new Date(Date.UTC(vonJahr, MONATSNAMEN.indexOf(m1.toLowerCase()), 1));
+    const endeM = MONATSNAMEN.indexOf((m2 || m1).toLowerCase());
+    const ende = new Date(Date.UTC(bisJahr, endeM + 1, 0));
+    if (beginn > sonntag || ende < montag) continue;
+    const fett = z[1].match(/^\*\*(.+?)\*\*\s*(.*)$/);
+    const titel = (fett ? fett[1] : z[1]).replace(m[0], '').replace(/[:.\s]+$/, '').trim();
+    const text = (fett ? fett[2] : '').replace(/\*\*|`/g, '').trim();
+    erg.push({ titel, text });
+  }
+  return erg;
+}
+
+/** Kulturen, die am Tag `d` im Beet stehen (tatsächliche Termine; „steht im Beet“ bleibt bis heute). */
+export function imBeetAm(plan, d) {
+  return (plan.pflanzungen || []).filter(gilt).filter((p0) => {
+    const p = mitIstTermin(p0);
+    const { von, bis } = zeitraum(p);
+    if (!von || von > d) return false;
+    return bis >= d || p0.ist?.status === 'im_beet';
+  });
 }
 
 export function zeitraum(p) {

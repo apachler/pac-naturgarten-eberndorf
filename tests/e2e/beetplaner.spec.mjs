@@ -13,7 +13,23 @@ const flaechen = lade('Grundlagen/flaechen.yaml');
 const plaene = lade('jahre.yaml').jahre.map((j) => lade(j.plan));
 
 /** Seite öffnen und auf die fertige Darstellung warten; Konsolenfehler sammeln. */
-async function oeffne(page, hash = '#2026/west') {
+/** Vorhersage wie von Open-Meteo: 7 Tage zurück, 7 voraus; einzelne Tage überschreibbar. */
+function wetterAntwort(heute, anders = {}) {
+  const time = [], tn = [], tx = [], rr = [];
+  for (let i = -7; i < 7; i++) {
+    const d = new Date(Date.UTC(heute.getFullYear(), heute.getMonth(), heute.getDate() + i)).toISOString().slice(0, 10);
+    const w = { tn: 8, tx: 20, rr: 2, ...(anders[d] || {}) };
+    time.push(d); tn.push(w.tn); tx.push(w.tx); rr.push(w.rr);
+  }
+  return { daily: { time, temperature_2m_min: tn, temperature_2m_max: tx, precipitation_sum: rr } };
+}
+
+async function wetterSimulieren(page, heute = new Date(), anders = {}) {
+  await page.route('**/api.open-meteo.com/**', (r) => r.fulfill({ json: wetterAntwort(heute, anders) }));
+}
+
+async function oeffne(page, hash = '#2026/west', { wetter = true } = {}) {
+  if (wetter) await wetterSimulieren(page);
   const fehler = [];
   page.on('console', (m) => { if (m.type() === 'error') fehler.push(m.text()); });
   page.on('pageerror', (e) => fehler.push(String(e)));
@@ -345,4 +361,42 @@ test('Detailblatt zeigt Pflanzenschutz-Steckbriefe der Kultur', async ({ page })
   await expect(raupe).toContainText('Helicoverpa armigera');
   await expect(raupe).toContainText('Unsere Erfahrungen');
   await expect(b.locator('a[href*="Kulturwissen.md#paprika"]')).toBeAttached();
+});
+
+test('Diese Woche im Garten: Säen, Pflanzen, Nachsäen und Wetterwarnung', async ({ page }) => {
+  const heute = new Date('2026-05-11T08:00:00');
+  await page.clock.setFixedTime(heute);
+  await wetterSimulieren(page, heute, { '2026-05-13': { tn: -1.2 } });
+  await oeffne(page, '#2026/west', { wetter: false });
+  const w = page.locator('#woche');
+  await expect(w.locator('h2')).toHaveText('Diese Woche im Garten');
+  await expect(w.locator('li[data-art="pflanzen"]')).toContainText('Tomate');
+  await expect(w.locator('li[data-art="pflanzen"]')).toContainText('Tomatenhaus');
+  await expect(w.locator('li[data-art="saen"]')).toContainText('Feuerbohne');
+  await expect(w.locator('li[data-art="folgesaat"]')).toContainText('Dill');
+  const frost = w.locator('.wetter-hinweis[data-art="frost"]');
+  await expect(frost).toContainText('Frost erwartet');
+  await expect(frost).toContainText('Mi 13.5.');
+  await expect(frost).toContainText('Tomate');
+  await expect(w.locator('.wetter-tag')).toHaveCount(7);
+  await w.locator('li[data-art="pflanzen"] button', { hasText: 'Paprika' }).click();
+  await expect(page.locator('#blatt-titel')).toHaveText('Paprika');
+});
+
+test('Diese Woche im Garten: andere Wochen ohne Wetter, Merkliste mit Zeitraum', async ({ page }) => {
+  await oeffne(page);
+  await setzeDatum(page, '2026-03-16');
+  const w = page.locator('#woche');
+  await expect(w.locator('h2')).toHaveText('In dieser Woche im Garten');
+  await expect(w.locator('li[data-art="folgesaat"]')).toContainText('Radieschen (3 Wochen nach der ersten Saat)');
+  await expect(w.locator('#wetter')).toHaveCount(0);
+  await setzeDatum(page, '2027-01-04');
+  await expect(w.locator('li[data-art="merkliste"]')).toContainText('Kohlsprossen');
+});
+
+test('Wetter: ohne Verbindung eine ruhige Meldung statt Warnungen', async ({ page }) => {
+  await page.route('**/api.open-meteo.com/**', (r) => r.abort());
+  await page.clock.setFixedTime(new Date('2026-06-15T08:00:00'));
+  await page.goto('/index.html#2026/west');
+  await expect(page.locator('#wetter')).toContainText('nicht abrufbar');
 });

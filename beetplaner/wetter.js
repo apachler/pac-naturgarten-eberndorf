@@ -260,3 +260,79 @@ export function einsetzen(text, abschnitt) {
   }
   return neu;
 }
+
+// ---------- Vorhersage und Warnungen (Beetplaner) ----------
+
+/** Open-Meteo: 7 Tage zurück (Regen der letzten Woche) und 7 Tage Vorhersage, Tageswerte in Ortszeit. */
+export const vorhersageUrl = (ort) => 'https://api.open-meteo.com/v1/forecast'
+  + `?latitude=${ort.lat}&longitude=${ort.lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum`
+  + '&past_days=7&forecast_days=7&timezone=Europe%2FVienna';
+
+export function tageAusOpenMeteo(json) {
+  const d = json.daily;
+  return d.time.map((t, i) => ({ datum: t, tn: d.temperature_2m_min[i], tx: d.temperature_2m_max[i], rr: d.precipitation_sum[i] }));
+}
+
+const WOCHENTAG = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+export const tagKurz = (d) => `${WOCHENTAG[new Date(`${d}T12:00:00Z`).getUTCDay()]} ${+d.slice(8, 10)}.${+d.slice(5, 7)}.`;
+const namenListe = (xs) => [...new Set(xs)].join(', ');
+
+/**
+ * Hinweise für die nächsten Tage, bezogen auf das, was im Beet steht oder bald gesetzt wird.
+ * tage: [{datum, tn, tx, rr}] (Vergangenheit und Vorhersage), heute: 'JJJJ-MM-TT',
+ * imBeet / bald: [{name, frost, wasser, neu}] (neu = in den letzten 14 Tagen gesetzt).
+ * @returns [{art: frost|hitze|trocken|regen|info|ok, titel, text}]
+ */
+export function wetterHinweise({ tage, heute, imBeet = [], bald = [] }) {
+  const vorher = tage.filter((t) => t.datum < heute).slice(-7);
+  const kommend = tage.filter((t) => t.datum >= heute).slice(0, 7);
+  const h = [];
+  const empfindlich = [...imBeet, ...bald].filter((k) => k.frost);
+  const kalt = (liste) => liste.reduce((a, b) => (b.tn < a.tn ? b : a));
+  const frost = kommend.filter((t) => da(t.tn) && t.tn < GRENZEN.frost);
+  const kuehl = kommend.filter((t) => da(t.tn) && t.tn >= GRENZEN.frost && t.tn < GRENZEN.kuehl);
+  if (frost.length || kuehl.length) {
+    const liste = frost.length ? frost : kuehl;
+    const k = kalt(liste);
+    const wann = `${zahl(k.tn)} °C (${liste.map((t) => tagKurz(t.datum)).join(', ')})`;
+    if (empfindlich.length) {
+      const imB = empfindlich.filter((x) => imBeet.includes(x)).map((x) => x.name);
+      const bl = empfindlich.filter((x) => bald.includes(x)).map((x) => x.name);
+      h.push({
+        art: 'frost',
+        titel: frost.length ? 'Frost erwartet' : 'Bodenfrost möglich',
+        text: `Tiefstwert ${wann}.${imB.length ? ` Abdecken (Vlies): ${namenListe(imB)}.` : ''}${bl.length ? ` Pflanzung bzw. Saat verschieben: ${namenListe(bl)}.` : ''}`
+          + (frost.length ? '' : ' In klaren, windstillen Nächten ist es am Boden einige Grad kälter.'),
+      });
+    } else if (frost.length) {
+      h.push({ art: 'info', titel: 'Frost', text: `Tiefstwert ${wann}. Nichts Frostempfindliches im Beet.` });
+    }
+  }
+  const heiss = kommend.filter((t) => da(t.tx) && t.tx >= GRENZEN.hitze);
+  if (heiss.length) {
+    const durstig = imBeet.filter((k) => k.wasser === 'hoch').map((k) => k.name);
+    h.push({
+      art: 'hitze', titel: 'Hitze',
+      text: `Bis ${zahl(Math.max(...heiss.map((t) => t.tx)), 0)} °C (${heiss.map((t) => tagKurz(t.datum)).join(', ')}). Früh morgens gießen, Mulch dicht halten, Jungpflanzen schattieren.`
+        + (durstig.length ? ` Besonders durstig: ${namenListe(durstig)}.` : ''),
+    });
+  }
+  const regenVorher = summe(vorher.map((t) => t.rr || 0));
+  const naechste3 = kommend.slice(0, 3);
+  const regenBald = summe(naechste3.map((t) => t.rr || 0));
+  const warm = naechste3.length && mittel(naechste3.map((t) => t.tx)) >= 12;
+  if (imBeet.length && vorher.length >= 5 && regenVorher < 5 && regenBald < 3 && warm) {
+    const neu = imBeet.filter((k) => k.neu).map((k) => k.name);
+    h.push({
+      art: 'trocken', titel: 'Trockenphase',
+      text: `Letzte 7 Tage nur ${zahl(regenVorher, 1)} mm Regen, in den nächsten 3 Tagen kaum etwas. Gießen – am besten morgens, durchdringend statt oft.`
+        + (neu.length ? ` Zuerst die frisch gesetzten: ${namenListe(neu)}.` : ''),
+    });
+  }
+  const stark = kommend.filter((t) => da(t.rr) && t.rr >= GRENZEN.starkregen);
+  if (stark.length) {
+    h.push({ art: 'regen', titel: 'Starkregen', text: `${stark.map((t) => `${tagKurz(t.datum)} ${zahl(t.rr, 0)} mm`).join(', ')}. Frische Saaten und Jungpflanzen schützen, Container auffangen lassen.` });
+  }
+  if (!h.length) h.push({ art: 'ok', titel: 'Keine Warnungen', text: 'Kein Frost, keine Hitze und keine Trockenphase in Sicht.' });
+  return h;
+}

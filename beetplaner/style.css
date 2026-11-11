@@ -304,3 +304,21 @@ main { max-width: 64rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 
 /* Einkauf */
 .hinweis-bezug { color: var(--notice-caution-fg); }
+
+/* Diese Woche im Garten */
+.woche { margin-top: 0.9rem; padding: 0.9rem 1rem; }
+.woche h2 { margin: 0 0 0.5rem; }
+.woche h3 { margin: 0.9rem 0 0.4rem; font-size: 0.95rem; }
+.woche-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; font-size: 0.9rem; }
+.woche-liste .leer { color: var(--fg-70); }
+.badge-woche { background: var(--secondary-10); border: 1px solid var(--secondary-30); color: var(--foreground); }
+.badge-woche.merkliste { background: var(--notice-legal); border-color: var(--notice-legal-border); color: var(--notice-legal-fg); }
+.badge-woche.folgesaat { background: var(--notice-caution); border-color: var(--notice-caution-border); color: var(--notice-caution-fg); }
+.wetter-hinweis { margin: 0.3rem 0; padding: 0.45rem 0.7rem; border-radius: 0.5rem; font-size: 0.875rem; border: 1px solid var(--secondary-30); }
+.wetter-hinweis.frost, .wetter-hinweis.hitze { background: var(--notice-danger); border-color: var(--notice-danger-border); color: var(--notice-danger-fg); }
+.wetter-hinweis.trocken, .wetter-hinweis.regen { background: var(--notice-caution); border-color: var(--notice-caution-border); color: var(--notice-caution-fg); }
+.wetter-hinweis.info { background: var(--notice-legal); border-color: var(--notice-legal-border); color: var(--notice-legal-fg); }
+.wetter-tage { display: flex; gap: 0.35rem; overflow-x: auto; padding: 0.3rem 0; }
+.wetter-tag { flex: 0 0 auto; min-width: 4.4rem; display: grid; gap: 0.1rem; text-align: center; font-size: 0.78rem; padding: 0.35rem 0.3rem; border: 1px solid var(--secondary-30); border-radius: 0.5rem; }
+.wt-tag { font-weight: 700; }
+.wt-regen { color: var(--notice-legal-fg); }

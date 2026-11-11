@@ -108,6 +108,7 @@ for (const id of ids) {
   z.push(`- **Bedarf:** Nährstoffe ${k.zehrer}${k.zehrer === 'stark' ? ' (Starkzehrer)' : k.zehrer === 'schwach' ? ' (Schwachzehrer)' : ''}, Wasser ${k.wasser}${k.frost ? ', **frostempfindlich**' : ''}`);
   z.push(`- **Anbau:** ${k.anbau}${k.aussaat ? `; Aussaat ${k.aussaat}` : ''}${k.pflanzung ? `; Pflanzung ${k.pflanzung}` : ''}`);
   z.push(`- **Wann:** ${saisonText(k.naturjahreszeit)}`);
+  if (k.folgesaat) z.push(`- **Folgesaat:** alle ${k.folgesaat.alle} Wochen nachsäen (${k.folgesaat.monate.map((m) => MONATE[m - 1]).join(', ')})`);
   z.push(`- **Ernte:** ${k.ernte}`);
   if (k.gut?.length) z.push(`- **Gute Nachbarn:** ${namen(k.gut)}`);
   const schlecht = schlechteNachbarnVon(id, kulturen);

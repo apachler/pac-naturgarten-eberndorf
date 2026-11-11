@@ -30,4 +30,7 @@ paths:
   Klimamonitoring/Klimarückblick, BMLUK-Monatsberichte „Wasserhaushalt Österreich“ mit Grundwasser-Messstelle Eberndorf,
   Klimarückblick Kärnten) und als `<Jahr>/Wetter.md` nach `Vorlagen/Wetter.md` mit Quellen ablegen.
 - Fotos oder Beobachtungen, um die Andreas gebeten hat, in die Merkliste aufnehmen und zur passenden Zeit ansprechen.
+  Merklisten-Punkte mit einem Zeitraum im Titel versehen, z. B. `**Ollas eingraben (April–Mai 2027):**` – dann zeigt der
+  Beetplaner sie unter „Diese Woche im Garten“.
+- **Folgesaat:** `folgesaat: { alle: <Wochen>, monate: [..] }` in `kulturen.yaml` für Kulturen, die in Sätzen gesät werden.
 - Neue Jahre nur aus `Gemüsegarten/Vorlagen/` anlegen und in `jahre.yaml` sowie `Gemüsegarten/README.md` eintragen.

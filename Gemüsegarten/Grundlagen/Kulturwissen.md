@@ -203,6 +203,7 @@ Option für das Ruhejahr und für Lücken nach der Ernte. Im Heubeet ohne Umgrab
 - **Bedarf:** Nährstoffe schwach (Schwachzehrer), Wasser mittel
 - **Anbau:** Direktsaat, alle 2–3 Wochen nachsäen; Aussaat März–Mai und August–September
 - **Wann:** Erstfrühling (Forsythie blüht; in Eberndorf ab ca. 16. März)
+- **Folgesaat:** alle 3 Wochen nachsäen (März, April, Mai, August, September)
 - **Ernte:** 4–6 Wochen nach der Saat
 - **Gute Nachbarn:** Karotte
 - **Schädlinge:** Erdflöhe
@@ -241,6 +242,7 @@ Option für das Ruhejahr und für Lücken nach der Ernte. Im Heubeet ohne Umgrab
 - **Bedarf:** Nährstoffe schwach (Schwachzehrer), Wasser mittel
 - **Anbau:** Direktsaat – nicht verpflanzen (Pfahlwurzel); Aussaat April bis Juli, in kleinen Mengen nachsäen
 - **Wann:** Vollfrühling (Apfel blüht; in Eberndorf ab ca. 15. April)
+- **Folgesaat:** alle 4 Wochen nachsäen (April, Mai, Juni, Juli)
 - **Ernte:** Juni–August
 - **Gute Nachbarn:** Gurke, Karotte
 
@@ -687,6 +689,7 @@ Option für das Ruhejahr und für Lücken nach der Ernte. Im Heubeet ohne Umgrab
 - **Bedarf:** Nährstoffe schwach (Schwachzehrer), Wasser mittel
 - **Anbau:** Direktsaat (breit, andrücken; Dunkelkeimer, keimt erst unter etwa 20 °C); Aussaat Mitte August bis September
 - **Wann:** Frühherbst (Holunderbeeren reif; in Eberndorf ab ca. 13. August)
+- **Folgesaat:** alle 3 Wochen nachsäen (August, September)
 - **Ernte:** Oktober–März
 
 **Erfahrungen:**

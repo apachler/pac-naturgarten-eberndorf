@@ -13,6 +13,7 @@
 #
 # Werte:
 #   rollen          V Vorkultur · H Hauptkultur · N Nachkultur · B Beikraut · G Gründüngung (wofür die Art bei uns taugt)
+#   folgesaat       {alle: Wochen, monate: [1–12]} – der Beetplaner erinnert in diesen Monaten alle n Wochen ans Nachsäen
 #   gruenduengung   nur bei Rolle G: {winter: abfrierend | winterhart, saatmenge, ende (wie sie No-Dig-gerecht endet), wirkung}
 #                   Bei Breitsaat ist abstand nur ein Richtwert für die Darstellung.
 #   abstand / reihe Pflanzabstand in der Reihe / Reihenabstand in cm; hoehe in cm
@@ -364,6 +365,7 @@ radieschen:
   wasser: mittel
   anbau: Direktsaat, alle 2–3 Wochen nachsäen
   aussaat: März–Mai und August–September
+  folgesaat: { alle: 3, monate: [3, 4, 5, 8, 9] }
   naturjahreszeit: earlySpring
   ernte: 4–6 Wochen nach der Saat
   gut: [karotte]
@@ -534,6 +536,7 @@ dill:
   wasser: mittel
   anbau: Direktsaat – nicht verpflanzen (Pfahlwurzel)
   aussaat: April bis Juli, in kleinen Mengen nachsäen
+  folgesaat: { alle: 4, monate: [4, 5, 6, 7] }
   naturjahreszeit: fullSpring
   ernte: Juni–August
   gut: [karotte, gurke]
@@ -919,6 +922,7 @@ vogerlsalat:
   wasser: mittel
   anbau: Direktsaat (breit, andrücken; Dunkelkeimer, keimt erst unter etwa 20 °C)
   aussaat: Mitte August bis September
+  folgesaat: { alle: 3, monate: [8, 9] }
   naturjahreszeit: earlyAutumn
   ernte: Oktober–März
   erfahrungen:

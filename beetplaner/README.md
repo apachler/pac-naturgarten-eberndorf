@@ -11,6 +11,8 @@ Veröffentlicht wird bei jedem Push auf `main` vom Workflow `.github/workflows/p
 
 ## Funktionen
 
+- **Diese Woche im Garten:** Karte unter dem Zeitregler für die gewählte Woche, über alle Flächen: was laut Plan gesät, gepflanzt und gesteckt wird, wo die Ernte endet, Folgesaat (`folgesaat` in `kulturen.yaml`) und Merklisten-Punkte mit Zeitraum im Titel, z. B. „(Juli 2027)“.
+  - *Wetter* (nur in der aktuellen Woche): 7-Tage-Vorhersage für Eberndorf von [Open-Meteo](https://open-meteo.com/) mit Warnungen zu Frost, Bodenfrost (unter 4 °C), Hitze (ab 30 °C), Trockenphase und Starkregen – mit den Kulturen, die gerade im Beet stehen oder in den nächsten 7 Tagen gesetzt werden. Die Vorhersage wird höchstens alle 3 Stunden geladen und im Browser zwischengespeichert; die Logik steht in `wetter.js`.
 - **Plan:** Draufsicht mit Norden oben, Raster alle 50 cm. Mit dem **Zeitregler** (in Wochenschritten) siehst du, was in einer Woche im Beet steht. Pflanze antippen zeigt Details, Ist-Stand, Prüfmeldungen und Kulturwissen.
   - *Ist-Stand:* zeigt die tatsächliche Lage (`ist:` mit punkte/reihen/bereich in plan.yaml) und den Status, dazu die tatsächliche Einteilung des Beets, falls erfasst (`flaechen.<id>.ist:` mit eigenen `zonen`/`wege`). Die Prüfung prüft dann den tatsächlichen Stand: Ist-Lage, Ist-Anzahl, tatsächliche Pfade, Termine aus `ist.von`/`ist.bis` (sonst die geplanten), ohne nicht Gepflanztes. Nicht Gepflanztes wird ausgeblendet, was noch im Beet steht, bleibt bis heute sichtbar.
   - *Alle Kulturen:* zeigt auch Kulturen, die zum gewählten Datum nicht im Beet stehen (blass)
