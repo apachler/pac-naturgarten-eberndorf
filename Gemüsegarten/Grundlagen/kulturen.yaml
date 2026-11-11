@@ -213,7 +213,7 @@ kohlsprossen:
   bedarf: wenige Pflanzen reichen
   erfahrungen:
     - jahr: 2026
-      text: 4 Pflanzen waren zu viel. Braucht viel Licht. Röschen anfangs locker, mit der Kälte fester; Köpfe abgeschlagen.
+      text: Ca. 8 Pflanzen in zwei Nord–Süd-Reihen auf ca. 1 × 1,3 m (nur ca. 35 cm Abstand statt 60 cm) – zu viel und zu eng. Braucht viel Licht. Röschen anfangs locker, mit der Kälte fester; Köpfe abgeschlagen.
       sicherheit: beobachtet
 
 kohlrabi:
@@ -544,6 +544,9 @@ dill:
     - jahr: 2026
       text: Im heißen, trockenen Sommer sehr schnell in die Blüte – nur kleine Ernte. Folgesaaten oder Halbschatten prüfen.
       sicherheit: beobachtet
+    - jahr: 2026
+      text: Stand direkt an den Enden der Lauchreihen (ca. 10 cm) – vielleicht zu eng, was das Schossen begünstigt haben könnte. 2027 mit mehr Abstand setzen.
+      sicherheit: hypothese
 
 petersilie:
   name: Petersilie
