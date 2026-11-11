@@ -19,6 +19,7 @@ Veröffentlicht wird bei jedem Push auf `main` vom Workflow `.github/workflows/p
   - *Ist-Stand:* zeigt die tatsächliche Lage (`ist:` mit punkte/reihen/bereich in plan.yaml) und den Status, dazu die tatsächliche Einteilung des Beets, falls erfasst (`flaechen.<id>.ist:` mit eigenen `zonen`/`wege`). Die Prüfung prüft dann den tatsächlichen Stand: Ist-Lage, Ist-Anzahl, tatsächliche Pfade, Termine aus `ist.von`/`ist.bis` (sonst die geplanten), ohne nicht Gepflanztes. Nicht Gepflanztes wird ausgeblendet, was noch im Beet steht, bleibt bis heute sichtbar.
   - *Alle Kulturen:* zeigt auch Kulturen, die zum gewählten Datum nicht im Beet stehen (blass)
   - *Vorjahr:* blendet ein, was beim letzten Anbau auf dieser Fläche stand (Fruchtfolge)
+  - Die Wahl von *Ist-Stand*, *Alle Kulturen* und *Vorjahr* merkt sich der Browser; sie gilt auch nach dem Neuladen.
 - **Über das Beet:** allgemeine Infos zur Fläche, Anbauhistorie aus allen Jahresplänen, offene Fragen und Gartendaten
 - **Detailblatt:** Steckbrief der Art aus `kulturen.yaml` mit unseren Erfahrungen und erprobten Sorten
 - **Kalender:** Gantt-Ansicht aller Kulturen über das Jahr bis März des Folgejahres

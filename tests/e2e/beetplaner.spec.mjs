@@ -453,3 +453,25 @@ test.describe('ohne Verbindung', () => {
     await expect(page.locator('#offline')).toBeHidden();
   });
 });
+
+test('Anzeige-Optionen bleiben nach dem Neuladen gewählt und wirken auch', async ({ page }) => {
+  await oeffne(page);
+  await setzeDatum(page, '2026-06-15');
+  await page.locator('#opt-ist').check();
+  await page.locator('#opt-vorjahr').check();
+  await page.reload();
+  await expect(page.locator('#beet .beet-rand')).toBeVisible();
+  await expect(page.locator('#opt-ist')).toBeChecked();
+  await expect(page.locator('#opt-vorjahr')).toBeChecked();
+  await expect(page.locator('#opt-alle')).not.toBeChecked();
+  // Ist-Stand wirkt: Pflanzen mit Status-Rand, kein Hinweis „Ist-Stand zeigen“, Prüfung des tatsächlichen Stands
+  await expect(page.locator('#beet circle.pflanze').first()).toHaveAttribute('stroke-width', '2.5');
+  await expect(page.locator('#verteilt .hinweis-ist')).toHaveCount(0);
+  await expect(page.locator('#beet .vorjahr, #beet .vorjahr-leer').first()).toBeAttached();   // West: 2025 Ruhejahr
+  await expect(page.locator('#pruefung .pruef-ansicht')).toContainText('tatsächliche Stand');
+  await page.locator('#opt-ist').uncheck();
+  await page.reload();
+  await expect(page.locator('#beet .beet-rand')).toBeVisible();
+  await expect(page.locator('#opt-ist')).not.toBeChecked();
+  await expect(page.locator('#beet circle.pflanze').first()).toHaveAttribute('stroke-width', '1.5');
+});

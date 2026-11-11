@@ -73,8 +73,12 @@ async function start() {
   $('#jahr').value = zustand.jahr;
   $('#jahr').addEventListener('change', (e) => waehleJahr(Number(e.target.value)));
   document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => zeigeTab(b.dataset.tab)));
-  for (const id of ['ist', 'alle', 'vorjahr']) {
-    $(`#opt-${id}`).addEventListener('change', (e) => { zustand[id] = e.target.checked; zeichnePlan(); if (id === 'ist') zeichnePruefung(); });
+  // Anzeige-Optionen: gemerkt im Browser, die Häkchen folgen immer dem Zustand (nicht der Formular-Wiederherstellung des Browsers)
+  const gemerkt = ladeAnzeige();
+  for (const id of OPTIONEN) {
+    zustand[id] = Boolean(gemerkt[id]);
+    $(`#opt-${id}`).checked = zustand[id];
+    $(`#opt-${id}`).addEventListener('change', (e) => { zustand[id] = e.target.checked; merkeAnzeige(); zeichnePlan(); if (id === 'ist') zeichnePruefung(); });
   }
   $('#datum').addEventListener('input', (e) => { zustand.datum = new Date(startDatum().getTime() + Number(e.target.value) * 7 * TAG); zeichneZeitabhaengig(); });
   $('#heute').addEventListener('click', () => { setzeDatum(heuteOderSommer()); });
@@ -656,9 +660,19 @@ function zeichneEinkauf() {
 /** Meldungen passend zur Ansicht: Ist-Stand geprüft, wenn „Ist-Stand“ an ist und das Jahr einen hat. */
 const meldungen = () => (zustand.ist && zustand.meldungenIst) || zustand.meldungen;
 
+const OPTIONEN = ['ist', 'alle', 'vorjahr'];
+const ANZEIGE_SPEICHER = 'beetplaner-anzeige';
+function ladeAnzeige() {
+  try { return JSON.parse(localStorage.getItem(ANZEIGE_SPEICHER) || '{}') || {}; } catch { return {}; }
+}
+function merkeAnzeige() {
+  try { localStorage.setItem(ANZEIGE_SPEICHER, JSON.stringify(Object.fromEntries(OPTIONEN.map((id) => [id, zustand[id]])))); } catch { /* ohne Speicher gilt die Wahl nur bis zum Neuladen */ }
+}
+
 function setzeIst(an) {
   zustand.ist = an;
   $('#opt-ist').checked = an;
+  merkeAnzeige();
   zeichnePlan();
   zeichnePruefung();
 }
